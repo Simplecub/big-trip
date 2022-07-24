@@ -6,6 +6,7 @@ import CreateNewPointView from './view/new-point.js';
 import CreatePointNotDestView from './view/new-point-without-destination.js';
 import CreatePointNotOffersView from './view/new-point-without-offers.js';
 import CreateEditFormView from './view/edit-form.js';
+import CreatePointLiView from './view/trip-point.js';
 const siteHeaderEl = document.querySelector('.trip-controls__filters')
 const sitePageBodyEl = document.querySelector('.trip-events')
 
@@ -20,5 +21,7 @@ boardPresenter.init(sitePageBodyEl)
 render(new CreateNewPointView(), sitePageBodyEl)
 render(new CreatePointNotDestView(), sitePageBodyEl)
 render(new CreatePointNotOffersView(), sitePageBodyEl)
+render(new CreateEditFormView(), sitePageBodyEl)
+//render(new CreatePointLiView(), sitePageBodyEl)
 
 console.log('fgfg+jnkjnjk')
