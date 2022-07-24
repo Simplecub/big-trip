@@ -18,10 +18,10 @@ const boardPresenter = new BoardPresenter()
 
 boardPresenter.init(sitePageBodyEl)
 
-render(new CreateNewPointView(), sitePageBodyEl)
-render(new CreatePointNotDestView(), sitePageBodyEl)
-render(new CreatePointNotOffersView(), sitePageBodyEl)
-render(new CreateEditFormView(), sitePageBodyEl)
+//render(new CreateNewPointView(), sitePageBodyEl)
+//render(new CreatePointNotDestView(), sitePageBodyEl)
+//render(new CreatePointNotOffersView(), sitePageBodyEl)
+//render(new CreateEditFormView(), sitePageBodyEl)
 //render(new CreatePointLiView(), sitePageBodyEl)
 
 console.log('fgfg+jnkjnjk')
