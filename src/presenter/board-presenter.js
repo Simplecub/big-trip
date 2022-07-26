@@ -5,12 +5,17 @@ import CreatePointLiView from '../view/trip-point.js';
 import CreateTripListView from '../view/trip-list.js';
 import CreateEditFormView from '../view/edit-form.js';
 
+
 export default class BoardPresenter {
   sortComponent = new CreateSortView();
   boardTripListComponent = new CreateTripListView();
 
-  init = (boardContainer) => {
+  init = (boardContainer, pointsModel) => {
     this.boarContainer = boardContainer;
+    this.pointsModel = pointsModel;
+    this.boardPoints = [...this.pointsModel.getPoints()]
+
+console.log (this.boardPoints)
 
     render(this.sortComponent, this.boarContainer);
     render(this.boardTripListComponent, this.boarContainer);
@@ -18,10 +23,12 @@ export default class BoardPresenter {
 
 // render(this.sortComponent, this.boardComponent.getElement());
     //   render(new TaskEditView(), this.taskListComponent.getElement());
-
-    for (let i = 0; i < 3; i++) {
-      render(new CreatePointLiView(), this.boardTripListComponent.getElement());
-    }
+for (let i = 0; i < this.boardPoints.length; i++) {
+  render(new CreatePointLiView(this.boardPoints[i]), this.boardTripListComponent.getElement())
+}
+  //  for (let i = 0; i < 3; i++) {
+   //   render(new CreatePointLiView(), this.boardTripListComponent.getElement());
+ //   }
 
     //  render(new LoadMoreButtonView(), this.boardComponent.getElement())
   };
