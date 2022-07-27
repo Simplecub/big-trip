@@ -7,7 +7,7 @@ const getRandomPositiveInteger = (a= 0, b = 1) =>{
   return Math.floor(result);
 }
 
-const humanizeTaskDueDate  = (dueDate, format) => { dayjs(dueDate).format(format)}
+const humanizeTaskDueDate  = (dueDate, format) => {dayjs(dueDate).format(format)}
 
 
 export {getRandomPositiveInteger, humanizeTaskDueDate}

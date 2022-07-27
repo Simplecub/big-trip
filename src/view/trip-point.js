@@ -5,12 +5,13 @@ import {humanizeTaskDueDate} from '../util.js';
 const createPointLi = (li)=> {
   const {basePrice, type, isFavorite, destination, dateFrom, dateTo } = li
 const dateStart = dateFrom !== null ?
-  humanizeTaskDueDate(dateFrom, 'YYYY-MM-DD HH:mm')
+  humanizeTaskDueDate('2019-07-10T22:55:56.845Z', 'YYYY-MM-DD' )
 : ' some start date';
   const dateEnd = dateTo !== null ?
     humanizeTaskDueDate(dateTo, 'YYYY-MM-DD HH:mm')
     : ' some end date';
   console.log(dateFrom);
+  console.log(dateStart);
 
   const favorite = isFavorite
   ? 'event__favorite-btn event__favorite-btn--active'
