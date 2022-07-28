@@ -15,10 +15,9 @@ const dateDiff = (date1, date2) => {
   let dayDiff = dayjs.duration(dayjs(date2).diff(dayjs(date1))).format(`DD`);
   let hoursDiff = dayjs.duration(dayjs(date2).diff(dayjs(date1))).format(`HH`);
   let minDiff = dayjs.duration(dayjs(date2).diff(dayjs(date1))).format(`mm`);
-  dayDiff ? res += dayDiff + 'D' : res &&
-  hoursDiff ? res += hoursDiff + 'H' : res &&
-  minDiff ? res += minDiff + 'M' : res
-
+  if (dayDiff !== '00') {res += dayDiff + 'D'}
+  if (hoursDiff !== '00') {res += hoursDiff + 'H'}
+  if (minDiff !== '00') {res += minDiff + 'M'}
   return res
 }
 export {getRandomPositiveInteger, humanizeTaskDueDate, dateDiff}
