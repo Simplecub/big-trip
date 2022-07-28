@@ -5,31 +5,21 @@ import {humanizeTaskDueDate, dateDiff} from '../util.js';
 const createPointLi = (li)=> {
   const {basePrice, type, isFavorite, destination, dateFrom, dateTo } = li
   //if (dateTo < dateFrom) { [dateTo, dateFrom] = [dateFrom, dateTo] }
-const dateStart = dateFrom !== null ?
-  humanizeTaskDueDate(dateFrom, 'hh:mm' )
-: ' some start date';
-  const dateEnd = dateTo !== null ?
-    humanizeTaskDueDate(dateTo, 'hh:mm')
-    : ' some end date';
-  console.log(dateFrom);
-  console.log(dateStart);
-  console.log(dateDiff(dateFrom, dateTo))
-  const {d} = dateDiff(dateFrom, dateTo)
-  console.log(d)
+
   const favorite = isFavorite
   ? 'event__favorite-btn event__favorite-btn--active'
     : 'event__favorite-btn'
   return (
     `<li class="trip-events__item">
               <div class="event">
-                <time class="event__date" datetime="2019-03-18">${humanizeTaskDueDate(dateFrom, 'MMM DD')}</time>
+                <time class="event__date" datetime="${humanizeTaskDueDate(dateFrom, 'YYYY-MM-DD')}">${humanizeTaskDueDate(dateFrom, 'MMM DD')}</time>
                 <div class="event__type">
                   <img class="event__type-icon" width="42" height="42" src="img/icons/taxi.png" alt="Event type icon">
                 </div>
                 <h3 class="event__title">${type} ${destination.name}</h3>
                 <div class="event__schedule">
                   <p class="event__time">
-                    <time class="event__start-time" datetime="${humanizeTaskDueDate(dateFrom, 'YYYY-MM-hh:mm')}">${humanizeTaskDueDate(dateFrom, 'hh:mm')}</time>
+                    <time class="event__start-time" datetime="${humanizeTaskDueDate(dateFrom, 'YYYY-MM-DDThh:mm')}">${humanizeTaskDueDate(dateFrom, 'hh:mm')}</time>
                     &mdash;
                     <time class="event__end-time" datetime="${humanizeTaskDueDate(dateTo, 'YYYY-MM-hh:mm')}">${humanizeTaskDueDate(dateTo, 'hh:mm')}</time>
                   </p>

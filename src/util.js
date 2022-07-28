@@ -9,7 +9,16 @@ const getRandomPositiveInteger = (a= 0, b = 1) =>{
   return Math.floor(result);
 }
 
-const humanizeTaskDueDate  = (dueDate, format) => dayjs(dueDate).format(format)
-const dateDiff = (date1, date2) => dayjs.duration(dayjs(date2).diff(dayjs(date1))).format(`HH[H] mm[M]`)
+const humanizeTaskDueDate  = (dueDate, format) => dayjs(dueDate).format(format);
+const dateDiff = (date1, date2) => {
+  let res = ''
+  let dayDiff = dayjs.duration(dayjs(date2).diff(dayjs(date1))).format(`DD`);
+  let hoursDiff = dayjs.duration(dayjs(date2).diff(dayjs(date1))).format(`HH`);
+  let minDiff = dayjs.duration(dayjs(date2).diff(dayjs(date1))).format(`mm`);
+  dayDiff ? res += dayDiff + 'D' : res &&
+  hoursDiff ? res += hoursDiff + 'H' : res &&
+  minDiff ? res += minDiff + 'M' : res
 
+  return res
+}
 export {getRandomPositiveInteger, humanizeTaskDueDate, dateDiff}
