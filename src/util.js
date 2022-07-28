@@ -1,4 +1,6 @@
 import dayjs from 'dayjs';
+const duration = require('dayjs/plugin/duration')
+dayjs.extend(duration)
 
 const getRandomPositiveInteger = (a= 0, b = 1) =>{
   const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
@@ -7,7 +9,7 @@ const getRandomPositiveInteger = (a= 0, b = 1) =>{
   return Math.floor(result);
 }
 
-const humanizeTaskDueDate  = (dueDate, format) => {dayjs(dueDate).format(format)}
+const humanizeTaskDueDate  = (dueDate, format) => dayjs(dueDate).format(format)
+const dateDiff = (date1, date2) => dayjs.duration(dayjs(date2).diff(dayjs(date1))).format(`HH[H] mm[M]`)
 
-
-export {getRandomPositiveInteger, humanizeTaskDueDate}
+export {getRandomPositiveInteger, humanizeTaskDueDate, dateDiff}
