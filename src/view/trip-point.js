@@ -1,14 +1,27 @@
-import {createElement} from "../render.js";
+import {createElement} from '../render.js';
 import {humanizeTaskDueDate, dateDiff} from '../util.js';
 
 
-const createPointLi = (li)=> {
-  const {basePrice, type, isFavorite, destination, dateFrom, dateTo } = li
+const createPointLi = (point, offersLi) => {
+  const {basePrice, type, isFavorite, destination, dateFrom, dateTo, offers} = point;
   //if (dateTo < dateFrom) { [dateTo, dateFrom] = [dateFrom, dateTo] }
-
+  console.log(offers);
   const favorite = isFavorite
-  ? 'event__favorite-btn event__favorite-btn--active'
-    : 'event__favorite-btn'
+    ? 'event__favorite-btn event__favorite-btn--active'
+    : 'event__favorite-btn';
+//нужно связать - в point достать ключи из offers и по ним найти данные в offersLi
+  const getOffersLi = () => offers.map((value) => {
+
+
+return(`<li className="event__offer">
+      <span className="event__offer-title">{it.title}</span>
+      &plus;&euro;&nbsp;
+      <span className="event__offer-price">{it.price}</span>
+    </li>`);
+
+
+  }).join('');
+  console.log(getOffersLi());
   return (
     `<li class="trip-events__item">
               <div class="event">
@@ -30,11 +43,12 @@ const createPointLi = (li)=> {
                 </p>
                 <h4 class="visually-hidden">Offers:</h4>
                 <ul class="event__selected-offers">
-                  <li class="event__offer">
+                 <li class="event__offer">
                     <span class="event__offer-title">Order Uber</span>
                     &plus;&euro;&nbsp;
                     <span class="event__offer-price">${basePrice}</span>
                   </li>
+
                 </ul>
                 <button class="${favorite}" type="button">
                   <span class="visually-hidden">Add to favorite</span>
@@ -48,24 +62,26 @@ const createPointLi = (li)=> {
               </div>
             </li>
  `
-  )
-}
+  );
+};
 export default class CreatePointLiView {
-  constructor(point) {
-    this.point = point
+  constructor(point, offers) {
+    this.point = point;
+    this.offers = offers;
   }
+
   getTemplate() {
-    return createPointLi(this.point)
+    return createPointLi(this.point, this.offers);
   }
 
   getElement() {
     if (!this.element) {
-      this.element = createElement(this.getTemplate())
+      this.element = createElement(this.getTemplate());
     }
-    return this.element
+    return this.element;
   }
 
   removeElement() {
-    this.element = null
+    this.element = null;
   }
 }

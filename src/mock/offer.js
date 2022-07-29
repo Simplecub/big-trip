@@ -1,4 +1,4 @@
-import {getRandomPositiveInteger} from '../util.js';
+import {getRandomPositiveInteger, getShuffleArray} from '../util.js';
 
 
 const OFFER_TYPE = ["taxi", "bus", "train", "ship", "drive", "flight", "check-in", "sightseeing", "restaurant"]
@@ -19,10 +19,10 @@ export const getOffer =() => {
 
 
 
-export const offersByType = (setType) => (
+export const offersByType = () => (
   {
-    type: setType,
-    offers: Array.from({length:3}, getOffer)
+    type: getShuffleArray(OFFER_TYPE,1),
+    offers: Array.from({length:getRandomPositiveInteger(1, 5)}, getOffer)
   }
 )
 

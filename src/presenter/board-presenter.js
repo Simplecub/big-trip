@@ -10,11 +10,14 @@ export default class BoardPresenter {
   sortComponent = new CreateSortView();
   boardTripListComponent = new CreateTripListView();
 
-  init = (boardContainer, pointsModel) => {
+  init = (boardContainer, pointsModel, offerModel) => {
     this.boarContainer = boardContainer;
     this.pointsModel = pointsModel;
     this.boardPoints = [...this.pointsModel.getPoints()]
 
+    this.offersModel = offerModel;
+    this.offersItem = [...this.offersModel.getOffers()]
+console.log(this.offersItem)
 console.log (this.boardPoints)
 
     render(this.sortComponent, this.boarContainer);
@@ -24,7 +27,7 @@ console.log (this.boardPoints)
 // render(this.sortComponent, this.boardComponent.getElement());
     //   render(new TaskEditView(), this.taskListComponent.getElement());
 for (let i = 0; i < this.boardPoints.length; i++) {
-  render(new CreatePointLiView(this.boardPoints[i]), this.boardTripListComponent.getElement())
+  render(new CreatePointLiView(this.boardPoints[i],this.offersItem ), this.boardTripListComponent.getElement())
 }
   //  for (let i = 0; i < 3; i++) {
    //   render(new CreatePointLiView(), this.boardTripListComponent.getElement());

@@ -7,18 +7,18 @@ import CreatePointNotDestView from './view/new-point-without-destination.js';
 import CreatePointNotOffersView from './view/new-point-without-offers.js';
 import CreateEditFormView from './view/edit-form.js';
 import CreatePointLiView from './view/trip-point.js';
-import PointsModel from './model/point-model.js';
+import PointsModel, {OfferModel} from './model/point-model.js';
 const siteHeaderEl = document.querySelector('.trip-controls__filters')
 const sitePageBodyEl = document.querySelector('.trip-events')
 
 const pointsModel = new PointsModel()
-
+const offerModel = new OfferModel()
 render(new CreateFilterView(), siteHeaderEl)
 
 const boardPresenter = new BoardPresenter()
 
 //boardPresenter.init(sitePageBodyEl)
-boardPresenter.init(sitePageBodyEl, pointsModel)
+boardPresenter.init(sitePageBodyEl, pointsModel, offerModel)
 
 //render(new CreateNewPointView(), sitePageBodyEl)
 //render(new CreatePointNotDestView(), sitePageBodyEl)

@@ -7,6 +7,14 @@ import dayjs from 'dayjs';
 const POINT_TYPE = ["taxi", "bus", "train", "ship", "drive", "flight", "check-in", "sightseeing", "restaurant"]
 let i =0
 const OFFERS = Array.from({length:getRandomPositiveInteger(1, 4)}, () => i += 1)
+
+
+const generateData = (from, to) => {
+  const daysGap = getRandomPositiveInteger(from, to)
+//  const
+  return dayjs().add(daysGap,'hours').toDate()
+}
+
 let  id = 0
 export const generatePoint = () => {
 let type =  getShuffleArray(POINT_TYPE, 1)
@@ -17,16 +25,10 @@ let type =  getShuffleArray(POINT_TYPE, 1)
     destination: getDestination(),
     id: id++,
     isFavorite: getRandomPositiveInteger(),
-    offers:  OFFERS,
+    offers:  Array.from({length:getRandomPositiveInteger(1, 4)}, () => i += 1),
    // offers:  offersByType(type)['offers'],
     type
 }
 }
 
-const generateData = (from, to) => {
-
-  const daysGap = getRandomPositiveInteger(from, to)
-//  const
-  return dayjs().add(daysGap,'hours').toDate()
-}
 console.log(OFFERS)
