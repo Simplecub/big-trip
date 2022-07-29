@@ -21,7 +21,7 @@ const createPointLi = (li)=> {
                   <p class="event__time">
                     <time class="event__start-time" datetime="${humanizeTaskDueDate(dateFrom, 'YYYY-MM-DDThh:mm')}">${humanizeTaskDueDate(dateFrom, 'hh:mm')}</time>
                     &mdash;
-                    <time class="event__end-time" datetime="${humanizeTaskDueDate(dateTo, 'YYYY-MM-hh:mm')}">${humanizeTaskDueDate(dateTo, 'hh:mm')}</time>
+                    <time class="event__end-time" datetime="${humanizeTaskDueDate(dateTo, 'YYYY-MM-DDThh:mm')}">${humanizeTaskDueDate(dateTo, 'hh:mm')}</time>
                   </p>
                   <p class="event__duration">${dateDiff(dateFrom, dateTo)}</p>
                 </div>

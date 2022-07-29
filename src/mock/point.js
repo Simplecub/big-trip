@@ -1,24 +1,32 @@
 import {getDestination} from './destination.js';
-import {getRandomPositiveInteger} from '../util.js';
+import {getRandomPositiveInteger, getShuffleArray} from '../util.js';
 import {offersByType} from './offer.js';
 import dayjs from 'dayjs';
 
-export const generatePoint = () =>(
-  {
-    basePrice: getRandomPositiveInteger(100, 10000),
-    dateFrom: generateData(),
-    dateTo: generateData(),
-    destination: getDestination(),
-    id: "0",
-    isFavorite: getRandomPositiveInteger(),
-    offers:  offersByType("bus")['offers'],
-    type: "bus"
-  }
-)
 
-const generateData = () => {
-  const DayGap = 5
-  const daysGap = getRandomPositiveInteger(DayGap-5, DayGap+5)
+const POINT_TYPE = ["taxi", "bus", "train", "ship", "drive", "flight", "check-in", "sightseeing", "restaurant"]
+let i =0
+const OFFERS = Array.from({length:getRandomPositiveInteger(1, 4)}, () => i += 1)
+let  id = 0
+export const generatePoint = () => {
+let type =  getShuffleArray(POINT_TYPE, 1)
+  return {
+    basePrice: getRandomPositiveInteger(100, 10000),
+    dateFrom: generateData(0, 5),
+    dateTo: generateData(5, 10),
+    destination: getDestination(),
+    id: id++,
+    isFavorite: getRandomPositiveInteger(),
+    offers:  OFFERS,
+   // offers:  offersByType(type)['offers'],
+    type
+}
+}
+
+const generateData = (from, to) => {
+
+  const daysGap = getRandomPositiveInteger(from, to)
 //  const
   return dayjs().add(daysGap,'hours').toDate()
 }
+console.log(OFFERS)

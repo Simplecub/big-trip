@@ -20,4 +20,12 @@ const dateDiff = (date1, date2) => {
   if (minDiff !== '00') {res += minDiff + 'M'}
   return res
 }
-export {getRandomPositiveInteger, humanizeTaskDueDate, dateDiff}
+//перемешивает массив, возвращет нужное число элементов массива
+const getShuffleArray = (arr, length) => {
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor((Math.random()) * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr.slice(0, length);
+};
+export {getRandomPositiveInteger, humanizeTaskDueDate, dateDiff, getShuffleArray}
