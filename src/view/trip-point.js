@@ -10,6 +10,10 @@ const createPointLi = (point, offersLi) => {
     ? 'event__favorite-btn event__favorite-btn--active'
     : 'event__favorite-btn';
 //нужно связать - в point достать ключи из offers и по ним найти данные в offersLi
+const arr = []
+  Object.values(offersLi).map((it) => {if (it.type !== type) {arr.push(it); console.log(`${ it.type} + ${ type}`)}})
+  console.log(Object.values(offersLi))
+  console.log(arr)
   const getOffersLi = () => offers.map((value) => {
 
 
