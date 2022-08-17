@@ -14,17 +14,8 @@ const createPointLi = (point, offersLi) => {
   console.log(offersLi);
   console.log(point);
   console.log(pointTypeOffer);
-  const arr = [];
-  Object.values(offersLi).map((it) => {
-    if (it.type !== type) {
-      arr.push(it);
-      console.log(`${it.type} + ${type}`);
-    }
-  });
-  console.log(Object.values(offersLi));
-  console.log(arr);
 
-  let getOffersLi =  (pointTypeOffer) ? pointTypeOffer.offers.map((value) => {
+  const getOffersLi =  (pointTypeOffer) ? pointTypeOffer.offers.map((value) => {
     return (`<li className="event__offer">
       <span className="event__offer-title">${value.title}</span>
       &plus;&euro;&nbsp;
@@ -38,7 +29,7 @@ const createPointLi = (point, offersLi) => {
               <div class="event">
                 <time class="event__date" datetime="${humanizeTaskDueDate(dateFrom, 'YYYY-MM-DD')}">${humanizeTaskDueDate(dateFrom, 'MMM DD')}</time>
                 <div class="event__type">
-                  <img class="event__type-icon" width="42" height="42" src="img/icons/taxi.png" alt="Event type icon">
+                  <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
                 </div>
                 <h3 class="event__title">${type} ${destination.name}</h3>
                 <div class="event__schedule">

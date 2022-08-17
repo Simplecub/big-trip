@@ -6,7 +6,7 @@ const DESCRIPTION = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cr
 
 const POINT_TYPE = ["taxi", "bus", "train", "ship", "drive", "flight", "check-in", "sightseeing", "restaurant"]
 const OFFER_TYPE = ["taxi", "bus", "train", "ship", "drive", "flight", "check-in", "sightseeing", "restaurant"]
-const OFFERS_TITLE = ['Order Uber', 'Upgrade to a business class', '111', '1111']
+const OFFERS_TITLE = ['Order Uber', 'Upgrade to a business class', 'Some adding', 'Goodse']
 
 
 
