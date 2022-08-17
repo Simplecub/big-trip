@@ -1,13 +1,12 @@
+import {POINT_TYPE} from './const.js';
 import {getDestination} from './destination.js';
 import {getRandomPositiveInteger, getShuffleArray} from '../util.js';
 import {offersByType} from './offer.js';
 import dayjs from 'dayjs';
 
 
-const POINT_TYPE = ["taxi", "bus", "train", "ship", "drive", "flight", "check-in", "sightseeing", "restaurant"]
 let i =0
 const OFFERS = Array.from({length:getRandomPositiveInteger(1, 4)}, () => i += 1)
-
 
 const generateData = (from, to) => {
   const daysGap = getRandomPositiveInteger(from, to)

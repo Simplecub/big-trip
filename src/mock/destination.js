@@ -1,14 +1,18 @@
-
-
-export const getDestination = () => (
-  {
-    description: "Chamonix, is a beautiful city, a true asian pearl, with crowded streets.",
-    name: "Chamonix",
+import {CITY, DESCRIPTION} from './const.js';
+import {getShuffleArray, getRandomPositiveInteger} from '../util.js';
+let id = 0
+export const getDestination = () => {
+  id += 1
+  return {
+    id,
+    description: `${getShuffleArray(DESCRIPTION.split('. '), getRandomPositiveInteger(1, DESCRIPTION.split('. ').length))}`,
+    name: getShuffleArray(CITY, 1),
     pictures: [
       {
-        src: "http://picsum.photos/300/200?r=0.0762563005163317",
-        description: "Chamonix parliament building"
+        src: `http://picsum.photos/248/152?r=${getRandomPositiveInteger(1, 1000)}`,
+          description: `Chamonix parliament building`
       }
     ]
   }
-)
+}
+

@@ -1,17 +1,17 @@
 import {getRandomPositiveInteger, getShuffleArray} from '../util.js';
+import {OFFER_TYPE} from './const.js';
 
 
-const OFFER_TYPE = ["taxi", "bus", "train", "ship", "drive", "flight", "check-in", "sightseeing", "restaurant"]
 const OFFERS_OF_TYPE = [
   ['Order Uber', 11, 111, 1111],
   [2,22,222,2222],
   [3, 33, 333, 3333]
 ]
-let id1 = 0
+let id = 0
 export const getOffer =() => {
-  id1 += 1
+  id += 1
   return {
-    id1,
+    id,
     title: "Upgrade to a business class",
     price: getRandomPositiveInteger(10, 150)
   }
