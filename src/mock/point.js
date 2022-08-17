@@ -16,7 +16,6 @@ const generateData = (from, to) => {
 
 let  id = 0
 export const generatePoint = () => {
-let type =  getShuffleArray(POINT_TYPE, 1)
   return {
     basePrice: getRandomPositiveInteger(100, 10000),
     dateFrom: generateData(0, 5),
@@ -26,7 +25,7 @@ let type =  getShuffleArray(POINT_TYPE, 1)
     isFavorite: getRandomPositiveInteger(),
     offers:  Array.from({length:getRandomPositiveInteger(1, 4)}, () => i += 1),
    // offers:  offersByType(type)['offers'],
-    type
+    type: `${getShuffleArray(POINT_TYPE, 1)}`
 }
 }
 

@@ -10,22 +10,29 @@ const createPointLi = (point, offersLi) => {
     ? 'event__favorite-btn event__favorite-btn--active'
     : 'event__favorite-btn';
 //нужно связать - в point достать ключи из offers и по ним найти данные в offersLi
-const arr = []
-  Object.values(offersLi).map((it) => {if (it.type !== type) {arr.push(it); console.log(`${ it.type} + ${ type}`)}})
-  console.log(Object.values(offersLi))
-  console.log(arr)
-  const getOffersLi = () => offers.map((value) => {
+  const pointTypeOffer = offersLi.find((offer) => offer.type === point.type);
+  console.log(offersLi);
+  console.log(point);
+  console.log(pointTypeOffer);
+  const arr = [];
+  Object.values(offersLi).map((it) => {
+    if (it.type !== type) {
+      arr.push(it);
+      console.log(`${it.type} + ${type}`);
+    }
+  });
+  console.log(Object.values(offersLi));
+  console.log(arr);
 
-
-return(`<li className="event__offer">
-      <span className="event__offer-title">{it.title}</span>
+  let getOffersLi =  (pointTypeOffer) ? pointTypeOffer.offers.map((value) => {
+    return (`<li className="event__offer">
+      <span className="event__offer-title">${value.title}</span>
       &plus;&euro;&nbsp;
-      <span className="event__offer-price">{it.price}</span>
+      <span className="event__offer-price">${value.price}</span>
     </li>`);
+  }).join('') : '';
+  console.log(getOffersLi);
 
-
-  }).join('');
-  console.log(getOffersLi());
   return (
     `<li class="trip-events__item">
               <div class="event">
@@ -47,11 +54,7 @@ return(`<li className="event__offer">
                 </p>
                 <h4 class="visually-hidden">Offers:</h4>
                 <ul class="event__selected-offers">
-                 <li class="event__offer">
-                    <span class="event__offer-title">Order Uber</span>
-                    &plus;&euro;&nbsp;
-                    <span class="event__offer-price">${basePrice}</span>
-                  </li>
+                ${getOffersLi}
 
                 </ul>
                 <button class="${favorite}" type="button">

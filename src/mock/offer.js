@@ -8,7 +8,7 @@ export const getOffer =() => {
   id += 1
   return {
     id,
-    title: getShuffleArray(OFFERS_TITLE,1),
+    title: `${getShuffleArray(OFFERS_TITLE,1)}`,
     price: getRandomPositiveInteger(10, 150)
   }
 }
@@ -17,7 +17,7 @@ export const getOffer =() => {
 
 export const offersByType = () => (
   {
-    type: getShuffleArray(OFFER_TYPE,1),
+    type: `${getShuffleArray(OFFER_TYPE,1)}`,
     offers: Array.from({length:getRandomPositiveInteger(1, 5)}, getOffer)
   }
 )
