@@ -11,18 +11,34 @@ const createPointLi = (point, offersLi) => {
     : 'event__favorite-btn';
 //нужно связать - в point достать ключи из offers и по ним найти данные в offersLi
   const pointTypeOffer = offersLi.find((offer) => offer.type === point.type);
+  /*  let selectedOffer
+    if (pointTypeOffer) {
+      offers.forEach((it) => {
+        if (pointTypeOffer.offers.filter(item => item.id === it)) {
+          selectedOffer.push(pointTypeOffer.offers.filter(item => item.id === it))
+        }
+      })
+    }
+
+    const pointTypeOffer = offersLi.find((offer) => offer.type === point.type);
+    const selectedOffer = offers.map((value) => {
+     const pointt = offersLi.find((offer) => offer.type === point.type)
+      if (pointt) {
+        pointt.offers.filter(item => item.id === value)}
+    else  return});
+  */
   console.log(offersLi);
   console.log(point);
   console.log(pointTypeOffer);
 
-  const getOffersLi =  (pointTypeOffer) ? pointTypeOffer.offers.map((value) => {
+  const getOffersLi = (pointTypeOffer) ? pointTypeOffer.offers.map((value) => {
+
     return (`<li className="event__offer">
       <span className="event__offer-title">${value.title}</span>
       &plus;&euro;&nbsp;
       <span className="event__offer-price">${value.price}</span>
     </li>`);
   }).join('') : '';
-  console.log(getOffersLi);
 
   return (
     `<li class="trip-events__item">

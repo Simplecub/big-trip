@@ -7,7 +7,7 @@ let id = 0
 export const getOffer =() => {
   id += 1
   return {
-    id,
+    id: id++,
     title: `${getShuffleArray(OFFERS_TITLE,1)}`,
     price: getRandomPositiveInteger(10, 150)
   }

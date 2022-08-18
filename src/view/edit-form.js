@@ -1,7 +1,26 @@
-import {createElement} from "../render.js";
+import {createElement} from '../render.js';
 
-const createEditForm = ()=> (
-  `<form class="event event--edit" action="#" method="post">
+const createEditForm = (point, offersLi) => {
+  const {basePrice, type, isFavorite, destination, dateFrom, dateTo, offers} = point;
+  const pointTypeOffer = offersLi.find((offer) => offer.type === point.type);
+  //console.log(offersLi);
+  //console.log(point);
+  // console.log(pointTypeOffer);
+
+  const getOffersLi = (pointTypeOffer) ? pointTypeOffer.offers.map((value) => {
+    return (` <div class="event__offer-selector">
+                      <input class="event__offer-checkbox  visually-hidden" id="event-offer-${type}-1" type="checkbox" name="event-offer-${type}">
+                        <label class="event__offer-label" for="event-offer-${type}-1">
+                          <span class="event__offer-title">${value.title}</span>
+                          &plus;&euro;&nbsp;
+                          <span class="event__offer-price">${value.price}</span>
+                        </label>
+                      </div>`);
+  }).join('') : '';
+
+
+  return (
+    `<form class="event event--edit" action="#" method="post">
                 <header class="event__header">
                   <div class="event__type-wrapper">
                     <label class="event__type  event__type-btn" for="event-type-toggle-1">
@@ -87,7 +106,7 @@ const createEditForm = ()=> (
                       <span class="visually-hidden">Price</span>
                       &euro;
                     </label>
-                    <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="160">
+                    <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${basePrice}">
                   </div>
 
                   <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
@@ -101,6 +120,7 @@ const createEditForm = ()=> (
                     <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
                     <div class="event__available-offers">
+                    ${getOffersLi}
                       <div class="event__offer-selector">
                         <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" checked>
                         <label class="event__offer-label" for="event-offer-luggage-1">
@@ -150,26 +170,32 @@ const createEditForm = ()=> (
 
                   <section class="event__section  event__section--destination">
                     <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-                    <p class="event__destination-description">Chamonix-Mont-Blanc (usually shortened to Chamonix) is a resort area near the junction of France, Switzerland and Italy. At the base of Mont Blanc, the highest summit in the Alps, it's renowned for its skiing.</p>
+                    <p class="event__destination-description">${destination.description}</p>
                   </section>
                 </section>
               </form>
  `
-)
+  );
+};
 
 export default class CreateEditFormView {
+  constructor(point, offers) {
+    this.point = point;
+    this.offers = offers;
+  }
+
   getTemplate() {
-    return createEditForm()
+    return createEditForm(this.point, this.offers);
   }
 
   getElement() {
     if (!this.element) {
-      this.element = createElement(this.getTemplate())
+      this.element = createElement(this.getTemplate());
     }
-    return this.element
+    return this.element;
   }
 
   removeElement() {
-    this.element = null
+    this.element = null;
   }
 }

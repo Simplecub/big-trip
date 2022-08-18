@@ -23,7 +23,7 @@ console.log (this.boardPoints)
 
     render(this.sortComponent, this.boarContainer);
     render(this.boardTripListComponent, this.boarContainer);
-    render(new CreateEditFormView(), this.boardTripListComponent.getElement())
+    render(new CreateEditFormView(this.boardPoints[0],this.offersItem ), this.boardTripListComponent.getElement())
 //render(new CreatePointView(),  this.boardTripListComponent.getElement())
 // render(this.sortComponent, this.boardComponent.getElement());
     //   render(new TaskEditView(), this.taskListComponent.getElement());
