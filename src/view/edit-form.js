@@ -8,8 +8,13 @@ const createEditForm = (point, offersLi) => {
   // console.log(pointTypeOffer);
 
   const getOffersLi = (pointTypeOffer) ? pointTypeOffer.offers.map((value) => {
+    const selectedOffers = offers.map((v) => {
+      if (value.id === v) {
+        return `checked`
+      }
+    });
     return (` <div class="event__offer-selector">
-                      <input class="event__offer-checkbox  visually-hidden" id="event-offer-${type}-1" type="checkbox" name="event-offer-${type}">
+                      <input class="event__offer-checkbox  visually-hidden" id="event-offer-${type}-1" type="checkbox" name="event-offer-${type}  123 ${selectedOffers}">
                         <label class="event__offer-label" for="event-offer-${type}-1">
                           <span class="event__offer-title">${value.title}</span>
                           &plus;&euro;&nbsp;
@@ -17,8 +22,7 @@ const createEditForm = (point, offersLi) => {
                         </label>
                       </div>`);
   }).join('') : '';
-
-
+  console.log(getOffersLi);
   return (
     `<form class="event event--edit" action="#" method="post">
                 <header class="event__header">

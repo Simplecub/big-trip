@@ -5,7 +5,6 @@ import {OFFER_TYPE, OFFERS_TITLE} from './const.js';
 
 let id = 0
 export const getOffer =() => {
-  id += 1
   return {
     id: id++,
     title: `${getShuffleArray(OFFERS_TITLE,1)}`,

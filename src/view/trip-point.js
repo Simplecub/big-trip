@@ -30,15 +30,18 @@ const createPointLi = (point, offersLi) => {
   console.log(offersLi);
   console.log(point);
   console.log(pointTypeOffer);
-
-  const getOffersLi = (pointTypeOffer) ? pointTypeOffer.offers.map((value) => {
-
-    return (`<li className="event__offer">
-      <span className="event__offer-title">${value.title}</span>
+  const selectedOffers = (pointTypeOffer) ? offers.map((v) => {
+    for (const it of pointTypeOffer.offers) {
+      if (it.id === v) {
+        return (`<li className="event__offer">
+      <span className="event__offer-title">${it.title}</span>
       &plus;&euro;&nbsp;
-      <span className="event__offer-price">${value.price}</span>
+      <span className="event__offer-price">${it.price}</span>
     </li>`);
+      }
+    }
   }).join('') : '';
+  console.log(selectedOffers);
 
   return (
     `<li class="trip-events__item">
@@ -61,7 +64,7 @@ const createPointLi = (point, offersLi) => {
                 </p>
                 <h4 class="visually-hidden">Offers:</h4>
                 <ul class="event__selected-offers">
-                ${getOffersLi}
+                ${selectedOffers}
 
                 </ul>
                 <button class="${favorite}" type="button">
