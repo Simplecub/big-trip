@@ -31,12 +31,12 @@ const createPointLi = (point, offersLi) => {
   console.log(point);
   console.log(pointTypeOffer);
   const selectedOffers = (pointTypeOffer) ? offers.map((v) => {
-    for (const it of pointTypeOffer.offers) {
-      if (it.id === v) {
+    for (const offerOne of pointTypeOffer.offers) {
+      if (offerOne.id === v) {
         return (`<li className="event__offer">
-      <span className="event__offer-title">${it.title}</span>
+      <span className="event__offer-title">${offerOne.title}</span>
       &plus;&euro;&nbsp;
-      <span className="event__offer-price">${it.price}</span>
+      <span className="event__offer-price">${offerOne.price}</span>
     </li>`);
       }
     }
