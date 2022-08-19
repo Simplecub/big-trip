@@ -13,8 +13,10 @@ export default class OfferModel {
     headers: {'Authorization': 'Basic er883jdzbdw'}
   })
     .then(async (res) => {
-      this.#offers = await  res.json()
+      this.#offers = await res.json();
     });
 
-  get offersAll () { return this.#offers}
+  get offersAll() {
+    return this.#offers;
+  }
 }
