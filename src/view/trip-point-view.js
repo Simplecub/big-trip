@@ -24,7 +24,6 @@ const createPointLi = (point, pointTypeOffers) => {
       }
     }
   }).join('') : '';
-  console.log(selectedOffers);
 
   return (
     `<li class="trip-events__item">

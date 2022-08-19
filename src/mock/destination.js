@@ -6,7 +6,7 @@ export const getDestination = () => {
   return {
     id,
     description: `${getShuffleArray(DESCRIPTION.split('. '), getRandomPositiveInteger(1, DESCRIPTION.split('. ').length))}`,
-    name: getShuffleArray(CITY, 1),
+    name: `${getShuffleArray(CITY, 1)}`,
     pictures: [
       {
         src: `http://picsum.photos/248/152?r=${getRandomPositiveInteger(1, 1000)}`,

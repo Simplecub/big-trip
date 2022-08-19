@@ -1,8 +1,8 @@
 import {createElement} from '../render.js';
 import {toUpperFirst} from '../util.js'
+
 let idOffers = 1
 const showAllOffers = (allOffers, selectedOffers, type) => {
-
   return allOffers.offers.map((value) => {
     idOffers++
     const checkedOffers = (selectedOffers.find((v) => value.id === v)) ?
@@ -17,6 +17,7 @@ const showAllOffers = (allOffers, selectedOffers, type) => {
                       </div>`);
   }).join('');
 };
+
 let idType = 1
 const showAllEventType = (allType, selectedType) => {
 idType++
@@ -31,61 +32,29 @@ idType++
   }).join('');
 };
 
-
+let idEvent = 1
 const createEditForm = (point, offersLi) => {
-
+  idEvent++
   const {basePrice, type, isFavorite, destination, dateFrom, dateTo, offers} = point;
   const pointTypeOffer = offersLi.find((offer) => offer.type === point.type);
-  console.log(offersLi);
+//  console.log(offersLi);
   //console.log(point);
-   console.log(pointTypeOffer);
-  /*
-    const getOffersLi = (pointTypeOffer) ? pointTypeOffer.offers.map((value) => {
-      const selectedOffers =(offers.find((v) => value.id === v)) ?
-         'checked' : '';
-  console.log(selectedOffers)
-
-      return (` <div class="event__offer-selector">
-                        <input class="event__offer-checkbox  visually-hidden" id="event-offer-${type}-${value.id}" type="checkbox" name="event-offer-${type}" ${selectedOffers}>
-                          <label class="event__offer-label" for="event-offer-${type}-${value.id}">
-                            <span class="event__offer-title">${value.title}</span>
-                            &plus;&euro;&nbsp;
-                            <span class="event__offer-price">${value.price}</span>
-                          </label>
-                        </div>`);
-    }).join('') : '';
-    console.log(getOffersLi);
-  */
-
-
-  /*
-    const getEventType = () => {
-      offersLi.map((value) => )
-
-      return (`
-      <div class="event__type-item">
-                            <input id="event-type-taxi-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="taxi">
-                            <label class="event__type-label  event__type-label--taxi" for="event-type-taxi-1">Taxi</label>
-                          </div>
-      `)
-    }
-  */
-
+  // console.log(pointTypeOffer);
 
   return (
     `<form class="event event--edit" action="#" method="post">
                 <header class="event__header">
                   <div class="event__type-wrapper">
-                    <label class="event__type  event__type-btn" for="event-type-toggle-1">
+                    <label class="event__type  event__type-btn" for="event-type-toggle-${idEvent}">
                       <span class="visually-hidden">Choose event type</span>
                       <img class="event__type-icon" width="17" height="17" src="img/icons/${type}.png" alt="Event type icon">
                     </label>
-                    <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
+                    <input class="event__type-toggle  visually-hidden" id="event-type-toggle-${idEvent}" type="checkbox">
 
                     <div class="event__type-list">
                       <fieldset class="event__type-group">
                         <legend class="visually-hidden">Event type</legend>
-${(pointTypeOffer) ? showAllEventType(offersLi, type) : ''}
+                        ${showAllEventType(offersLi, type)}
 
                         </div>
                       </fieldset>
@@ -94,9 +63,9 @@ ${(pointTypeOffer) ? showAllEventType(offersLi, type) : ''}
 
                   <div class="event__field-group  event__field-group--destination">
                     <label class="event__label  event__type-output" for="event-destination-1">
-                      Flight
+                      ${type}
                     </label>
-                    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="Chamonix" list="destination-list-1">
+                    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-1">
                     <datalist id="destination-list-1">
                       <option value="Amsterdam"></option>
                       <option value="Geneva"></option>
