@@ -64,6 +64,7 @@ const createPointLi = (point, pointTypeOffers) => {
   );
 };
 export default class CreatePointLiView {
+  #element = null
   constructor(point, offers) {
     this.point = point;
     this.offers = offers;
@@ -74,13 +75,13 @@ export default class CreatePointLiView {
   }
 
   getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+    if (!this.#element) {
+      this.#element = createElement(this.getTemplate());
     }
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }

@@ -115,6 +115,7 @@ const createEditForm = (point, offersLi) => {
 };
 
 export default class CreateEditFormView {
+  #element = null
   constructor(point, offers) {
     this.point = point;
     this.offers = offers;
@@ -125,13 +126,13 @@ export default class CreateEditFormView {
   }
 
   getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+    if (!this.#element) {
+      this.#element = createElement(this.getTemplate());
     }
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }

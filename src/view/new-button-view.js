@@ -4,18 +4,19 @@ const createNewTempBtn = () => '<button class="trip-main__event-add-btn btn btn-
 
 
 export default class NewButtonView {
+  #element = null
   getTemplate() {
     return createNewTempBtn()
   }
 
   getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate())
+    if (!this.#element) {
+      this.#element = createElement(this.getTemplate())
     }
-    return this.element
+    return this.#element
   }
 
   removeElement() {
-    this.element = null
+    this.#element = null
   }
 }
