@@ -33,7 +33,7 @@ constructor(boardContainer, pointsModel, offerModel) {
 //}
 
     this.offersModel.init().then(() => {
-      this.offersItem = [...this.offersModel.getOffers()];
+      this.offersItem = [...this.offersModel.offersAll];
       this.#boardPoints.forEach((point) => this.addPoint(point));
     });
   };

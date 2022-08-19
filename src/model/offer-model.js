@@ -8,13 +8,13 @@ export default class OfferModel {
 
  */
 export default class OfferModel {
-  offers = [];
+  #offers = [];
   init = () => fetch('https://18.ecmascript.pages.academy/big-trip/offers', {
     headers: {'Authorization': 'Basic er883jdzbdw'}
   })
     .then(async (res) => {
-      this.offers = await  res.json()
+      this.#offers = await  res.json()
     });
 
-  getOffers = () => this.offers
+  get offersAll () { return this.#offers}
 }
