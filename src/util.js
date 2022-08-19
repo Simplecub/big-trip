@@ -28,4 +28,11 @@ const getShuffleArray = (arr, length) => {
   }
   return arr.slice(0, length);
 };
-export {getRandomPositiveInteger, humanizeTaskDueDate, dateDiff, getShuffleArray}
+
+const toUpperFirst = (str) => {
+  if (!str) return str;
+  return str[0].toUpperCase() + str.slice(1)
+
+}
+
+export {getRandomPositiveInteger, humanizeTaskDueDate, dateDiff, getShuffleArray, toUpperFirst}

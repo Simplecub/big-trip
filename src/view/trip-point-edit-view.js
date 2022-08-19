@@ -1,14 +1,15 @@
 import {createElement} from '../render.js';
-let id = 1
+import {toUpperFirst} from '../util.js'
+let idOffers = 1
 const showAllOffers = (allOffers, selectedOffers, type) => {
 
   return allOffers.offers.map((value) => {
-    id++
+    idOffers++
     const checkedOffers = (selectedOffers.find((v) => value.id === v)) ?
       'checked' : '';
     return (` <div class="event__offer-selector">
-                      <input class="event__offer-checkbox  visually-hidden" id="event-offer-${type}-${id}" type="checkbox" name="event-offer-${type}" ${checkedOffers}>
-                        <label class="event__offer-label" for="event-offer-${type}-${id}">
+                      <input class="event__offer-checkbox  visually-hidden" id="event-offer-${type}-${idOffers}" type="checkbox" name="event-offer-${type}" ${checkedOffers}>
+                        <label class="event__offer-label" for="event-offer-${type}-${idOffers}">
                           <span class="event__offer-title">${value.title}</span>
                           &plus;&euro;&nbsp;
                           <span class="event__offer-price">${value.price}</span>
@@ -16,16 +17,16 @@ const showAllOffers = (allOffers, selectedOffers, type) => {
                       </div>`);
   }).join('');
 };
-
+let idType = 1
 const showAllEventType = (allType, selectedType) => {
-
+idType++
   return allType.map((value,index) => {
     const checkedOffers = ( value.type === selectedType) ?
       'checked' : '';
     return (`<div class="event__type-item">
-    <input id="event-type-${value.type}-${index+1}" class="event__type-input  visually-hidden" type="radio" name="event-type"
+    <input id="event-type-${value.type}-${idType}" class="event__type-input  visually-hidden" type="radio" name="event-type"
            value="${value.type}" ${checkedOffers}>
-      <label class="event__type-label  event__type-label--${value.type}" for="event-type-${value.type}-${index+1}">${value.type}</label>
+      <label class="event__type-label  event__type-label--${value.type}" for="event-type-${value.type}-${idType}">${toUpperFirst(value.type)}</label>
   </div>`);
   }).join('');
 };
@@ -77,7 +78,7 @@ const createEditForm = (point, offersLi) => {
                   <div class="event__type-wrapper">
                     <label class="event__type  event__type-btn" for="event-type-toggle-1">
                       <span class="visually-hidden">Choose event type</span>
-                      <img class="event__type-icon" width="17" height="17" src="img/icons/flight.png" alt="Event type icon">
+                      <img class="event__type-icon" width="17" height="17" src="img/icons/${type}.png" alt="Event type icon">
                     </label>
                     <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
 
