@@ -17,19 +17,22 @@ export default class BoardPresenter {
     this.boardPoints = [...this.pointsModel.getPoints()]
 
     this.offersModel = offerModel;
-    this.offersItem = [...this.offersModel.getOffers()]
-console.log(this.offersItem)
-console.log (this.boardPoints)
+    //   this.offersItem = [...this.offersModel.getOffers()]
+    console.log(this.offersItem)
+    console.log(this.boardPoints)
 
     render(this.sortComponent, this.boarContainer);
     render(this.boardTripListComponent, this.boarContainer);
- //   render(new CreateEditFormView(this.boardPoints[0],this.offersItem ), this.boardTripListComponent.getElement())
+    //   render(new CreateEditFormView(this.boardPoints[0],this.offersItem ), this.boardTripListComponent.getElement())
 
 //for (let i = 0; i < this.boardPoints.length; i++) {
- // render(new CreatePointLiView(this.boardPoints[i],this.offersItem ), this.boardTripListComponent.getElement())
+    // render(new CreatePointLiView(this.boardPoints[i],this.offersItem ), this.boardTripListComponent.getElement())
 //}
+    offerModel.init().then(() => {
+      this.offersItem = [...this.offersModel.getOffers()]
 
-    this.boardPoints.forEach((point) => this.addPoint(point))
+      this.boardPoints.forEach((point) => this.addPoint(point))
+    })
   };
   addPoint = (point) => {
     this.allOffersOfThisType = this.offersItem.find((offerList) => offerList.type === point.type)?.offers || [];
