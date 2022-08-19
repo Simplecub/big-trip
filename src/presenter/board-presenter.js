@@ -14,7 +14,7 @@ export default class BoardPresenter {
   init = (boardContainer, pointsModel, offerModel) => {
     this.boarContainer = boardContainer;
     this.pointsModel = pointsModel;
-    this.boardPoints = [...this.pointsModel.getPoints()]
+    this.boardPoints = [...this.pointsModel.points]
 
     this.offersModel = offerModel;
     //   this.offersItem = [...this.offersModel.getOffers()]
