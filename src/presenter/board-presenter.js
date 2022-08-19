@@ -50,16 +50,27 @@ export default class BoardPresenter {
     const replaceEditToPoint = () => {
       this.#boardTripListComponent.element.replaceChild(pointComponent.element, editPointComponent.element);
     };
-
-    pointComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => replacePointToEdit());
+    const onEskKeyDown = (evt) => {
+      if (evt.key === 'Escape' || evt.key === 'Esc') {
+        evt.preventDefault();
+        replaceEditToPoint();
+        document.removeEventListener('keydown', onEskKeyDown);
+      }
+    };
+    pointComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+      replacePointToEdit();
+      document.addEventListener('keydown', onEskKeyDown);
+    });
     console.log(editPointComponent);
     editPointComponent.element.querySelector('.event__rollup-btn').addEventListener('click', (evt) => {
       evt.preventDefault();
       replaceEditToPoint();
-   });
+    });
     editPointComponent.element.querySelector('form').addEventListener('submit', (evt) => {
       evt.preventDefault();
       replaceEditToPoint();
+      document.removeEventListener('keydown', onEskKeyDown);
+
     });
 
     render(pointComponent, this.#boardTripListComponent.element);
