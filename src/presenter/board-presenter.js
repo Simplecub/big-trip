@@ -1,10 +1,10 @@
-import NewButtonView from '../view/new-button.js';
-import CreateSortView from '../view/sort.js';
+import NewButtonView from '../view/new-button-view.js';
+import CreateSortView from '../view/sort-view.js';
 import {render} from '../render.js';
-import CreatePointLiView from '../view/trip-point.js';
-import CreateTripListView from '../view/trip-list.js';
-import CreateEditFormView from '../view/edit-form.js';
-import CreatePointView from '../view/new-point.js';
+import CreatePointLiView from '../view/trip-point-view.js';
+import CreateTripListView from '../view/trip-list-view.js';
+import CreateEditFormView from '../view/trip-point-edit-view.js';
+import CreatePointView from '../view/1new-point-view.js';
 
 
 export default class BoardPresenter {
@@ -23,17 +23,17 @@ console.log (this.boardPoints)
 
     render(this.sortComponent, this.boarContainer);
     render(this.boardTripListComponent, this.boarContainer);
-    render(new CreateEditFormView(this.boardPoints[0],this.offersItem ), this.boardTripListComponent.getElement())
-//render(new CreatePointView(),  this.boardTripListComponent.getElement())
-// render(this.sortComponent, this.boardComponent.getElement());
-    //   render(new TaskEditView(), this.taskListComponent.getElement());
-for (let i = 0; i < this.boardPoints.length; i++) {
-  render(new CreatePointLiView(this.boardPoints[i],this.offersItem ), this.boardTripListComponent.getElement())
-}
-  //  for (let i = 0; i < 3; i++) {
-   //   render(new CreatePointLiView(), this.boardTripListComponent.getElement());
- //   }
+ //   render(new CreateEditFormView(this.boardPoints[0],this.offersItem ), this.boardTripListComponent.getElement())
 
-    //  render(new LoadMoreButtonView(), this.boardComponent.getElement())
+//for (let i = 0; i < this.boardPoints.length; i++) {
+ // render(new CreatePointLiView(this.boardPoints[i],this.offersItem ), this.boardTripListComponent.getElement())
+//}
+
+    this.boardPoints.forEach((point) => this.addPoint(point))
   };
+  addPoint = (point) => {
+    this.allOffersOfThisType = this.offersItem.find((offerList) => offerList.type === point.type)?.offers || [];
+    render(new CreatePointLiView(point,this.allOffersOfThisType ), this.boardTripListComponent.getElement());
+    render(new CreateEditFormView(point,this.offersItem ), this.boardTripListComponent.getElement());
+  }
 }

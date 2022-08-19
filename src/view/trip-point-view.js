@@ -2,7 +2,7 @@ import {createElement} from '../render.js';
 import {humanizeTaskDueDate, dateDiff} from '../util.js';
 
 
-const createPointLi = (point, offersLi) => {
+const createPointLi = (point, pointTypeOffers) => {
   const {basePrice, type, isFavorite, destination, dateFrom, dateTo, offers} = point;
   //if (dateTo < dateFrom) { [dateTo, dateFrom] = [dateFrom, dateTo] }
   console.log(offers);
@@ -10,7 +10,7 @@ const createPointLi = (point, offersLi) => {
     ? 'event__favorite-btn event__favorite-btn--active'
     : 'event__favorite-btn';
 //нужно связать - в point достать ключи из offers и по ним найти данные в offersLi
-  const pointTypeOffer = offersLi.find((offer) => offer.type === point.type);
+
   /*  let selectedOffer
     if (pointTypeOffer) {
       offers.forEach((it) => {
@@ -27,11 +27,11 @@ const createPointLi = (point, offersLi) => {
         pointt.offers.filter(item => item.id === value)}
     else  return});
   */
-  console.log(offersLi);
+
   console.log(point);
-  console.log(pointTypeOffer);
-  const selectedOffers = (pointTypeOffer) ? offers.map((v) => {
-    for (const offerOne of pointTypeOffer.offers) {
+
+  const selectedOffers = (pointTypeOffers) ? offers.map((v) => {
+    for (const offerOne of pointTypeOffers) {
       if (offerOne.id === v) {
         return (`<li className="event__offer">
       <span className="event__offer-title">${offerOne.title}</span>
