@@ -16,10 +16,10 @@ const pointsModel = new PointsModel()
 const offerModel = new OfferModel()
 render(new CreateFilterView(), siteHeaderEl)
 
-const boardPresenter = new BoardPresenter()
+const boardPresenter = new BoardPresenter(sitePageBodyEl, pointsModel, offerModel)
 
 //boardPresenter.init(sitePageBodyEl)
-boardPresenter.init(sitePageBodyEl, pointsModel, offerModel)
+boardPresenter.init()
 
 //render(new CreateNewPointView(), sitePageBodyEl)
 //render(new CreatePointNotDestView(), sitePageBodyEl)

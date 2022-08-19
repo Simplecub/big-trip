@@ -6,7 +6,6 @@ import CreateTripListView from '../view/trip-list-view.js';
 import CreateEditFormView from '../view/trip-point-edit-view.js';
 import CreatePointView from '../view/1new-point-view.js';
 
-
 export default class BoardPresenter {
   #pointsModel = null;
   #boarContainer = null;
@@ -14,12 +13,13 @@ export default class BoardPresenter {
   #sortComponent = new CreateSortView();
   #boardTripListComponent = new CreateTripListView();
 
-  init = (boardContainer, pointsModel, offerModel) => {
-    this.#boarContainer = boardContainer;
-    this.#pointsModel = pointsModel;
+constructor(boardContainer, pointsModel, offerModel) {
+  this.#boarContainer = boardContainer;
+  this.#pointsModel = pointsModel;
+  this.offersModel = offerModel;
+}
+  init = () => {
     this.#boardPoints = [...this.#pointsModel.points];
-
-    this.offersModel = offerModel;
     //   this.offersItem = [...this.offersModel.getOffers()]
     console.log(this.offersItem);
     console.log(this.#boardPoints);
@@ -31,11 +31,14 @@ export default class BoardPresenter {
 //for (let i = 0; i < this.boardPoints.length; i++) {
     // render(new CreatePointLiView(this.boardPoints[i],this.offersItem ), this.boardTripListComponent.getElement())
 //}
-    offerModel.init().then(() => {
+
+    this.offersModel.init().then(() => {
       this.offersItem = [...this.offersModel.getOffers()];
       this.#boardPoints.forEach((point) => this.addPoint(point));
     });
   };
+
+
   addPoint = (point) => {
     this.allOffersOfThisType = this.offersItem.find((offerList) => offerList.type === point.type)?.offers || [];
     // render(new CreatePointLiView(point,this.allOffersOfThisType ), this.#boardTripListComponent.element);
@@ -50,16 +53,16 @@ export default class BoardPresenter {
     const replaceEditToPoint = () => {
       this.#boardTripListComponent.element.replaceChild(pointComponent.element, editPointComponent.element);
     };
-    const onEskKeyDown = (evt) => {
+    const onEscKeyDown = (evt) => {
       if (evt.key === 'Escape' || evt.key === 'Esc') {
         evt.preventDefault();
         replaceEditToPoint();
-        document.removeEventListener('keydown', onEskKeyDown);
+        document.removeEventListener('keydown', onEscKeyDown);
       }
     };
     pointComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
       replacePointToEdit();
-      document.addEventListener('keydown', onEskKeyDown);
+      document.addEventListener('keydown', onEscKeyDown);
     });
     console.log(editPointComponent);
     editPointComponent.element.querySelector('.event__rollup-btn').addEventListener('click', (evt) => {
@@ -69,7 +72,7 @@ export default class BoardPresenter {
     editPointComponent.element.querySelector('form').addEventListener('submit', (evt) => {
       evt.preventDefault();
       replaceEditToPoint();
-      document.removeEventListener('keydown', onEskKeyDown);
+      document.removeEventListener('keydown', onEscKeyDown);
 
     });
 
