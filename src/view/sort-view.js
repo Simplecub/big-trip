@@ -33,12 +33,12 @@ const createSort =() => (
 
 export default class CreateSortView {
   #element = null
-  getTemplate(){
+  get template(){
     return createSort()
   }
-  getElement(){
+  get  element(){
     if(!this.#element) {
-      this.#element = createElement(this.getTemplate())
+      this.#element = createElement(this.template)
     }
     return this.#element
   }

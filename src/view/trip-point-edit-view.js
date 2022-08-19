@@ -121,13 +121,13 @@ export default class CreateEditFormView {
     this.offers = offers;
   }
 
-  getTemplate() {
+  get template() {
     return createEditForm(this.point, this.offers);
   }
 
-  getElement() {
+  get element() {
     if (!this.#element) {
-      this.#element = createElement(this.getTemplate());
+      this.#element = createElement(this.template);
     }
     return this.#element;
   }

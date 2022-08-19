@@ -23,13 +23,13 @@ const createFilter = () => (
 
 export default class CreateFilterView {
   #element = null
-  getTemplate() {
+  get template() {
     return createFilter()
   }
 
-  getElement() {
+  get element() {
     if (!this.#element) {
-      this.#element = createElement(this.getTemplate())
+      this.#element = createElement(this.template)
     }
     return this.#element
   }

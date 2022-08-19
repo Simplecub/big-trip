@@ -39,7 +39,7 @@ export default class BoardPresenter {
   };
   addPoint = (point) => {
     this.allOffersOfThisType = this.offersItem.find((offerList) => offerList.type === point.type)?.offers || [];
-    render(new CreatePointLiView(point,this.allOffersOfThisType ), this.#boardTripListComponent.getElement());
-    render(new CreateEditFormView(point,this.offersItem ), this.#boardTripListComponent.getElement());
+    render(new CreatePointLiView(point,this.allOffersOfThisType ), this.#boardTripListComponent.element);
+    render(new CreateEditFormView(point,this.offersItem ), this.#boardTripListComponent.element);
   }
 }

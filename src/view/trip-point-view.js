@@ -70,13 +70,13 @@ export default class CreatePointLiView {
     this.offers = offers;
   }
 
-  getTemplate() {
+  get template() {
     return createPointLi(this.point, this.offers);
   }
 
-  getElement() {
+  get element() {
     if (!this.#element) {
-      this.#element = createElement(this.getTemplate());
+      this.#element = createElement(this.template);
     }
     return this.#element;
   }
