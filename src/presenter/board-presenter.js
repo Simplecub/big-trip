@@ -5,6 +5,8 @@ import CreatePointLiView from '../view/trip-point-view.js';
 import CreateTripListView from '../view/trip-list-view.js';
 import CreateEditFormView from '../view/trip-point-edit-view.js';
 import CreatePointView from '../view/1new-point-view.js';
+import TripLisTEmptyView from '../view/trip-lise-empty-view.js'
+
 
 export default class BoardPresenter {
   #pointsModel = null;
@@ -12,6 +14,7 @@ export default class BoardPresenter {
   #boardPoints = null;
   #sortComponent = new CreateSortView();
   #boardTripListComponent = new CreateTripListView();
+  #boardEmpty = new TripLisTEmptyView()
 
 constructor(boardContainer, pointsModel, offerModel) {
   this.#boarContainer = boardContainer;
@@ -19,25 +22,30 @@ constructor(boardContainer, pointsModel, offerModel) {
   this.offersModel = offerModel;
 }
   init = () => {
+    console.log(this.#pointsModel)
+    if (this.#pointsModel.length === 0) {
+      render(this.#boardEmpty, this.#boarContainer)
+    }
+    else {
     this.#boardPoints = [...this.#pointsModel.points];
     //   this.offersItem = [...this.offersModel.getOffers()]
     console.log(this.offersItem);
     console.log(this.#boardPoints);
 
-    render(this.#sortComponent, this.#boarContainer);
-    render(this.#boardTripListComponent, this.#boarContainer);
-    //   render(new CreateEditFormView(this.boardPoints[0],this.offersItem ), this.boardTripListComponent.getElement())
+      render(this.#sortComponent, this.#boarContainer);
+      render(this.#boardTripListComponent, this.#boarContainer);
+      //   render(new CreateEditFormView(this.boardPoints[0],this.offersItem ), this.boardTripListComponent.getElement())
 
 //for (let i = 0; i < this.boardPoints.length; i++) {
-    // render(new CreatePointLiView(this.boardPoints[i],this.offersItem ), this.boardTripListComponent.getElement())
+      // render(new CreatePointLiView(this.boardPoints[i],this.offersItem ), this.boardTripListComponent.getElement())
 //}
 
-    this.offersModel.init().then(() => {
-      this.offersItem = [...this.offersModel.offersAll];
-      this.#boardPoints.forEach((point) => this.addPoint(point));
-    });
-  };
-
+      this.offersModel.init().then(() => {
+        this.offersItem = [...this.offersModel.offersAll];
+        this.#boardPoints.forEach((point) => this.addPoint(point));
+      });
+    }
+  }
 
   addPoint = (point) => {
     this.allOffersOfThisType = this.offersItem.find((offerList) => offerList.type === point.type)?.offers || [];
