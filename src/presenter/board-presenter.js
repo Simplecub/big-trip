@@ -5,7 +5,7 @@ import CreatePointLiView from '../view/trip-point-view.js';
 import CreateTripListView from '../view/trip-list-view.js';
 import CreateEditFormView from '../view/trip-point-edit-view.js';
 import CreatePointView from '../view/1new-point-view.js';
-import TripListEmptyView from '../view/trip-list-empty-view.js'
+import TripListEmptyView from '../view/trip-list-empty-view.js';
 
 
 export default class BoardPresenter {
@@ -14,25 +14,25 @@ export default class BoardPresenter {
   #boardPoints = null;
   #sortComponent = new CreateSortView();
   #boardTripListComponent = new CreateTripListView();
-  #boardEmpty = new TripListEmptyView()
+  #boardEmpty = new TripListEmptyView();
 
-constructor(boardContainer, pointsModel, offerModel) {
-  this.#boarContainer = boardContainer;
-  this.#pointsModel = pointsModel;
-  this.offersModel = offerModel;
-}
+  constructor(boardContainer, pointsModel, offerModel) {
+    this.#boarContainer = boardContainer;
+    this.#pointsModel = pointsModel;
+    this.offersModel = offerModel;
+  }
+
   init = () => {
     if (this.#pointsModel.points.length === 0) {
-      render(this.#boardEmpty, this.#boarContainer)
-    }
-    else {
-    this.#boardPoints = [...this.#pointsModel.points];
-    //   this.offersItem = [...this.offersModel.getOffers()]
-    console.log(this.offersItem);
-    console.log(this.#boardPoints);
+      render(this.#boardEmpty, this.#boarContainer);
+    } else {
+      this.#boardPoints = [...this.#pointsModel.points];
+      //   this.offersItem = [...this.offersModel.getOffers()]
+      console.log(this.offersItem);
+      console.log(this.#boardPoints);
 
-      render(this.#sortComponent, this.#boarContainer);
-      render(this.#boardTripListComponent, this.#boarContainer);
+      this.#renderSort();
+      this.#renderBoardTripListComponent();
       //   render(new CreateEditFormView(this.boardPoints[0],this.offersItem ), this.boardTripListComponent.getElement())
 
 //for (let i = 0; i < this.boardPoints.length; i++) {
@@ -44,7 +44,16 @@ constructor(boardContainer, pointsModel, offerModel) {
         this.#boardPoints.forEach((point) => this.addPoint(point));
       });
     }
-  }
+  };
+
+  #renderSort = () => {
+    render(this.#sortComponent, this.#boarContainer);
+  };
+
+  #renderBoardTripListComponent = () => {
+    render(this.#boardTripListComponent, this.#boarContainer);
+
+  };
 
   addPoint = (point) => {
     this.allOffersOfThisType = this.offersItem.find((offerList) => offerList.type === point.type)?.offers || [];
