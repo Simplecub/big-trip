@@ -33,11 +33,6 @@ export default class BoardPresenter {
 
       this.#renderSort();
       this.#renderBoardTripListComponent();
-      //   render(new CreateEditFormView(this.boardPoints[0],this.offersItem ), this.boardTripListComponent.getElement())
-
-//for (let i = 0; i < this.boardPoints.length; i++) {
-      // render(new CreatePointLiView(this.boardPoints[i],this.offersItem ), this.boardTripListComponent.getElement())
-//}
 
       this.offersModel.init().then(() => {
         this.offersItem = [...this.offersModel.offersAll];
