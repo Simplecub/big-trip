@@ -1,6 +1,6 @@
 import {createElement} from '../render.js';
 import {humanizeTaskDueDate, dateDiff} from '../util.js';
-
+import AbstractView from '../framework/view/abstract-view.js';
 
 const createPointLi = (point, pointTypeOffers) => {
   const {basePrice, type, isFavorite, destination, dateFrom, dateTo, offers} = point;
@@ -63,6 +63,22 @@ const createPointLi = (point, pointTypeOffers) => {
  `
   );
 };
+
+export default class CreatePointLiView extends AbstractView {
+  #point = null
+  #offers = null
+  constructor(point, offers) {
+    super();
+    this.#point = point;
+    this.#offers = offers;
+  }
+  get template() {
+    return createPointLi(this.#point, this.#offers);
+  }
+
+}
+
+/*
 export default class CreatePointLiView {
   #element = null
   constructor(point, offers) {
@@ -85,3 +101,5 @@ export default class CreatePointLiView {
     this.#element = null;
   }
 }
+
+ */
