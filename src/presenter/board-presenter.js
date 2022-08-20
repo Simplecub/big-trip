@@ -22,8 +22,7 @@ constructor(boardContainer, pointsModel, offerModel) {
   this.offersModel = offerModel;
 }
   init = () => {
-    console.log(this.#pointsModel)
-    if (this.#pointsModel.length === 0) {
+    if (this.#pointsModel.points.length === 0) {
       render(this.#boardEmpty, this.#boarContainer)
     }
     else {
