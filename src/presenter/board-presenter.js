@@ -5,7 +5,7 @@ import CreatePointLiView from '../view/trip-point-view.js';
 import CreateTripListView from '../view/trip-list-view.js';
 import CreateEditFormView from '../view/trip-point-edit-view.js';
 import CreatePointView from '../view/1new-point-view.js';
-import TripLisTEmptyView from '../view/trip-lise-empty-view.js'
+import TripListEmptyView from '../view/trip-list-empty-view.js'
 
 
 export default class BoardPresenter {
@@ -14,7 +14,7 @@ export default class BoardPresenter {
   #boardPoints = null;
   #sortComponent = new CreateSortView();
   #boardTripListComponent = new CreateTripListView();
-  #boardEmpty = new TripLisTEmptyView()
+  #boardEmpty = new TripListEmptyView()
 
 constructor(boardContainer, pointsModel, offerModel) {
   this.#boarContainer = boardContainer;
