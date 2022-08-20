@@ -1,8 +1,16 @@
 import {createElement} from "../render.js";
+import AbstractView from '../framework/view/abstract-view.js';
 
 const createNewTempBtn = () => '<button class="trip-main__event-add-btn btn btn--yellow"> kiki</button>'
 
 
+
+export default class NewButtonView extends AbstractView {
+  get template() {
+    return createNewTempBtn()
+  }
+}
+/*
 export default class NewButtonView {
   #element = null
   get template() {
@@ -20,3 +28,6 @@ export default class NewButtonView {
     this.#element = null
   }
 }
+
+
+ */

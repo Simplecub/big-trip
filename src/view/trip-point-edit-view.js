@@ -1,10 +1,23 @@
 import {createElement} from '../render.js';
-import {toUpperFirst} from '../util.js'
+import {toUpperFirst} from '../util.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
-let idOffers = 1
+let id = 1
+const BLANK_POINT = {
+  basePrice: '',
+  dateFrom: '',
+  dateTo: '',
+  destination: '',
+  id: id++,
+  isFavorite: '',
+  offers: '',
+  type: ''
+};
+
+let idOffers = 1;
 const showAllOffers = (allOffers, selectedOffers, type) => {
   return allOffers.offers.map((value) => {
-    idOffers++
+    idOffers++;
     const checkedOffers = (selectedOffers.find((v) => value.id === v)) ?
       'checked' : '';
     return (` <div class="event__offer-selector">
@@ -18,11 +31,11 @@ const showAllOffers = (allOffers, selectedOffers, type) => {
   }).join('');
 };
 
-let idType = 1
+let idType = 1;
 const showAllEventType = (allType, selectedType) => {
-idType++
-  return allType.map((value,index) => {
-    const checkedOffers = ( value.type === selectedType) ?
+  idType++;
+  return allType.map((value, index) => {
+    const checkedOffers = (value.type === selectedType) ?
       'checked' : '';
     return (`<div class="event__type-item">
     <input id="event-type-${value.type}-${idType}" class="event__type-input  visually-hidden" type="radio" name="event-type"
@@ -32,9 +45,9 @@ idType++
   }).join('');
 };
 
-let idEvent = 1
+let idEvent = 1;
 const createEditForm = (point, offersLi) => {
-  idEvent++
+  idEvent++;
   const {basePrice, type, isFavorite, destination, dateFrom, dateTo, offers} = point;
   const pointTypeOffer = offersLi.find((offer) => offer.type === point.type);
 //  console.log(offersLi);
@@ -113,6 +126,22 @@ const createEditForm = (point, offersLi) => {
 </li>`);
 };
 
+export default class CreateEditFormView extends AbstractView {
+  #point = null;
+  #offers = null;
+
+  constructor(point = BLANK_POINT, offers) {
+    super();
+    this.#point = point;
+    this.#offers = offers;
+  }
+
+  get template() {
+    return createEditForm(this.#point, this.#offers);
+  }
+}
+
+/*
 export default class CreateEditFormView {
   #element = null
   constructor(point, offers) {
@@ -135,3 +164,4 @@ export default class CreateEditFormView {
     this.#element = null;
   }
 }
+ */
