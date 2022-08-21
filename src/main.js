@@ -1,5 +1,6 @@
 import NewButtonView from "./view/new-button-view.js";
-import {render} from "./render.js";
+//import {render} from "./render.js";
+import {render} from './framework/render.js'
 import BoardPresenter from './presenter/board-presenter'
 import CreateFilterView from './view/filter-view.js';
 import CreateNewPointView from './view/1new-point-view.js';

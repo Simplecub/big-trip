@@ -2,7 +2,7 @@ import {createElement} from '../render.js';
 import {toUpperFirst} from '../util.js';
 import AbstractView from '../framework/view/abstract-view.js';
 
-let id = 1
+let id = 1;
 const BLANK_POINT = {
   basePrice: '',
   dateFrom: '',
@@ -139,6 +139,17 @@ export default class CreateEditFormView extends AbstractView {
   get template() {
     return createEditForm(this.#point, this.#offers);
   }
+
+  setClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.querySelector('form').addEventListener('submit', this.#clickHandler);
+  };
+
+  #clickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.click();
+  };
+
 }
 
 /*

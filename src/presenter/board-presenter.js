@@ -1,12 +1,12 @@
 import NewButtonView from '../view/new-button-view.js';
 import CreateSortView from '../view/sort-view.js';
-import {render} from '../render.js';
+//import {render} from '../render.js';
 import CreatePointLiView from '../view/trip-point-view.js';
 import CreateTripListView from '../view/trip-list-view.js';
 import CreateEditFormView from '../view/trip-point-edit-view.js';
 import CreatePointView from '../view/1new-point-view.js';
 import TripListEmptyView from '../view/trip-list-empty-view.js';
-
+import {render, replace, remove} from '../framework/render.js'
 
 export default class BoardPresenter {
   #pointsModel = null;
@@ -58,35 +58,26 @@ export default class BoardPresenter {
     const editPointComponent = new CreateEditFormView(point, this.offersItem);
 
     const replacePointToEdit = () => {
-      this.#boardTripListComponent.element.replaceChild(editPointComponent.element, pointComponent.element);
+      replace(editPointComponent, pointComponent);
     };
 
     const replaceEditToPoint = () => {
-      this.#boardTripListComponent.element.replaceChild(pointComponent.element, editPointComponent.element);
+      replace(pointComponent, editPointComponent);
     };
     const onEscKeyDown = (evt) => {
       if (evt.key === 'Escape' || evt.key === 'Esc') {
         evt.preventDefault();
         replaceEditToPoint();
-        document.removeEventListener('keydown', onEscKeyDown);
+   //     document.removeEventListener('keydown', onEscKeyDown);
       }
     };
-    pointComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
-      replacePointToEdit();
-      document.addEventListener('keydown', onEscKeyDown);
-    });
-    console.log(editPointComponent);
-    editPointComponent.element.querySelector('.event__rollup-btn').addEventListener('click', (evt) => {
-      evt.preventDefault();
-      replaceEditToPoint();
-    });
-    editPointComponent.element.querySelector('form').addEventListener('submit', (evt) => {
-      evt.preventDefault();
-      replaceEditToPoint();
-      document.removeEventListener('keydown', onEscKeyDown);
 
-    });
+    document.addEventListener('keydown', onEscKeyDown);
+   // document.removeEventListener('keydown', onEscKeyDown);
 
     render(pointComponent, this.#boardTripListComponent.element);
+    pointComponent.setClickHandle(replacePointToEdit);
+    editPointComponent.setClickHandler(replaceEditToPoint);
+
   };
 }

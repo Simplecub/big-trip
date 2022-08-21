@@ -76,6 +76,15 @@ export default class CreatePointLiView extends AbstractView {
     return createPointLi(this.#point, this.#offers);
   }
 
+  setClickHandle = (callback) => {
+    this._callback.click = callback
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#clickHandler)
+  }
+  #clickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.click()
+    console.log('ffer')
+  }
 }
 
 /*
