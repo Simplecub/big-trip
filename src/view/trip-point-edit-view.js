@@ -14,15 +14,15 @@ const BLANK_POINT = {
   type: ''
 };
 
-let idOffers = 1;
+
 const showAllOffers = (allOffers, selectedOffers, type) => {
   return allOffers.offers.map((value) => {
-    idOffers++;
     const checkedOffers = (selectedOffers.find((v) => value.id === v)) ?
       'checked' : '';
+    const offerId = `event-offer-${type}-${value.id}-${Math.random()}`
     return (` <div class="event__offer-selector">
-                      <input class="event__offer-checkbox  visually-hidden" id="event-offer-${type}-${idOffers}" type="checkbox" name="event-offer-${type}" ${checkedOffers}>
-                        <label class="event__offer-label" for="event-offer-${type}-${idOffers}">
+                      <input class="event__offer-checkbox  visually-hidden" id="${offerId}" type="checkbox" name="event-offer-${type}" ${checkedOffers}>
+                        <label class="event__offer-label" for="${offerId}">
                           <span class="event__offer-title">${value.title}</span>
                           &plus;&euro;&nbsp;
                           <span class="event__offer-price">${value.price}</span>
@@ -140,16 +140,27 @@ export default class CreateEditFormView extends AbstractView {
     return createEditForm(this.#point, this.#offers);
   }
 
-  setClickHandler = (callback) => {
-    this._callback.click = callback;
-    this.element.querySelector('form').addEventListener('submit', this.#clickHandler);
+  setSubmitHandler = (callback) => {
+    this._callback.submit = callback;
+    this.element.querySelector('form').addEventListener('submit', this.#submitHandler);
+
   };
 
-  #clickHandler = (evt) => {
+  #submitHandler = (evt) => {
     evt.preventDefault();
-    this._callback.click();
+    this._callback.submit();
   };
 
+  setCloseHandler = (callback) => {
+    this._callback.close= callback;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#closeHandler);
+
+  };
+
+  #closeHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.close();
+  };
 }
 
 /*

@@ -10,12 +10,16 @@ import CreateEditFormView from './view/trip-point-edit-view.js';
 import CreatePointLiView from './view/trip-point-view.js';
 import PointsModel from './model/point-model.js';
 import OfferModel from './model/offer-model.js'
+import {generateFilter} from './mock/filter.js';
+
 const siteHeaderEl = document.querySelector('.trip-controls__filters')
 const sitePageBodyEl = document.querySelector('.trip-events')
 
+const filters = generateFilter()
+render(new CreateFilterView(filters), siteHeaderEl)
 const pointsModel = new PointsModel()
 const offerModel = new OfferModel()
-render(new CreateFilterView(), siteHeaderEl)
+
 
 const boardPresenter = new BoardPresenter(sitePageBodyEl, pointsModel, offerModel)
 

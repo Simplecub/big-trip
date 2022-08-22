@@ -47,7 +47,6 @@ export default class BoardPresenter {
 
   #renderBoardTripListComponent = () => {
     render(this.#boardTripListComponent, this.#boarContainer);
-
   };
 
   addPoint = (point) => {
@@ -59,10 +58,12 @@ export default class BoardPresenter {
 
     const replacePointToEdit = () => {
       replace(editPointComponent, pointComponent);
+      document.addEventListener('keydown', onEscKeyDown);
     };
 
     const replaceEditToPoint = () => {
       replace(pointComponent, editPointComponent);
+      document.removeEventListener('keydown', onEscKeyDown);
     };
     const onEscKeyDown = (evt) => {
       if (evt.key === 'Escape' || evt.key === 'Esc') {
@@ -72,12 +73,13 @@ export default class BoardPresenter {
       }
     };
 
-    document.addEventListener('keydown', onEscKeyDown);
+  //  document.addEventListener('keydown', onEscKeyDown);
    // document.removeEventListener('keydown', onEscKeyDown);
 
     render(pointComponent, this.#boardTripListComponent.element);
     pointComponent.setClickHandle(replacePointToEdit);
-    editPointComponent.setClickHandler(replaceEditToPoint);
+    editPointComponent.setSubmitHandler(replaceEditToPoint);
+    editPointComponent.setCloseHandler(replaceEditToPoint);
 
   };
 }
