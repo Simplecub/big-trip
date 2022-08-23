@@ -35,11 +35,7 @@ export default class BoardPresenter {
       this.#renderBoardTripListComponent();
       this.offersModel.init().then(() => {
         this.offersItem = [...this.offersModel.offersAll];
-        // this.#boardPoints.forEach((point) => this.addPoint(point));
-        this.#boardPoints.forEach((point) => {
-          const pointPresenter = new PointPresenter(this.#boardTripListComponent.element);
-          pointPresenter.init(point, this.offersItem);
-        });
+         this.#boardPoints.forEach((point) => this.addPoint(point, this.offersItem));
       })
     }
   }
@@ -55,4 +51,8 @@ export default class BoardPresenter {
     render(this.#boardTripListComponent, this.#boarContainer);
   };
 
+  addPoint = (point, offersItem) => {
+    const pointPresenter = new PointPresenter(this.#boardTripListComponent.element);
+    pointPresenter.init(point, offersItem);
+  };
 }
