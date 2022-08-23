@@ -23,17 +23,14 @@ export default class BoardPresenter {
   }
 
   init = () => {
+    this.#boardPoints = [...this.#pointsModel.points];
+
     if (this.#pointsModel.points.length === 0) {
-      render(this.#boardEmpty, this.#boarContainer);
+      this.#renderBoardEmpty();
     } else {
-      this.#boardPoints = [...this.#pointsModel.points];
-      //   this.offersItem = [...this.offersModel.getOffers()]
-      console.log(this.offersItem);
-      console.log(this.#boardPoints);
 
       this.#renderSort();
       this.#renderBoardTripListComponent();
-
       this.offersModel.init().then(() => {
         this.offersItem = [...this.offersModel.offersAll];
         this.#boardPoints.forEach((point) => this.addPoint(point));
@@ -41,6 +38,9 @@ export default class BoardPresenter {
     }
   };
 
+  #renderBoardEmpty = () => {
+    render(this.#boardEmpty, this.#boarContainer)
+  }
   #renderSort = () => {
     render(this.#sortComponent, this.#boarContainer);
   };
@@ -51,16 +51,13 @@ export default class BoardPresenter {
 
   addPoint = (point) => {
     this.allOffersOfThisType = this.offersItem.find((offerList) => offerList.type === point.type)?.offers || [];
-    // render(new CreatePointLiView(point,this.allOffersOfThisType ), this.#boardTripListComponent.element);
-    // render(new CreateEditFormView(point,this.offersItem ), this.#boardTripListComponent.element);
-    const pointComponent = new CreatePointLiView(point, this.allOffersOfThisType);
+     const pointComponent = new CreatePointLiView(point, this.allOffersOfThisType);
     const editPointComponent = new CreateEditFormView(point, this.offersItem);
 
     const replacePointToEdit = () => {
       replace(editPointComponent, pointComponent);
       document.addEventListener('keydown', onEscKeyDown);
     };
-
     const replaceEditToPoint = () => {
       replace(pointComponent, editPointComponent);
       document.removeEventListener('keydown', onEscKeyDown);
@@ -69,13 +66,8 @@ export default class BoardPresenter {
       if (evt.key === 'Escape' || evt.key === 'Esc') {
         evt.preventDefault();
         replaceEditToPoint();
-   //     document.removeEventListener('keydown', onEscKeyDown);
       }
     };
-
-  //  document.addEventListener('keydown', onEscKeyDown);
-   // document.removeEventListener('keydown', onEscKeyDown);
-
     render(pointComponent, this.#boardTripListComponent.element);
     pointComponent.setClickHandle(replacePointToEdit);
     editPointComponent.setSubmitHandler(replaceEditToPoint);
