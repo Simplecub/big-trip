@@ -17,6 +17,7 @@ export default class BoardPresenter {
   #sortComponent = new CreateSortView();
   #boardTripListComponent = new CreateTripListView();
   #boardEmpty = new TripListEmptyView();
+#pointPresenter = new Map();
 
   constructor(boardContainer, pointsModel, offerModel) {
     this.#boarContainer = boardContainer;
@@ -54,5 +55,7 @@ export default class BoardPresenter {
   addPoint = (point, offersItem) => {
     const pointPresenter = new PointPresenter(this.#boardTripListComponent.element);
     pointPresenter.init(point, offersItem);
+    this.#pointPresenter.set(point.id, pointPresenter);
+    console.log(this.#pointPresenter)
   };
 }

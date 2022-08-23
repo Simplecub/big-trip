@@ -3,6 +3,7 @@ import {getDestination} from './destination.js';
 import {getRandomPositiveInteger, getShuffleArray} from '../util.js';
 import {offersByType} from './offer.js';
 import dayjs from 'dayjs';
+import {nanoid} from 'nanoid'
 
 
 const generateData = (from, to) => {
@@ -20,7 +21,7 @@ export const generatePoint = () => {
     dateFrom: generateData(0, 5),
     dateTo: generateData(5, 10),
     destination: getDestination(),
-    id: id++,
+    id: nanoid(),
     isFavorite: getRandomPositiveInteger(),
     offers:  Array.from({length:getRandomPositiveInteger(1, 4)}, () => i++),
    // offers:  offersByType(type)['offers'],
