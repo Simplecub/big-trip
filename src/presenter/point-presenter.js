@@ -2,6 +2,10 @@ import CreatePointLiView from '../view/trip-point-view.js';
 import CreateEditFormView from '../view/trip-point-edit-view.js';
 import {remove, render, replace} from '../framework/render.js';
 
+const Mode = {
+  DEFAULT: 'DEFAULT',
+  EDITING: 'EDITING'
+};
 
 export default class PointPresenter {
   #boardTripListComponent = null;
@@ -11,11 +15,13 @@ export default class PointPresenter {
   #allOffersOfThisType = null;
   #changeData = null;
   #offers = null;
+  #changeMode = null;
+  #mode = Mode.DEFAULT;
 
-  constructor(boardTripListComponent, changeData) {
+  constructor(boardTripListComponent, changeData, changeMode) {
     this.#boardTripListComponent = boardTripListComponent;
     this.#changeData = changeData;
-
+    this.#changeMode = changeMode;
   }
 
   init = (point, offersItem) => {
@@ -38,10 +44,12 @@ export default class PointPresenter {
       render(this.#pointComponent, this.#boardTripListComponent);
       return;
     }
-    if (this.#boardTripListComponent.contains(prevPointComponent.element)) {
+    //   if (this.#boardTripListComponent.contains(prevPointComponent.element)) {
+    if (this.#mode === Mode.DEFAULT) {
       replace(this.#pointComponent, prevPointComponent);
     }
-    if (this.#boardTripListComponent.contains(predEditPointComponent.element)) {
+    //   if (this.#boardTripListComponent.contains(predEditPointComponent.element)) {
+    if (this.#mode === Mode.EDITING) {
       replace(this.#pointComponent, predEditPointComponent);
     }
     remove(prevPointComponent);
@@ -53,13 +61,22 @@ export default class PointPresenter {
     remove(this.#editPointComponent);
   };
 
+  resetView = () => {
+    if (this.#mode === Mode.DEFAULT) {
+      this.#replaceEditToPoint();
+    }
+  };
+
   #replacePointToEdit = () => {
     replace(this.#editPointComponent, this.#pointComponent);
     document.addEventListener('keydown', this.#onEscKeyDown);
+    this.#changeMode();
+    this.#mode = Mode.EDITING;
   };
   #replaceEditToPoint = () => {
     replace(this.#pointComponent, this.#editPointComponent);
     document.removeEventListener('keydown', this.#onEscKeyDown);
+    this.#mode = Mode.DEFAULT;
   };
   #onEscKeyDown = (evt) => {
     if (evt.key === 'Escape' || evt.key === 'Esc') {

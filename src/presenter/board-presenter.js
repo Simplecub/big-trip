@@ -54,7 +54,7 @@ export default class BoardPresenter {
   };
 
   addPoint = (point, offersItem) => {
-    const pointPresenter = new PointPresenter(this.#boardTripListComponent.element, this.#handlePointChange );
+    const pointPresenter = new PointPresenter(this.#boardTripListComponent.element, this.#handlePointChange, this.#handleModeChange );
     pointPresenter.init(point, offersItem);
     this.#pointPresenter.set(point.id, pointPresenter);
     console.log(this.#pointPresenter)
@@ -70,6 +70,10 @@ export default class BoardPresenter {
     console.log(updatedPoint);
     this.#boardTripListComponent = updateItem(this.#boardPoints, updatedPoint);
     this.#pointPresenter.get(updatedPoint.id).init(updatedPoint, offersItem);
+  }
+
+  #handleModeChange = () => {
+    this.#pointPresenter.forEach((presenter) => presenter.resetView())
   }
 }
 
