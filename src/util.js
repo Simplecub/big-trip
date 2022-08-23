@@ -1,25 +1,32 @@
 import dayjs from 'dayjs';
-const duration = require('dayjs/plugin/duration')
-dayjs.extend(duration)
 
-const getRandomPositiveInteger = (a= 0, b = 1) =>{
+const duration = require('dayjs/plugin/duration');
+dayjs.extend(duration);
+
+const getRandomPositiveInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
   const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
-}
+};
 
-const humanizeTaskDueDate  = (dueDate, format) => dayjs(dueDate).format(format);
+const humanizeTaskDueDate = (dueDate, format) => dayjs(dueDate).format(format);
 const dateDiff = (date1, date2) => {
-  let res = ''
+  let res = '';
   let dayDiff = dayjs.duration(dayjs(date2).diff(dayjs(date1))).format(`DD`);
   let hoursDiff = dayjs.duration(dayjs(date2).diff(dayjs(date1))).format(`HH`);
   let minDiff = dayjs.duration(dayjs(date2).diff(dayjs(date1))).format(`mm`);
-  if (dayDiff !== '00') {res += dayDiff + 'D'}
-  if (hoursDiff !== '00') {res += hoursDiff + 'H'}
-  if (minDiff !== '00') {res += minDiff + 'M'}
-  return res
-}
+  if (dayDiff !== '00') {
+    res += dayDiff + 'D';
+  }
+  if (hoursDiff !== '00') {
+    res += hoursDiff + 'H';
+  }
+  if (minDiff !== '00') {
+    res += minDiff + 'M';
+  }
+  return res;
+};
 //перемешивает массив, возвращет нужное число элементов массива
 const getShuffleArray = (arr, length) => {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -28,11 +35,26 @@ const getShuffleArray = (arr, length) => {
   }
   return arr.slice(0, length);
 };
-
+//делает первый символ прописным
 const toUpperFirst = (str) => {
-  if (!str) return str;
-  return str[0].toUpperCase() + str.slice(1)
+  if (!str) {
+    return str;
+  }
+  return str[0].toUpperCase() + str.slice(1);
 
-}
+};
+// находит  и обновляет элемент
+const updateItem = (items, update) => {
+  console.log(update)
+  const index = items.findIndex((item) => item.id === update.id);
+  if (index === -1) {
+    return items;
+  }
+  return [
+    ...items.slice(0, index),
+    update,
+    ...items.slice(index + 1),
+  ];
+};
 
-export {getRandomPositiveInteger, humanizeTaskDueDate, dateDiff, getShuffleArray, toUpperFirst}
+export {getRandomPositiveInteger, humanizeTaskDueDate, dateDiff, getShuffleArray, toUpperFirst, updateItem}

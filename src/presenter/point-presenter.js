@@ -9,23 +9,29 @@ export default class PointPresenter {
   #pointComponent = null;
   #editPointComponent = null;
   #allOffersOfThisType = null;
+  #changeData = null;
+  #offers = null;
 
-  constructor(boardTripListComponent) {
+  constructor(boardTripListComponent, changeData) {
     this.#boardTripListComponent = boardTripListComponent;
+    this.#changeData = changeData;
+
   }
 
   init = (point, offersItem) => {
     this.#point = point;
+    this.#offers = offersItem;
     const prevPointComponent = this.#pointComponent;
     const predEditPointComponent = this.#editPointComponent;
-
+    console.log(offersItem);
     this.#allOffersOfThisType = offersItem.find((offerList) => offerList.type === point.type)?.offers || [];
     this.#pointComponent = new CreatePointLiView(point, this.#allOffersOfThisType);
     this.#editPointComponent = new CreateEditFormView(point, offersItem);
 
     this.#pointComponent.setClickHandle(this.#replacePointToEdit);
-    this.#editPointComponent.setSubmitHandler(this.#replaceEditToPoint);
+    this.#editPointComponent.setSubmitHandler(this.#handleFormSubmit);
     this.#editPointComponent.setCloseHandler(this.#replaceEditToPoint);
+    this.#pointComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
 
 //рендер и проверка на наличие элемента в доме
     if (prevPointComponent === null || predEditPointComponent === null) {
@@ -42,10 +48,10 @@ export default class PointPresenter {
     remove(predEditPointComponent);
   };
 
-  destroy = ()   => {
-    remove(this.#pointComponent)
-    remove(this.#editPointComponent)
-  }
+  destroy = () => {
+    remove(this.#pointComponent);
+    remove(this.#editPointComponent);
+  };
 
   #replacePointToEdit = () => {
     replace(this.#editPointComponent, this.#pointComponent);
@@ -60,6 +66,17 @@ export default class PointPresenter {
       evt.preventDefault();
       this.#replaceEditToPoint();
     }
+  };
+
+  #handleFavoriteClick = () => {
+    this.#changeData({...this.#point, isFavorite: !this.#point.isFavorite}, this.#offers);
+  };
+  #handleFormSubmit = (point) => {
+    console.log(this.#offers);
+    console.log(this.#changeData);
+    this.#changeData(point, this.#offers);
+    this.#replaceEditToPoint();
+    console.log(this.#offers);
   };
 
 }

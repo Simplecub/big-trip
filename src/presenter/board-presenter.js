@@ -9,6 +9,7 @@ import TripListEmptyView from '../view/trip-list-empty-view.js';
 import {render, replace, remove} from '../framework/render.js';
 import PointsModel from '../model/point-model.js';
 import PointPresenter from './point-presenter.js';
+import {updateItem} from '../util.js';
 
 export default class BoardPresenter {
   #pointsModel = null;
@@ -53,9 +54,22 @@ export default class BoardPresenter {
   };
 
   addPoint = (point, offersItem) => {
-    const pointPresenter = new PointPresenter(this.#boardTripListComponent.element);
+    const pointPresenter = new PointPresenter(this.#boardTripListComponent.element, this.#handlePointChange );
     pointPresenter.init(point, offersItem);
     this.#pointPresenter.set(point.id, pointPresenter);
     console.log(this.#pointPresenter)
   };
+
+  #clearPointList = () => {
+    this.#pointPresenter.forEach((presenter) => presenter.destroy());
+    this.#pointPresenter.clear();
+  }
+
+  #handlePointChange = (updatedPoint, offersItem) => {
+    console.log( this.#boardTripListComponent)
+    console.log(updatedPoint);
+    this.#boardTripListComponent = updateItem(this.#boardPoints, updatedPoint);
+    this.#pointPresenter.get(updatedPoint.id).init(updatedPoint, offersItem);
+  }
 }
+

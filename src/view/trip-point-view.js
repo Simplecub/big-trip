@@ -85,6 +85,16 @@ export default class CreatePointLiView extends AbstractView {
     this._callback.click()
     console.log('ffer')
   }
+  setFavoriteClickHandler = (callback) => {
+    this._callback.favoriteClick = callback
+    this.element.querySelector('.event__favorite-btn').addEventListener('click', this.#favoriteHandler)
+  }
+  #favoriteHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.favoriteClick()
+    console.log('ffer2')
+  }
+
 }
 
 /*
