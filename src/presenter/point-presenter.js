@@ -4,7 +4,7 @@ import {remove, render, replace} from '../framework/render.js';
 
 const Mode = {
   DEFAULT: 'DEFAULT',
-  EDITING: 'EDITING'
+  EDITING: 'EDITING',
 };
 
 export default class PointPresenter {
@@ -29,15 +29,16 @@ export default class PointPresenter {
     this.#offers = offersItem;
     const prevPointComponent = this.#pointComponent;
     const predEditPointComponent = this.#editPointComponent;
-    console.log(offersItem);
+    console.log(prevPointComponent);
     this.#allOffersOfThisType = offersItem.find((offerList) => offerList.type === point.type)?.offers || [];
     this.#pointComponent = new CreatePointLiView(point, this.#allOffersOfThisType);
     this.#editPointComponent = new CreateEditFormView(point, offersItem);
-
+    console.log(point);
     this.#pointComponent.setClickHandle(this.#replacePointToEdit);
+    this.#pointComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
     this.#editPointComponent.setSubmitHandler(this.#handleFormSubmit);
     this.#editPointComponent.setCloseHandler(this.#replaceEditToPoint);
-    this.#pointComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
+
 
 //рендер и проверка на наличие элемента в доме
     if (prevPointComponent === null || predEditPointComponent === null) {
@@ -50,7 +51,7 @@ export default class PointPresenter {
     }
     //   if (this.#boardTripListComponent.contains(predEditPointComponent.element)) {
     if (this.#mode === Mode.EDITING) {
-      replace(this.#pointComponent, predEditPointComponent);
+      replace(this.#editPointComponent, predEditPointComponent);
     }
     remove(prevPointComponent);
     remove(predEditPointComponent);
@@ -62,7 +63,7 @@ export default class PointPresenter {
   };
 
   resetView = () => {
-    if (this.#mode === Mode.DEFAULT) {
+    if (this.#mode !== Mode.DEFAULT) {
       this.#replaceEditToPoint();
     }
   };
@@ -85,15 +86,17 @@ export default class PointPresenter {
     }
   };
 
-  #handleFavoriteClick = () => {
-    this.#changeData({...this.#point, isFavorite: !this.#point.isFavorite}, this.#offers);
+  #handleFavoriteClick = (offersItem) => {
+    this.#changeData({...this.#point, isFavorite: !this.#point.isFavorite}, offersItem);
+   // this.#changeMode();
   };
-  #handleFormSubmit = (point) => {
-    console.log(this.#offers);
+  #handleFormSubmit = (point, offersItem) => {
+    console.log(point);
     console.log(this.#changeData);
-    this.#changeData(point, this.#offers);
+    this.#changeData(this.#point, offersItem);
     this.#replaceEditToPoint();
-    console.log(this.#offers);
+    console.log(offersItem);
+
   };
 
 }
