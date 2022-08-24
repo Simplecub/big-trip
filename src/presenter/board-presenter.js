@@ -47,6 +47,7 @@ export default class BoardPresenter {
   };
   #renderSort = () => {
     render(this.#sortComponent, this.#boarContainer);
+    this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange)
   };
 
   #renderBoardTripListComponent = () => {
@@ -74,6 +75,13 @@ export default class BoardPresenter {
 
   #handleModeChange = () => {
     this.#pointPresenter.forEach((presenter) => presenter.resetView())
+  }
+
+  #handleSortTypeChange = (sortType) => {
+//
+    //
+    //
+
   }
 }
 
