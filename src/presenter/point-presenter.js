@@ -86,16 +86,13 @@ export default class PointPresenter {
     }
   };
 
-  #handleFavoriteClick = (offersItem) => {
-    this.#changeData({...this.#point, isFavorite: !this.#point.isFavorite}, offersItem);
-   // this.#changeMode();
+  #handleFavoriteClick = () => {
+    this.#changeData({...this.#point, isFavorite: !this.#point.isFavorite}, this.#offers);
   };
-  #handleFormSubmit = (point, offersItem) => {
-    console.log(point);
-    console.log(this.#changeData);
-    this.#changeData(this.#point, offersItem);
+  #handleFormSubmit = () => {
+    this.#changeData(this.#point, this.#offers);
     this.#replaceEditToPoint();
-    console.log(offersItem);
+
 
   };
 
