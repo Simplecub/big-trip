@@ -56,5 +56,30 @@ const updateItem = (items, update) => {
     ...items.slice(index + 1),
   ];
 };
+//фенкция помещает точки без даты в конец списка
+//возвращает нужный вес для колбэка
+const getWeightForNullDate = (dateA, dateB) => {
+  if (dateA === null && dateB === null) {
+    return 0;
+  }
+  if (dateA === null){
+    return 1;
+  }
+  if (dateB === null) {
+    return  -1
+  }
+  return null
+}
 
-export {getRandomPositiveInteger, humanizeTaskDueDate, dateDiff, getShuffleArray, toUpperFirst, updateItem}
+const sortPointTimeDown = (pointA, pointB) => {
+  const weight = getWeightForNullDate(pointA.dateFrom, pointB.dateFrom);
+  console.log(weight);
+  return weight ?? dayjs(pointB.dateFrom).diff(pointA.dateFrom)
+}
+
+const sortPointPriceDown = (pointA, pointB) => {
+  const weight =  getWeightForNullDate(pointA.basePrice, pointB.basePrice)
+  console.log(weight)
+  return weight ?? pointB.basePrice - pointA.basePrice
+}
+export {getRandomPositiveInteger, humanizeTaskDueDate, dateDiff, getShuffleArray, toUpperFirst, updateItem, sortPointTimeDown, sortPointPriceDown}

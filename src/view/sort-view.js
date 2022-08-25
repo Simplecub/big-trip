@@ -15,7 +15,7 @@ const createSort =() => (
             </div>
 
             <div class="trip-sort__item  trip-sort__item--${SortType.TIME}">
-              <input id="sort-time" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-${SortType.TIME}" data-sort-type="${SortType.TIME}">
+              <input id="sort-time" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-${SortType.TIME}" data-sort-type="${SortType.TIME}" >
               <label class="trip-sort__btn" for="sort-time">Time</label>
             </div>
 
