@@ -100,7 +100,7 @@ const createEditForm = (point, offersLi) => {
                       <span class="visually-hidden">Price</span>
                       &euro;
                     </label>
-                    <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${basePrice}">
+                    <input class="event__input  event__input--price" id="event-price-1" type="number" name="event-price" value="${basePrice}">
                   </div>
 
                   <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
@@ -136,7 +136,7 @@ export default class CreateEditFormView extends AbstractStatefulView {
     // this.#point = point;
     this.#offers = offers;
     this._state = CreateEditFormView.parsePointToState(point);
-    this.element.querySelector('.event__type-group').addEventListener('change', this.#eventTypeInputHandler)
+    this.#setInnerHandlers()
 
   }
 
@@ -179,7 +179,23 @@ export default class CreateEditFormView extends AbstractStatefulView {
     // удалить поля
     return point;
   };
+//внутренние обработчики
+  #setInnerHandlers = () => {
+    this.element.querySelector('.event__type-group').addEventListener('change', this.#eventTypeInputHandler)
+ this.element.querySelector('.event__input--price').addEventListener('input', this.#priceInputHandler)
+  }
+_restoreHandlers = () => {
+  this.#setInnerHandlers();
+ this.setSubmitHandler(this._callback.submit);
+ //this.setCloseHandler(this._callback.close)
+}
+
+#priceInputHandler = (evt) => {
+    evt.preventDefault();
+    this._setState({basePrice: `${evt.target.value}`})
+}
 };
+
 
 /*
 export default class CreateEditFormView {
