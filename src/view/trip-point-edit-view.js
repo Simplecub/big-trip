@@ -1,6 +1,7 @@
 import {createElement} from '../render.js';
 import {toUpperFirst} from '../util.js';
 import AbstractView from '../framework/view/abstract-view.js';
+import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 
 let id = 1;
 const BLANK_POINT = {
@@ -19,7 +20,7 @@ const showAllOffers = (allOffers, selectedOffers, type) => {
   return allOffers.offers.map((value) => {
     const checkedOffers = (selectedOffers.find((v) => value.id === v)) ?
       'checked' : '';
-    const offerId = `event-offer-${type}-${value.id}-${Math.random()}`
+    const offerId = `event-offer-${type}-${value.id}-${Math.random()}`;
     return (` <div class="event__offer-selector">
                       <input class="event__offer-checkbox  visually-hidden" id="${offerId}" type="checkbox" name="event-offer-${type}" ${checkedOffers}>
                         <label class="event__offer-label" for="${offerId}">
@@ -126,18 +127,20 @@ const createEditForm = (point, offersLi) => {
 </li>`);
 };
 
-export default class CreateEditFormView extends AbstractView {
+export default class CreateEditFormView extends AbstractStatefulView {
   #point = null;
   #offers = null;
 
   constructor(point = BLANK_POINT, offers) {
     super();
-    this.#point = point;
+    // this.#point = point;
     this.#offers = offers;
+    this._state = CreateEditFormView.parsePointToState(point);
+
   }
 
   get template() {
-    return createEditForm(this.#point, this.#offers);
+    return createEditForm(this._state, this.#offers);
   }
 
   setSubmitHandler = (callback) => {
@@ -148,11 +151,11 @@ export default class CreateEditFormView extends AbstractView {
 
   #submitHandler = (evt) => {
     evt.preventDefault();
-    this._callback.submit();
+    this._callback.submit(CreateEditFormView.parseStateToPoint(this._state));
   };
 
   setCloseHandler = (callback) => {
-    this._callback.close= callback;
+    this._callback.close = callback;
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#closeHandler);
 
   };
@@ -161,8 +164,16 @@ export default class CreateEditFormView extends AbstractView {
     evt.preventDefault();
     this._callback.close();
   };
-}
 
+
+//добавить поля
+  static parsePointToState = (point) => ({...point});
+  static  parseStateToPoint = (state) => {
+    const point = {...state};
+    // удалить поля
+    return point;
+  };
+};
 /*
 export default class CreateEditFormView {
   #element = null

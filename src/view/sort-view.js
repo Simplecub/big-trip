@@ -1,8 +1,8 @@
-import {createElement} from "../render.js";
+import {createElement} from '../render.js';
 import AbstractView from '../framework/view/abstract-view.js';
 import {SortType} from '../const.js';
 
-const createSort =() => (
+const createSort = () => (
   ` <form class="trip-events__trip-sort  trip-sort" action="#" method="get">
             <div class="trip-sort__item  trip-sort__item--${SortType.DAY}" >
               <input id="sort-day" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-${SortType.DAY}" data-sort-type="${SortType.DAY}" checked>
@@ -29,29 +29,35 @@ const createSort =() => (
               <label class="trip-sort__btn" for="sort-offer">Offers</label>
             </div>
           </form>`
-)
+);
 
 export default class CreateSortView extends AbstractView {
-  get template(){
-    return createSort()
+  get template() {
+    return createSort();
   }
 
   setSortTypeChangeHandler = (callback) => {
     this._callback.sortTypeChange = callback;
-    this.element.addEventListener('click', this.#sortTypeChangeHandler)
-  }
+    this.element.addEventListener('click', this.#sortTypeChangeHandler);
+  };
   #sortTypeChangeHandler = (evt) => {
     if (evt.target.tagName !== 'INPUT') {
       return;
     }
     evt.preventDefault();
-    this._callback.sortTypeChange(evt.target.dataset.sortType)
-    console.log(evt.target.dataset.sortType)
+    this._callback.sortTypeChange(evt.target.dataset.sortType);
+    console.log(evt.target.dataset.sortType);
+    /*
+    this.element.querySelectorAll('input').forEach((item) => {
+      item.removeAttribute('checked');
+      if (evt.target.dataset.sortType === item.getAttribute('data-sort-type')) {
+        item.setAttribute('checked', 'checked')
+      }
+    })
+     */
   }
 
-
-
-}
+  };
 /*
 export default class CreateSortView {
   #element = null
