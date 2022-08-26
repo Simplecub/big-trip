@@ -136,6 +136,7 @@ export default class CreateEditFormView extends AbstractStatefulView {
     // this.#point = point;
     this.#offers = offers;
     this._state = CreateEditFormView.parsePointToState(point);
+    this.element.querySelector('.event__type-group').addEventListener('change', this.#eventTypeInputHandler)
 
   }
 
@@ -165,6 +166,11 @@ export default class CreateEditFormView extends AbstractStatefulView {
     this._callback.close();
   };
 
+  #eventTypeInputHandler = (evt) => {
+    evt.preventDefault();
+    this.updateElement({type: `${evt.target.value}`})
+
+  }
 
 //добавить поля
   static parsePointToState = (point) => ({...point});
@@ -174,6 +180,7 @@ export default class CreateEditFormView extends AbstractStatefulView {
     return point;
   };
 };
+
 /*
 export default class CreateEditFormView {
   #element = null
