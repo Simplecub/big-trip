@@ -46,13 +46,16 @@ const showAllEventType = (allType, selectedType) => {
   }).join('');
 };
 
+const getAllEventDestinationsTemplate = (destinationsLi) => destinationsLi.map((value) => (`<option value="${value.name}"></option>`)).join('');
+
+
 let idEvent = 1;
-const createEditForm = (point, offersLi) => {
+const createEditForm = (point, offersLi, destinationsLi) => {
   idEvent++;
   const {basePrice, type, isFavorite, destination, dateFrom, dateTo, offers} = point;
   const pointTypeOffer = offersLi.find((offer) => offer.type === point.type);
 //  console.log(offersLi);
-  //console.log(point);
+  console.log(destinationsLi);
   // console.log(pointTypeOffer);
 
   return (`<li class="trip-events__item">
@@ -84,6 +87,7 @@ const createEditForm = (point, offersLi) => {
                       <option value="Amsterdam"></option>
                       <option value="Geneva"></option>
                       <option value="Chamonix"></option>
+                      ${getAllEventDestinationsTemplate(destinationsLi)}
                     </datalist>
                   </div>
 
@@ -130,18 +134,20 @@ const createEditForm = (point, offersLi) => {
 export default class CreateEditFormView extends AbstractStatefulView {
   #point = null;
   #offers = null;
+  #destinations = null;
 
-  constructor(point = BLANK_POINT, offers) {
+  constructor(point = BLANK_POINT, offers, destinations) {
     super();
     // this.#point = point;
     this.#offers = offers;
+    this.#destinations = destinations;
     this._state = CreateEditFormView.parsePointToState(point);
-    this.#setInnerHandlers()
+    this.#setInnerHandlers();
 
   }
 
   get template() {
-    return createEditForm(this._state, this.#offers);
+    return createEditForm(this._state, this.#offers, this.#destinations);
   }
 
   setSubmitHandler = (callback) => {
@@ -168,9 +174,9 @@ export default class CreateEditFormView extends AbstractStatefulView {
 
   #eventTypeInputHandler = (evt) => {
     evt.preventDefault();
-    this.updateElement({type: `${evt.target.value}`})
+    this.updateElement({type: `${evt.target.value}`});
 
-  }
+  };
 
 //добавить поля
   static parsePointToState = (point) => ({...point});
@@ -181,19 +187,19 @@ export default class CreateEditFormView extends AbstractStatefulView {
   };
 //внутренние обработчики
   #setInnerHandlers = () => {
-    this.element.querySelector('.event__type-group').addEventListener('change', this.#eventTypeInputHandler)
- this.element.querySelector('.event__input--price').addEventListener('input', this.#priceInputHandler)
-  }
-_restoreHandlers = () => {
-  this.#setInnerHandlers();
- this.setSubmitHandler(this._callback.submit);
- //this.setCloseHandler(this._callback.close)
-}
+    this.element.querySelector('.event__type-group').addEventListener('change', this.#eventTypeInputHandler);
+    this.element.querySelector('.event__input--price').addEventListener('input', this.#priceInputHandler);
+  };
+  _restoreHandlers = () => {
+    this.#setInnerHandlers();
+    this.setSubmitHandler(this._callback.submit);
+    //this.setCloseHandler(this._callback.close)
+  };
 
-#priceInputHandler = (evt) => {
+  #priceInputHandler = (evt) => {
     evt.preventDefault();
-    this._setState({basePrice: `${evt.target.value}`})
-}
+    this._setState({basePrice: `${evt.target.value}`});
+  };
 };
 
 

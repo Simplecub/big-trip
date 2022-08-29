@@ -17,6 +17,7 @@ export default class PointPresenter {
   #offers = null;
   #changeMode = null;
   #mode = Mode.DEFAULT;
+  #destinations = null;
 
   constructor(boardTripListComponent, changeData, changeMode) {
     this.#boardTripListComponent = boardTripListComponent;
@@ -24,15 +25,16 @@ export default class PointPresenter {
     this.#changeMode = changeMode;
   }
 
-  init = (point, offersItem) => {
+  init = (point, offersItem, destinations) => {
     this.#point = point;
     this.#offers = offersItem;
+    this.#destinations = destinations;
     const prevPointComponent = this.#pointComponent;
     const predEditPointComponent = this.#editPointComponent;
     console.log(prevPointComponent);
     this.#allOffersOfThisType = offersItem.find((offerList) => offerList.type === point.type)?.offers || [];
     this.#pointComponent = new CreatePointLiView(point, this.#allOffersOfThisType);
-    this.#editPointComponent = new CreateEditFormView(point, offersItem);
+    this.#editPointComponent = new CreateEditFormView(point, offersItem, destinations);
     console.log(point);
     this.#pointComponent.setClickHandle(this.#replacePointToEdit);
     this.#pointComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
@@ -87,10 +89,10 @@ export default class PointPresenter {
   };
 
   #handleFavoriteClick = () => {
-    this.#changeData({...this.#point, isFavorite: !this.#point.isFavorite}, this.#offers);
+    this.#changeData({...this.#point, isFavorite: !this.#point.isFavorite}, this.#offers, this.#destinations);
   };
   #handleFormSubmit = () => {
-    this.#changeData(this.#point, this.#offers);
+    this.#changeData(this.#point, this.#offers, this.#destinations);
     this.#replaceEditToPoint();
 
 
