@@ -61,10 +61,11 @@ const createEditForm = (point, offersLi, destinationsLi) => {
   // console.log(pointTypeOffer);
   const destination = destinationsLi.find((item) => item.id === point.destination);
   console.log(destination);
+
   const photoDestinationTemplate = destination.pictures.length ? (`
   <div class="event__photos-container">
        <div class="event__photos-tape">
-${getAllEventDestinationsPicturesTemplate(destination)}
+            ${getAllEventDestinationsPicturesTemplate(destination)}
         </div>
   </div>
   `) : '';
