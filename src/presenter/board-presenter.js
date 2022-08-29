@@ -41,12 +41,14 @@ export default class BoardPresenter {
       this.#renderBoardTripListComponent();
       this.offersModel.init().then(() => {
         this.offersItem = [...this.offersModel.offersAll];
+        this.destinationModel.init().then(() => {
+          this.destinations = [...this.destinationModel.destinationAll];
+          console.log(this.offersItem)
+          this.#renderPointsList();
+        })
         //this.#boardPoints.forEach((point) => this.addPoint(point, this.offersItem));
         //  this.#renderPointsList()
-      }).then(this.destinationModel.init().then(() => {
-        this.destinations = [...this.destinationModel.destinationAll];
-        this.#renderPointsList();
-      }));
+      })
     }
   };
   #renderPointsList = () => {
@@ -77,11 +79,11 @@ export default class BoardPresenter {
     this.#pointPresenter.clear();
   };
 
-  #handlePointChange = (updatedPoint, offersItem) => {
+  #handlePointChange = (updatedPoint, offersItem, destination) => {
     console.log(this.#boardTripListComponent);
     console.log(updatedPoint);
     this.#boardTripListComponent = updateItem(this.#boardPoints, updatedPoint);
-    this.#pointPresenter.get(updatedPoint.id).init(updatedPoint, offersItem);
+    this.#pointPresenter.get(updatedPoint.id).init(updatedPoint, offersItem, destination);
   };
 
   #handleModeChange = () => {

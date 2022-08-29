@@ -203,6 +203,7 @@ export default class CreateEditFormView extends AbstractStatefulView {
   static parsePointToState = (point) => ({...point});
   static  parseStateToPoint = (state) => {
     const point = {...state};
+    console.log(point)
     // удалить поля
     return point;
   };
