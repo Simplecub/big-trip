@@ -49,15 +49,17 @@ const showAllEventType = (allType, selectedType) => {
 const getAllEventDestinationsTemplate = (destinationsLi) => destinationsLi.map((value) => (`<option value="${value.name}"></option>`)).join('');
 
 
+
 let idEvent = 1;
 const createEditForm = (point, offersLi, destinationsLi) => {
   idEvent++;
-  const {basePrice, type, isFavorite, destination, dateFrom, dateTo, offers} = point;
+  const {basePrice, type, isFavorite, destinationId, dateFrom, dateTo, offers} = point;
   const pointTypeOffer = offersLi.find((offer) => offer.type === point.type);
 //  console.log(offersLi);
   console.log(destinationsLi);
   // console.log(pointTypeOffer);
-
+  const destination = destinationsLi.find((item) => item.id === point.destination)
+  console.log(destination);
   return (`<li class="trip-events__item">
 <form class="event event--edit" action="#" method="post">
                 <header class="event__header">
@@ -84,9 +86,6 @@ const createEditForm = (point, offersLi, destinationsLi) => {
                     </label>
                     <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-1">
                     <datalist id="destination-list-1">
-                      <option value="Amsterdam"></option>
-                      <option value="Geneva"></option>
-                      <option value="Chamonix"></option>
                       ${getAllEventDestinationsTemplate(destinationsLi)}
                     </datalist>
                   </div>
@@ -177,6 +176,18 @@ export default class CreateEditFormView extends AbstractStatefulView {
     this.updateElement({type: `${evt.target.value}`});
 
   };
+  #priceInputHandler = (evt) => {
+    evt.preventDefault();
+    this._setState({basePrice: `${evt.target.value}`});
+  };
+  #eventDestinationInputHandler = (evt) => {
+    evt.preventDefault();
+    console.log(evt.target.value);
+    console.log(this.#destinations.findIndex((item) => item.name === evt.target.value) + 1);
+    console.log(this._state)
+    this.updateElement({destination: this.#destinations.findIndex((item) => item.name === evt.target.value) + 1});
+    console.log(this.element);
+  };
 
 //добавить поля
   static parsePointToState = (point) => ({...point});
@@ -189,17 +200,15 @@ export default class CreateEditFormView extends AbstractStatefulView {
   #setInnerHandlers = () => {
     this.element.querySelector('.event__type-group').addEventListener('change', this.#eventTypeInputHandler);
     this.element.querySelector('.event__input--price').addEventListener('input', this.#priceInputHandler);
+    this.element.querySelector('.event__input--destination').addEventListener('change', this.#eventDestinationInputHandler);
   };
   _restoreHandlers = () => {
     this.#setInnerHandlers();
     this.setSubmitHandler(this._callback.submit);
-    //this.setCloseHandler(this._callback.close)
+   // this.setCloseHandler(this._callback.close)
   };
 
-  #priceInputHandler = (evt) => {
-    evt.preventDefault();
-    this._setState({basePrice: `${evt.target.value}`});
-  };
+
 };
 
 
