@@ -48,6 +48,7 @@ const showAllEventType = (allType, selectedType) => {
 
 const getAllEventDestinationsTemplate = (destinationsLi) => destinationsLi.map((value) => (`<option value="${value.name}"></option>`)).join('');
 
+const getAllEventDestinationsPicturesTemplate = (destination) => destination.pictures.map((item) => (`<img class="event__photo" src="${item.src}" alt="${item.description}">`)).join('');
 
 
 let idEvent = 1;
@@ -58,8 +59,15 @@ const createEditForm = (point, offersLi, destinationsLi) => {
 //  console.log(offersLi);
   console.log(destinationsLi);
   // console.log(pointTypeOffer);
-  const destination = destinationsLi.find((item) => item.id === point.destination)
+  const destination = destinationsLi.find((item) => item.id === point.destination);
   console.log(destination);
+  const photoDestinationTemplate = destination.pictures.length ? (`
+  <div class="event__photos-container">
+       <div class="event__photos-tape">
+${getAllEventDestinationsPicturesTemplate(destination)}
+        </div>
+  </div>
+  `) : '';
   return (`<li class="trip-events__item">
 <form class="event event--edit" action="#" method="post">
                 <header class="event__header">
@@ -124,6 +132,7 @@ const createEditForm = (point, offersLi, destinationsLi) => {
                   <section class="event__section  event__section--destination">
                     <h3 class="event__section-title  event__section-title--destination">Destination</h3>
                     <p class="event__destination-description">${destination.description}</p>
+${photoDestinationTemplate}
                   </section>
                 </section>
               </form>
@@ -184,7 +193,7 @@ export default class CreateEditFormView extends AbstractStatefulView {
     evt.preventDefault();
     console.log(evt.target.value);
     console.log(this.#destinations.findIndex((item) => item.name === evt.target.value) + 1);
-    console.log(this._state)
+    console.log(this._state);
     this.updateElement({destination: this.#destinations.findIndex((item) => item.name === evt.target.value) + 1});
     console.log(this.element);
   };
@@ -205,7 +214,7 @@ export default class CreateEditFormView extends AbstractStatefulView {
   _restoreHandlers = () => {
     this.#setInnerHandlers();
     this.setSubmitHandler(this._callback.submit);
-   // this.setCloseHandler(this._callback.close)
+    // this.setCloseHandler(this._callback.close)
   };
 
 
