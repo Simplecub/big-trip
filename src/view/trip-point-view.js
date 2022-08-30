@@ -2,8 +2,8 @@ import {createElement} from '../render.js';
 import {humanizeTaskDueDate, dateDiff} from '../util.js';
 import AbstractView from '../framework/view/abstract-view.js';
 
-const createPointLi = (point, pointTypeOffers) => {
-  const {basePrice, type, isFavorite, destination, dateFrom, dateTo, offers} = point;
+const createPointLi = (point, pointTypeOffers, destinationsLi) => {
+  const {basePrice, type, isFavorite, destinationId, dateFrom, dateTo, offers} = point;
   //if (dateTo < dateFrom) { [dateTo, dateFrom] = [dateFrom, dateTo] }
   console.log(offers);
   const favorite = isFavorite
@@ -25,6 +25,7 @@ const createPointLi = (point, pointTypeOffers) => {
     }
   }).join('') : '';
 
+  const destination = destinationsLi.find((item) => item.id === point.destination)
   return (
     `<li class="trip-events__item">
               <div class="event">
@@ -67,13 +68,15 @@ const createPointLi = (point, pointTypeOffers) => {
 export default class CreatePointLiView extends AbstractView {
   #point = null
   #offers = null
-  constructor(point, offers) {
+  #destinations = null
+  constructor(point, offers, destinations) {
     super();
     this.#point = point;
     this.#offers = offers;
+    this.#destinations = destinations;
   }
   get template() {
-    return createPointLi(this.#point, this.#offers);
+    return createPointLi(this.#point, this.#offers, this.#destinations);
   }
 
   setClickHandle = (callback) => {

@@ -192,21 +192,22 @@ export default class CreateEditFormView extends AbstractStatefulView {
   };
   #eventDestinationInputHandler = (evt) => {
     evt.preventDefault();
-    console.log(evt.target.value);
-    console.log(this.#destinations.findIndex((item) => item.name === evt.target.value) + 1);
-    console.log(this._state);
     this.updateElement({destination: this.#destinations.findIndex((item) => item.name === evt.target.value) + 1});
-    console.log(this.element);
   };
 
 //добавить поля
   static parsePointToState = (point) => ({...point});
+
   static  parseStateToPoint = (state) => {
     const point = {...state};
     console.log(point)
     // удалить поля
     return point;
   };
+
+  reset = (point) => {
+    this.updateElement(CreateEditFormView.parsePointToState(point))
+  }
 //внутренние обработчики
   #setInnerHandlers = () => {
     this.element.querySelector('.event__type-group').addEventListener('change', this.#eventTypeInputHandler);
@@ -216,7 +217,7 @@ export default class CreateEditFormView extends AbstractStatefulView {
   _restoreHandlers = () => {
     this.#setInnerHandlers();
     this.setSubmitHandler(this._callback.submit);
-    // this.setCloseHandler(this._callback.close)
+     this.setCloseHandler(this._callback.close) //выход без сохранения
   };
 
 

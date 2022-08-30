@@ -33,7 +33,7 @@ export default class PointPresenter {
     const predEditPointComponent = this.#editPointComponent;
     console.log(prevPointComponent);
     this.#allOffersOfThisType = offersItem.find((offerList) => offerList.type === point.type)?.offers || [];
-    this.#pointComponent = new CreatePointLiView(point, this.#allOffersOfThisType);
+    this.#pointComponent = new CreatePointLiView(point, this.#allOffersOfThisType, destinations);
     this.#editPointComponent = new CreateEditFormView(point, offersItem, destinations);
     console.log(point);
     this.#pointComponent.setClickHandle(this.#replacePointToEdit);
@@ -77,6 +77,7 @@ export default class PointPresenter {
     this.#mode = Mode.EDITING;
   };
   #replaceEditToPoint = () => {
+    this.#editPointComponent.reset(this.#point)
     replace(this.#pointComponent, this.#editPointComponent);
     document.removeEventListener('keydown', this.#onEscKeyDown);
     this.#mode = Mode.DEFAULT;
