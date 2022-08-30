@@ -2,6 +2,8 @@ import {createElement} from '../render.js';
 import {toUpperFirst} from '../util.js';
 import AbstractView from '../framework/view/abstract-view.js';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
 
 let id = 1;
 const BLANK_POINT = {
@@ -144,6 +146,7 @@ export default class CreateEditFormView extends AbstractStatefulView {
   #point = null;
   #offers = null;
   #destinations = null;
+  #datepicker = null;
 
   constructor(point = BLANK_POINT, offers, destinations) {
     super();
@@ -152,7 +155,7 @@ export default class CreateEditFormView extends AbstractStatefulView {
     this.#destinations = destinations;
     this._state = CreateEditFormView.parsePointToState(point);
     this.#setInnerHandlers();
-
+    this.#setDatepicker()
   }
 
   get template() {
@@ -200,14 +203,14 @@ export default class CreateEditFormView extends AbstractStatefulView {
 
   static  parseStateToPoint = (state) => {
     const point = {...state};
-    console.log(point)
+    console.log(point);
     // удалить поля
     return point;
   };
 
   reset = (point) => {
-    this.updateElement(CreateEditFormView.parsePointToState(point))
-  }
+    this.updateElement(CreateEditFormView.parsePointToState(point));
+  };
 //внутренние обработчики
   #setInnerHandlers = () => {
     this.element.querySelector('.event__type-group').addEventListener('change', this.#eventTypeInputHandler);
@@ -217,9 +220,33 @@ export default class CreateEditFormView extends AbstractStatefulView {
   _restoreHandlers = () => {
     this.#setInnerHandlers();
     this.setSubmitHandler(this._callback.submit);
-     this.setCloseHandler(this._callback.close) //выход без сохранения
+    this.setCloseHandler(this._callback.close); //выход без сохранения
+    this.#setDatepicker()
   };
 
+  #setDatepicker = () => {
+    if (this._state.dateFrom) {
+      this.#datepicker = flatpickr(
+        this.element.querySelector('#event-start-time-1'),
+        {
+          dateFormat: 'j F',
+          defaultDate: this._state.dateFrom,
+          onChange: this.#fromDateChangeHandler,
+        }
+      );
+    }
+  };
+  #fromDateChangeHandler = ([userDate]) => {
+    this.updateElement({dateFrom: userDate});
+  };
+
+  removeElement = () => {
+    super.removeElement();
+    if (this.#datepicker) {
+      this.#datepicker.destroy();
+      this.#datepicker = null;
+    }
+  };
 
 };
 
