@@ -1,9 +1,14 @@
 import {createElement} from '../render.js';
-import {toUpperFirst} from '../util.js';
+import {humanizeTaskDueDate, toUpperFirst} from '../util.js';
 import AbstractView from '../framework/view/abstract-view.js';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
+import dayjs from 'dayjs';
+
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+
+let isSameOrBefore = require('dayjs/plugin/isSameOrBefore')
+dayjs.extend(isSameOrBefore)
 
 let id = 1;
 const BLANK_POINT = {
@@ -52,6 +57,19 @@ const getAllEventDestinationsTemplate = (destinationsLi) => destinationsLi.map((
 
 const getAllEventDestinationsPicturesTemplate = (destination) => destination.pictures.map((item) => (`<img class="event__photo" src="${item.src}" alt="${item.description}">`)).join('');
 
+const getTimeEventTemplate = (dateFrom, dateTo) => {
+  if (dayjs(dateTo).isSameOrBefore(dateFrom))
+    dateTo = dateFrom
+  return (`
+                    <div class="event__field-group  event__field-group--time">
+                    <label class="visually-hidden" for="event-start-time-1">From</label>
+                    <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${humanizeTaskDueDate(dateFrom, 'D/MM/YY HH:mm')}">
+                    &mdash;
+                    <label class="visually-hidden" for="event-end-time-1">To</label>
+                    <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${humanizeTaskDueDate(dateTo, 'D/MM/YY HH:mm')}">
+                  </div>
+`)
+}
 
 let idEvent = 1;
 const createEditForm = (point, offersLi, destinationsLi) => {
@@ -101,14 +119,8 @@ const createEditForm = (point, offersLi, destinationsLi) => {
                     </datalist>
                   </div>
 
-                  <div class="event__field-group  event__field-group--time">
-                    <label class="visually-hidden" for="event-start-time-1">From</label>
-                    <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="18/03/19 12:25">
-                    &mdash;
-                    <label class="visually-hidden" for="event-end-time-1">To</label>
-                    <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="18/03/19 13:35">
-                  </div>
 
+${getTimeEventTemplate(dateFrom,dateTo)}
                   <div class="event__field-group  event__field-group--price">
                     <label class="event__label" for="event-price-1">
                       <span class="visually-hidden">Price</span>
@@ -146,8 +158,8 @@ export default class CreateEditFormView extends AbstractStatefulView {
   #point = null;
   #offers = null;
   #destinations = null;
-  #datepicker = null;
-
+  #datepickerFrom = null;
+  #datepickerTo = null;
   constructor(point = BLANK_POINT, offers, destinations) {
     super();
     // this.#point = point;
@@ -155,7 +167,8 @@ export default class CreateEditFormView extends AbstractStatefulView {
     this.#destinations = destinations;
     this._state = CreateEditFormView.parsePointToState(point);
     this.#setInnerHandlers();
-    this.#setDatepicker()
+    this.#setFromDatepicker()
+    this.#setToDatepicker()
   }
 
   get template() {
@@ -221,15 +234,18 @@ export default class CreateEditFormView extends AbstractStatefulView {
     this.#setInnerHandlers();
     this.setSubmitHandler(this._callback.submit);
     this.setCloseHandler(this._callback.close); //выход без сохранения
-    this.#setDatepicker()
+    this.#setFromDatepicker()
+    this.#setToDatepicker()
   };
 
-  #setDatepicker = () => {
+  #setFromDatepicker = (dateFrom) => {
     if (this._state.dateFrom) {
-      this.#datepicker = flatpickr(
+      this.#datepickerFrom = flatpickr(
         this.element.querySelector('#event-start-time-1'),
         {
-          dateFormat: 'j F',
+          enableTime: true,
+          weekNumbers: true,
+          dateFormat: 'd/m/y H:i',
           defaultDate: this._state.dateFrom,
           onChange: this.#fromDateChangeHandler,
         }
@@ -237,14 +253,35 @@ export default class CreateEditFormView extends AbstractStatefulView {
     }
   };
   #fromDateChangeHandler = ([userDate]) => {
+
     this.updateElement({dateFrom: userDate});
   };
 
+  #setToDatepicker = (dateTo) => {
+    if (this._state.dateTo) {
+      this.#datepickerTo = flatpickr(
+        this.element.querySelector('#event-end-time-1'),
+        {
+          enableTime: true,
+          weekNumbers: true,
+          minDate: this._state.dateFrom,
+          dateFormat: 'd/m/y H:i',
+          defaultDate: this._state.dateTo,
+          onChange: this.#toDateChangeHandler,
+        }
+      );
+    }
+  };
+  #toDateChangeHandler = ([userDate]) => {
+    this.updateElement({dateTo: userDate});
+  };
   removeElement = () => {
     super.removeElement();
-    if (this.#datepicker) {
-      this.#datepicker.destroy();
-      this.#datepicker = null;
+    if (this.#datepickerFrom || this.#datepickerTo) {
+      this.#datepickerFrom.destroy();
+      this.#datepickerFrom = null;
+      this.#datepickerTo.destroy();
+      this.#datepickerTo = null;
     }
   };
 
