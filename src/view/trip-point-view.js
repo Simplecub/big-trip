@@ -36,9 +36,9 @@ const createPointLi = (point, pointTypeOffers, destinationsLi) => {
                 <h3 class="event__title">${type} ${destination.name}</h3>
                 <div class="event__schedule">
                   <p class="event__time">
-                    <time class="event__start-time" datetime="${humanizeTaskDueDate(dateFrom, 'YYYY-MM-DDThh:mm')}">${humanizeTaskDueDate(dateFrom, 'hh:mm')}</time>
+                    <time class="event__start-time" datetime="${humanizeTaskDueDate(dateFrom, 'YYYY-MM-DDThh:mm')}">${humanizeTaskDueDate(dateFrom, 'HH:mm')}</time>
                     &mdash;
-                    <time class="event__end-time" datetime="${humanizeTaskDueDate(dateTo, 'YYYY-MM-DDThh:mm')}">${humanizeTaskDueDate(dateTo, 'hh:mm')}</time>
+                    <time class="event__end-time" datetime="${humanizeTaskDueDate(dateTo, 'YYYY-MM-DDThh:mm')}">${humanizeTaskDueDate(dateTo, 'HH:mm')}</time>
                   </p>
                   <p class="event__duration">${dateDiff(dateFrom, dateTo)}</p>
                 </div>
