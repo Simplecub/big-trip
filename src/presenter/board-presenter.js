@@ -21,7 +21,7 @@ export default class BoardPresenter {
   #boardEmpty = new TripListEmptyView();
   #pointPresenter = new Map();
   #currentSortType = SortType.DAY;
-  #sourceBoardTasks = [];
+  #sourceBoardPoints = [];
 
   constructor(boardContainer, pointsModel, offerModel, destinationModel) {
     this.#boarContainer = boardContainer;
@@ -29,10 +29,12 @@ export default class BoardPresenter {
     this.offersModel = offerModel;
     this.destinationModel = destinationModel;
   }
-
+get points() {
+    return this.#pointsModel.points
+}
   init = () => {
     this.#boardPoints = [...this.#pointsModel.points];
-    this.#sourceBoardTasks = [...this.#pointsModel.points];
+    this.#sourceBoardPoints = [...this.#pointsModel.points];
     if (this.#pointsModel.points.length === 0) {
       this.#renderBoardEmpty();
     } else {
@@ -100,7 +102,7 @@ export default class BoardPresenter {
         this.#boardPoints.sort(sortPointPriceDown);
         break;
       default:
-        this.#boardPoints = [...this.#sourceBoardTasks];
+        this.#boardPoints = [...this.#sourceBoardPoints];
     }
     this.#currentSortType = sortType;
   };
