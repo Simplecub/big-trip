@@ -192,6 +192,15 @@ export default class CreateEditFormView extends AbstractStatefulView {
 
   };
 
+  setDeleteClickHandler = (callback) => {
+    this._callback.deleteClick = callback;
+    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#pointDeleteFormHandler)
+  }
+  #pointDeleteFormHandler =(evt) => {
+    evt.preventDefault();
+    this._callback.deleteClick(CreateEditFormView.parseStateToPoint(this._state))
+  }
+
   #closeHandler = (evt) => {
     evt.preventDefault();
     this._callback.close();
@@ -236,6 +245,7 @@ export default class CreateEditFormView extends AbstractStatefulView {
     this.setCloseHandler(this._callback.close); //выход без сохранения
     this.#setFromDatepicker()
     this.#setToDatepicker()
+    this.setDeleteClickHandler(this._callback.deleteClick)
   };
 
   #setFromDatepicker = (dateFrom) => {

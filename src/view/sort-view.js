@@ -16,7 +16,6 @@ const getSortTemplate = (currentSortType) => {
 };
 
 const createSort = (currentSortType) => {
-  console.log(currentSortType);
   return (` <form class="trip-events__trip-sort  trip-sort" action="#" method="get">
                 ${getSortTemplate(currentSortType)}
             </form>`);

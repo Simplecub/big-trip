@@ -41,6 +41,7 @@ export default class PointPresenter {
     this.#pointComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
     this.#editPointComponent.setSubmitHandler(this.#handleFormSubmit);
     this.#editPointComponent.setCloseHandler(this.#replaceEditToPoint);
+    this.#editPointComponent.setDeleteClickHandler(this.#handleDeleteClick)
 
 
 //рендер и проверка на наличие элемента в доме
@@ -105,8 +106,13 @@ export default class PointPresenter {
       UpdateType.MINOR,
       point);
     this.#replaceEditToPoint();
-
-
   };
 
+  #handleDeleteClick =(point) => {
+    this.#changeData(
+      UserAction.DELETE_POINT,
+      UpdateType.MINOR,
+      point)
+
+  }
 }
