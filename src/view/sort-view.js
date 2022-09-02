@@ -1,39 +1,37 @@
 import {createElement} from '../render.js';
 import AbstractView from '../framework/view/abstract-view.js';
 import {SortType} from '../const.js';
+import {toUpperFirst} from '../util';
 
-const createSort = () => (
-  ` <form class="trip-events__trip-sort  trip-sort" action="#" method="get">
-            <div class="trip-sort__item  trip-sort__item--${SortType.DAY}" >
-              <input id="sort-day" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-${SortType.DAY}" data-sort-type="${SortType.DAY}" checked>
-              <label class="trip-sort__btn" for="sort-day">Day</label>
-            </div>
 
-            <div class="trip-sort__item  trip-sort__item--event">
-              <input id="sort-event" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-event" disabled>
-              <label class="trip-sort__btn" for="sort-event">Event</label>
-            </div>
+const getSortTemplate = (currentSortType) => {
+  return Object.keys(SortType).map((value) => {
+    const isChecked = (currentSortType === value.toLowerCase()) ? 'checked' : '';
+    const isDisabled = SortType[value][1] === 'disabled' ? 'disabled' : '';
+    return (` <div class="trip-sort__item  trip-sort__item--${value.toLowerCase()}" >
+              <input id="sort-${SortType[value]}" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-${SortType[value]}" data-sort-type="${SortType[value]}" ${isChecked} ${isDisabled}>
+              <label class="trip-sort__btn" for="sort-${SortType[value]}">${value}</label>
+            </div>`);
+  }).join(' ');
+};
 
-            <div class="trip-sort__item  trip-sort__item--${SortType.TIME}">
-              <input id="sort-time" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-${SortType.TIME}" data-sort-type="${SortType.TIME}" >
-              <label class="trip-sort__btn" for="sort-time">Time</label>
-            </div>
-
-            <div class="trip-sort__item  trip-sort__item--${SortType.PRICE}">
-              <input id="sort-price" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-${SortType.PRICE}" data-sort-type="${SortType.PRICE}">
-              <label class="trip-sort__btn" for="sort-price">Price</label>
-            </div>
-
-            <div class="trip-sort__item  trip-sort__item--offer">
-              <input id="sort-offer" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-offer" disabled>
-              <label class="trip-sort__btn" for="sort-offer">Offers</label>
-            </div>
-          </form>`
-);
+const createSort = (currentSortType) => {
+  console.log(currentSortType);
+  return (` <form class="trip-events__trip-sort  trip-sort" action="#" method="get">
+                ${getSortTemplate(currentSortType)}
+            </form>`);
+};
 
 export default class CreateSortView extends AbstractView {
+  #currentSortType = null;
+
+  constructor(currentSortType) {
+    super();
+    this.#currentSortType = currentSortType;
+  }
+
   get template() {
-    return createSort();
+    return createSort(this.#currentSortType);
   }
 
   setSortTypeChangeHandler = (callback) => {
@@ -55,9 +53,9 @@ export default class CreateSortView extends AbstractView {
       }
     })
      */
-  }
-
   };
+
+};
 /*
 export default class CreateSortView {
   #element = null

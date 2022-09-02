@@ -1,6 +1,7 @@
 import CreatePointLiView from '../view/trip-point-view.js';
 import CreateEditFormView from '../view/trip-point-edit-view.js';
 import {remove, render, replace} from '../framework/render.js';
+import {UserAction, UpdateType} from '../const.js';
 
 const Mode = {
   DEFAULT: 'DEFAULT',
@@ -90,10 +91,19 @@ export default class PointPresenter {
   };
 
   #handleFavoriteClick = () => {
-    this.#changeData({...this.#point, isFavorite: !this.#point.isFavorite}, this.#offers, this.#destinations);
+   // this.#changeData({...this.#point, isFavorite: !this.#point.isFavorite}, this.#offers, this.#destinations);
+    this.#changeData(
+      UserAction.UPDATE_POINT,
+      UpdateType.PATCH,
+      {...this.#point, isFavorite: !this.#point.isFavorite}
+    )
+
   };
   #handleFormSubmit = (point) => {
-    this.#changeData(point, this.#offers, this.#destinations);
+    this.#changeData(
+      UserAction.UPDATE_POINT,
+      UpdateType.MINOR,
+      point);
     this.#replaceEditToPoint();
 
 

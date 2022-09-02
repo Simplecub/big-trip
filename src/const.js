@@ -1,9 +1,14 @@
 
+
+
+
 const SortType = {
   DAY: 'day',
+  EVENT: ['event', 'disabled'],
   TIME: 'time',
-  PRICE: 'price'
-}
+  PRICE: 'price',
+  OFFERS: ['offers' , 'disabled']
+};
 
 const UserAction = {
   UPDATE_POINT: 'UPDATE_POINT',
@@ -17,4 +22,4 @@ const UpdateType = {
   MAJOR: 'MAJOR',
 };
 
-export {SortType, UpdateType, UserAction}
+export {SortType, UpdateType, UserAction};
