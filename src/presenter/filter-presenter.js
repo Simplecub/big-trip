@@ -58,6 +58,7 @@ init = () => {
   }
 
   #handleFilterTypeChange = (filterType) => {
+
     if (this.#filterModel.filter === filterType) {
       return
     }

@@ -4,7 +4,7 @@ import {FilterType} from '../const.js'
 
 
 export default class FilterModel extends Observable {
-  #filter =FilterType.EVERYTHING;
+  #filter = FilterType.EVERYTHING;
   get filter() {
     return this.#filter
   }

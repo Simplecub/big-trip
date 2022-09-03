@@ -27,7 +27,7 @@ const destinationModel = new DestinationModel()
 
 const filterPresenter = new FilterPresenter(siteHeaderEl,filterModel,pointsModel)
 
-const boardPresenter = new BoardPresenter(sitePageBodyEl, pointsModel, offerModel, destinationModel)
+const boardPresenter = new BoardPresenter(sitePageBodyEl, pointsModel, offerModel, destinationModel, filterModel)
 
 //boardPresenter.init(sitePageBodyEl)
 filterPresenter.init()

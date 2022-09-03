@@ -9,8 +9,8 @@ import TripListEmptyView from '../view/trip-list-empty-view.js';
 import {render, replace, remove, RenderPosition} from '../framework/render.js';
 import PointsModel from '../model/point-model.js';
 import PointPresenter from './point-presenter.js';
-import {sortPointPriceDown, sortPointTimeDown, updateItem} from '../util.js';
-import {SortType, UpdateType, UserAction} from '../const.js';
+import {sortPointPriceDown, sortPointTimeDown, updateItem, filter} from '../util.js';
+import {FilterType, SortType, UpdateType, UserAction} from '../const.js';
 
 export default class BoardPresenter {
   #pointsModel = null;
@@ -18,28 +18,36 @@ export default class BoardPresenter {
   #boardPoints = null;
   #sortComponent = null;
   #boardTripListComponent = new CreateTripListView();
-  #boardEmpty = new TripListEmptyView();
+  #noPointComponent = null;
   #pointPresenter = new Map();
   #currentSortType = SortType.DAY;
   #sourceBoardPoints = [];
+  #filterModel = null
+  #filterType = FilterType.EVERYTHING
 
-  constructor(boardContainer, pointsModel, offerModel, destinationModel) {
+  constructor(boardContainer, pointsModel, offerModel, destinationModel, filterModel) {
     this.#boarContainer = boardContainer;
     this.#pointsModel = pointsModel;
     this.offersModel = offerModel;
     this.destinationModel = destinationModel;
+    this.#filterModel = filterModel
 //чтобы презентер узнал об изменении модели, подписываемся на уведомления об изменениях
     this.#pointsModel.addObserver(this.#handleModelEvent);
+    this.#filterModel.addObserver(this.#handleModelEvent)
+
   }
 
   get points() {
+    this.#filterType = this.#filterModel.filter;
+    const points = this.#pointsModel.points;
+    const filteredPoints = filter[this.#filterType](points)
     switch (this.#currentSortType) {
       case SortType.TIME:
-        return [...this.#pointsModel.points].sort(sortPointTimeDown);
+        return filteredPoints.sort(sortPointTimeDown);
       case SortType.PRICE:
-        return [...this.#pointsModel.points].sort(sortPointPriceDown);
+        return filteredPoints.sort(sortPointPriceDown);
     }
-    return this.#pointsModel.points;
+    return filteredPoints;
   }
 
   init = () => {
@@ -66,14 +74,15 @@ export default class BoardPresenter {
         //  this.#renderPointsList()
       });
 
-    ;
+
   };
 
   #renderPointsList = () => {
     this.points.forEach((point) => this.addPoint(point, this.offersItem, this.destinations));
   };
   #renderBoardEmpty = () => {
-    render(this.#boardEmpty, this.#boardTripListComponent.element, RenderPosition.AFTERBEGIN);
+    this.#noPointComponent = new TripListEmptyView(this.#filterType)
+    render(this.#noPointComponent, this.#boardTripListComponent.element, RenderPosition.AFTERBEGIN);
   };
 
   #renderSort = () => {
@@ -183,6 +192,8 @@ export default class BoardPresenter {
     this.#pointPresenter.clear();
     remove(this.#sortComponent);
     remove(this.#boardTripListComponent);
+
+    if (this.#noPointComponent) {remove(this.#noPointComponent)}
     if (resetSortType) {
       this.#currentSortType = SortType.DAY;
     }

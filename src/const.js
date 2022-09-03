@@ -23,8 +23,8 @@ const UpdateType = {
 };
 
 const FilterType = {
-  EVERYTHING: 'everything',
-  FUTURE: 'future',
-  PAST: 'past'
+  EVERYTHING: 'EVERYTHING',
+  FUTURE: 'FUTURE',
+  PAST: 'PAST'
 }
 export {SortType, UpdateType, UserAction, FilterType};

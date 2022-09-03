@@ -87,6 +87,6 @@ const sortPointPriceDown = (pointA, pointB) => {
 const filter = {
   [FilterType.EVERYTHING]: (points) => points,
   [FilterType.FUTURE]: (points) => points.filter((point) => dayjs(point.dateFrom) > dayjs().toDate()),
-  [FilterType.PAST]: (points) => points.filter((point) => dayjs(point.dateFrom) < dayjs().toDate()),
+  [FilterType.PAST]: (points) => points.filter((point) => dayjs(point.dateFrom) <= dayjs().toDate()),
 }
 export {getRandomPositiveInteger, humanizeTaskDueDate, dateDiff, getShuffleArray, toUpperFirst, updateItem, sortPointTimeDown, sortPointPriceDown, filter}
