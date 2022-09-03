@@ -12,20 +12,25 @@ import PointsModel from './model/point-model.js';
 import OfferModel from './model/offer-model.js'
 import {generateFilter} from './mock/filter.js';
 import DestinationModel from './model/destination-model.js';
+import FilterPresenter from './presenter/filter-presenter.js';
+import FilterModel from './model/filter-model.js';
 
 const siteHeaderEl = document.querySelector('.trip-controls__filters')
 const sitePageBodyEl = document.querySelector('.trip-events')
 
-const filters = generateFilter()
-render(new CreateFilterView(filters), siteHeaderEl)
+
+//render(new CreateFilterView(filters, 'everything'), siteHeaderEl)
+const filterModel = new FilterModel()
 const pointsModel = new PointsModel()
 const offerModel = new OfferModel()
 const destinationModel = new DestinationModel()
 
+const filterPresenter = new FilterPresenter(siteHeaderEl,filterModel,pointsModel)
 
 const boardPresenter = new BoardPresenter(sitePageBodyEl, pointsModel, offerModel, destinationModel)
 
 //boardPresenter.init(sitePageBodyEl)
+filterPresenter.init()
 boardPresenter.init()
 
 //render(new CreateNewPointView(), sitePageBodyEl)

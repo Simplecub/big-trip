@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import {FilterType} from './const.js';
 
 const duration = require('dayjs/plugin/duration');
 dayjs.extend(duration);
@@ -82,4 +83,10 @@ const sortPointPriceDown = (pointA, pointB) => {
   console.log(weight)
   return weight ?? pointB.basePrice - pointA.basePrice
 }
-export {getRandomPositiveInteger, humanizeTaskDueDate, dateDiff, getShuffleArray, toUpperFirst, updateItem, sortPointTimeDown, sortPointPriceDown}
+
+const filter = {
+  [FilterType.EVERYTHING]: (points) => points,
+  [FilterType.FUTURE]: (points) => points.filter((point) => dayjs(point.dateFrom) > dayjs().toDate()),
+  [FilterType.PAST]: (points) => points.filter((point) => dayjs(point.dateFrom) < dayjs().toDate()),
+}
+export {getRandomPositiveInteger, humanizeTaskDueDate, dateDiff, getShuffleArray, toUpperFirst, updateItem, sortPointTimeDown, sortPointPriceDown, filter}
