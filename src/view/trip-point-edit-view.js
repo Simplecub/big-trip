@@ -6,25 +6,18 @@ import dayjs from 'dayjs';
 
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import {BLANK_POINT} from '../const';
 
-let isSameOrBefore = require('dayjs/plugin/isSameOrBefore')
-dayjs.extend(isSameOrBefore)
+let isSameOrBefore = require('dayjs/plugin/isSameOrBefore');
+dayjs.extend(isSameOrBefore);
 
 let id = 1;
-const BLANK_POINT = {
-  basePrice: '',
-  dateFrom: '',
-  dateTo: '',
-  destination: '',
-  id: id++,
-  isFavorite: '',
-  offers: '',
-  type: ''
-};
 
 
 const showAllOffers = (allOffers, selectedOffers, type) => {
   return allOffers.offers.map((value) => {
+    console.log(selectedOffers);
+    console.log(type);
     const checkedOffers = (selectedOffers.find((v) => value.id === v)) ?
       'checked' : '';
     const offerId = `event-offer-${type}-${value.id}-${Math.random()}`;
@@ -58,8 +51,9 @@ const getAllEventDestinationsTemplate = (destinationsLi) => destinationsLi.map((
 const getAllEventDestinationsPicturesTemplate = (destination) => destination.pictures.map((item) => (`<img class="event__photo" src="${item.src}" alt="${item.description}">`)).join('');
 
 const getTimeEventTemplate = (dateFrom, dateTo) => {
-  if (dayjs(dateTo).isSameOrBefore(dateFrom))
-    dateTo = dateFrom
+  if (dayjs(dateTo).isSameOrBefore(dateFrom)) {
+    dateTo = dateFrom;
+  }
   return (`
                     <div class="event__field-group  event__field-group--time">
                     <label class="visually-hidden" for="event-start-time-1">From</label>
@@ -68,8 +62,8 @@ const getTimeEventTemplate = (dateFrom, dateTo) => {
                     <label class="visually-hidden" for="event-end-time-1">To</label>
                     <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${humanizeTaskDueDate(dateTo, 'D/MM/YY HH:mm')}">
                   </div>
-`)
-}
+`);
+};
 
 let idEvent = 1;
 const createEditForm = (point, offersLi, destinationsLi) => {
@@ -82,7 +76,7 @@ const createEditForm = (point, offersLi, destinationsLi) => {
   const destination = destinationsLi.find((item) => item.id === point.destination);
   console.log(destination);
 
-  const photoDestinationTemplate = destination.pictures.length ? (`
+  const photoDestinationTemplate = destination && destination.pictures.length ? (`
   <div class="event__photos-container">
        <div class="event__photos-tape">
             ${getAllEventDestinationsPicturesTemplate(destination)}
@@ -113,14 +107,14 @@ const createEditForm = (point, offersLi, destinationsLi) => {
                     <label class="event__label  event__type-output" for="event-destination-1">
                       ${type}
                     </label>
-                    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-1">
+                    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination?.name}" list="destination-list-1">
                     <datalist id="destination-list-1">
                       ${getAllEventDestinationsTemplate(destinationsLi)}
                     </datalist>
                   </div>
 
 
-${getTimeEventTemplate(dateFrom,dateTo)}
+${getTimeEventTemplate(dateFrom, dateTo)}
                   <div class="event__field-group  event__field-group--price">
                     <label class="event__label" for="event-price-1">
                       <span class="visually-hidden">Price</span>
@@ -146,7 +140,7 @@ ${getTimeEventTemplate(dateFrom,dateTo)}
 
                   <section class="event__section  event__section--destination">
                     <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-                    <p class="event__destination-description">${destination.description}</p>
+                    <p class="event__destination-description">${destination?.description}</p>
 ${photoDestinationTemplate}
                   </section>
                 </section>
@@ -160,6 +154,7 @@ export default class CreateEditFormView extends AbstractStatefulView {
   #destinations = null;
   #datepickerFrom = null;
   #datepickerTo = null;
+
   constructor(point = BLANK_POINT, offers, destinations) {
     super();
     // this.#point = point;
@@ -167,11 +162,14 @@ export default class CreateEditFormView extends AbstractStatefulView {
     this.#destinations = destinations;
     this._state = CreateEditFormView.parsePointToState(point);
     this.#setInnerHandlers();
-    this.#setFromDatepicker()
-    this.#setToDatepicker()
+    this.#setFromDatepicker();
+    this.#setToDatepicker();
   }
 
   get template() {
+    console.log(this._state);
+    console.log(this.#offers);
+    console.log(this.#destinations);
     return createEditForm(this._state, this.#offers, this.#destinations);
   }
 
@@ -194,12 +192,12 @@ export default class CreateEditFormView extends AbstractStatefulView {
 
   setDeleteClickHandler = (callback) => {
     this._callback.deleteClick = callback;
-    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#pointDeleteFormHandler)
-  }
-  #pointDeleteFormHandler =(evt) => {
+    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#pointDeleteFormHandler);
+  };
+  #pointDeleteFormHandler = (evt) => {
     evt.preventDefault();
-    this._callback.deleteClick(CreateEditFormView.parseStateToPoint(this._state))
-  }
+    this._callback.deleteClick(CreateEditFormView.parseStateToPoint(this._state));
+  };
 
   #closeHandler = (evt) => {
     evt.preventDefault();
@@ -243,9 +241,9 @@ export default class CreateEditFormView extends AbstractStatefulView {
     this.#setInnerHandlers();
     this.setSubmitHandler(this._callback.submit);
     this.setCloseHandler(this._callback.close); //выход без сохранения
-    this.#setFromDatepicker()
-    this.#setToDatepicker()
-    this.setDeleteClickHandler(this._callback.deleteClick)
+    this.#setFromDatepicker();
+    this.#setToDatepicker();
+    this.setDeleteClickHandler(this._callback.deleteClick);
   };
 
   #setFromDatepicker = (dateFrom) => {

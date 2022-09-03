@@ -17,6 +17,7 @@ import FilterModel from './model/filter-model.js';
 
 const siteHeaderEl = document.querySelector('.trip-controls__filters')
 const sitePageBodyEl = document.querySelector('.trip-events')
+const sitePageBodyMainEl = document.querySelector('.trip-main')
 
 
 //render(new CreateFilterView(filters, 'everything'), siteHeaderEl)
@@ -24,6 +25,16 @@ const filterModel = new FilterModel()
 const pointsModel = new PointsModel()
 const offerModel = new OfferModel()
 const destinationModel = new DestinationModel()
+const newPointButtonComponent = new NewButtonView()
+
+const handleNewPointFormClose = () => {
+  newPointButtonComponent.element.disabled = false
+}
+const handleNewPointButtonClick =() => {
+  boardPresenter.createPoint(handleNewPointFormClose);
+  newPointButtonComponent.element.disabled = true
+}
+
 
 const filterPresenter = new FilterPresenter(siteHeaderEl,filterModel,pointsModel)
 
@@ -31,6 +42,10 @@ const boardPresenter = new BoardPresenter(sitePageBodyEl, pointsModel, offerMode
 
 //boardPresenter.init(sitePageBodyEl)
 filterPresenter.init()
+
+render(newPointButtonComponent,sitePageBodyMainEl)
+newPointButtonComponent.setClickHandler(handleNewPointButtonClick)
+
 boardPresenter.init()
 
 //render(new CreateNewPointView(), sitePageBodyEl)

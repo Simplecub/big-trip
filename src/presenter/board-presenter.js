@@ -11,6 +11,7 @@ import PointsModel from '../model/point-model.js';
 import PointPresenter from './point-presenter.js';
 import {sortPointPriceDown, sortPointTimeDown, updateItem, filter} from '../util.js';
 import {FilterType, SortType, UpdateType, UserAction} from '../const.js';
+import PointNewPresenter from './point-new-presenter.js';
 
 export default class BoardPresenter {
   #pointsModel = null;
@@ -20,6 +21,7 @@ export default class BoardPresenter {
   #boardTripListComponent = new CreateTripListView();
   #noPointComponent = null;
   #pointPresenter = new Map();
+  #pointNewPresenter = null
   #currentSortType = SortType.DAY;
   #sourceBoardPoints = [];
   #filterModel = null
@@ -31,6 +33,7 @@ export default class BoardPresenter {
     this.offersModel = offerModel;
     this.destinationModel = destinationModel;
     this.#filterModel = filterModel
+    this.#pointNewPresenter = new PointNewPresenter(this.#boardTripListComponent.element, this.#handleViewAction)
 //чтобы презентер узнал об изменении модели, подписываемся на уведомления об изменениях
     this.#pointsModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent)
@@ -76,7 +79,11 @@ export default class BoardPresenter {
 
 
   };
-
+createPoint = (callback) => {
+  this.#currentSortType = SortType.DAY;
+  this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
+  this.#pointNewPresenter.init(callback, this.offersItem, this.destinations)
+}
   #renderPointsList = () => {
     this.points.forEach((point) => this.addPoint(point, this.offersItem, this.destinations));
   };
@@ -120,6 +127,7 @@ export default class BoardPresenter {
   };
 
   #handleModeChange = () => {
+    this.#pointNewPresenter.destroy()
     this.#pointPresenter.forEach((presenter) => presenter.resetView());
   };
   /*
@@ -188,6 +196,7 @@ export default class BoardPresenter {
   };
 
   #clearBoard = (resetSortType = false) => {
+    this.#pointNewPresenter.destroy()
     this.#pointPresenter.forEach((presenter) => presenter.destroy());
     this.#pointPresenter.clear();
     remove(this.#sortComponent);

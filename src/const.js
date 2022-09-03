@@ -1,5 +1,4 @@
-
-
+import dayjs from 'dayjs';
 
 
 const SortType = {
@@ -27,4 +26,16 @@ const FilterType = {
   FUTURE: 'FUTURE',
   PAST: 'PAST'
 }
-export {SortType, UpdateType, UserAction, FilterType};
+
+const BLANK_POINT = {
+  basePrice: '',
+  dateFrom: dayjs().toDate(),
+  dateTo: '',
+  destination: 0,
+  id: '',
+  isFavorite: 0,
+  offers: [0],
+  type: 'taxi'
+};
+
+export {SortType, UpdateType, UserAction, FilterType, BLANK_POINT};
