@@ -84,6 +84,12 @@ const sortPointPriceDown = (pointA, pointB) => {
   return weight ?? pointB.basePrice - pointA.basePrice;
 };
 
+const sortPointDate = (pointA, pointB) => {
+  const weight = getWeightForNullDate(pointA.dateFrom, pointB.dateFrom);
+  console.log(weight);
+  return weight ?? dayjs(pointB.dateFrom).diff(pointA.dateFrom);
+};
+
 const filter = {
   [FilterType.EVERYTHING]: (points) => points,
   [FilterType.FUTURE]: (points) => points.filter((point) => dayjs(point.dateFrom) > dayjs().toDate()),
@@ -98,5 +104,6 @@ export {
   updateItem,
   sortPointTimeDown,
   sortPointPriceDown,
+  sortPointDate,
   filter
 };

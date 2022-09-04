@@ -23,7 +23,7 @@ const showAllOffers = (allOffers, selectedOffers, type) => {
       'checked' : '';
     const offerId = `event-offer-${type}-${value.id}-${Math.random()}`;
     return (` <div class="event__offer-selector">
-                      <input class="event__offer-checkbox  visually-hidden" id="${offerId}" type="checkbox" name="event-offer-${type}" ${checkedOffers}>
+                      <input class="event__offer-checkbox  visually-hidden" id="${offerId}" type="checkbox" name="event-offer-${type}" ${checkedOffers} value="${value.id}">
                         <label class="event__offer-label" for="${offerId}">
                           <span class="event__offer-title">${value.title}</span>
                           &plus;&euro;&nbsp;
@@ -121,7 +121,7 @@ ${getTimeEventTemplate(dateFrom, dateTo)}
                       <span class="visually-hidden">Price</span>
                       &euro;
                     </label>
-                    <input class="event__input  event__input--price" id="event-price-1" type="number" name="event-price" value="${basePrice ? basePrice : ''}" required>
+                    <input class="event__input  event__input--price" id="event-price-1" type="number" name="event-price" value="${basePrice ? basePrice : ''}" required min="0">
                   </div>
 
                   <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
@@ -158,7 +158,7 @@ export default class CreateEditFormView extends AbstractStatefulView {
 
   constructor(point = BLANK_POINT, offers, destinations) {
     super();
-    // this.#point = point;
+    this.#point = point;
     this.#offers = offers;
     this.#destinations = destinations;
     this._state = CreateEditFormView.parsePointToState(point);
@@ -207,7 +207,7 @@ export default class CreateEditFormView extends AbstractStatefulView {
 
   #eventTypeInputHandler = (evt) => {
     evt.preventDefault();
-    this.updateElement({type: `${evt.target.value}`});
+    this.updateElement({type: `${evt.target.value}`, offers: []});
 
   };
   #priceInputHandler = (evt) => {
@@ -219,6 +219,14 @@ export default class CreateEditFormView extends AbstractStatefulView {
     this.updateElement({destination: this.#destinations.findIndex((item) => item.name === evt.target.value) + 1});
   };
 
+  #eventOfferSelectHandler = (evt) => {
+    evt.preventDefault();
+    let indexSelected = this.#offers.find((item) => item.type === this.#point.type).offers.findIndex((item) => item.id === +evt.target.value) + 1;
+    let offersAll = this._state.offers;
+    offersAll.includes(indexSelected) ? offersAll.splice(offersAll.findIndex((item) => item === indexSelected), 1) :
+      offersAll.push(indexSelected);
+    this.updateElement({offers: offersAll});
+  };
 //добавить поля
   static parsePointToState = (point) => ({...point});
 
@@ -237,6 +245,9 @@ export default class CreateEditFormView extends AbstractStatefulView {
     this.element.querySelector('.event__type-group').addEventListener('change', this.#eventTypeInputHandler);
     this.element.querySelector('.event__input--price').addEventListener('input', this.#priceInputHandler);
     this.element.querySelector('.event__input--destination').addEventListener('change', this.#eventDestinationInputHandler);
+    this.element.querySelector('.event__available-offers')?.addEventListener('change', this.#eventOfferSelectHandler);
+
+
   };
   _restoreHandlers = () => {
     this.#setInnerHandlers();
@@ -246,6 +257,7 @@ export default class CreateEditFormView extends AbstractStatefulView {
     this.#setToDatepicker();
     this.setDeleteClickHandler(this._callback.deleteClick);
   };
+
 
   #setFromDatepicker = (dateFrom) => {
     if (this._state.dateFrom) {

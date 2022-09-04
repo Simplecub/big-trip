@@ -9,7 +9,7 @@ import TripListEmptyView from '../view/trip-list-empty-view.js';
 import {render, replace, remove, RenderPosition} from '../framework/render.js';
 import PointsModel from '../model/point-model.js';
 import PointPresenter from './point-presenter.js';
-import {sortPointPriceDown, sortPointTimeDown, updateItem, filter} from '../util.js';
+import {sortPointPriceDown, sortPointTimeDown, updateItem, filter, sortPointDate} from '../util.js';
 import {FilterType, SortType, UpdateType, UserAction} from '../const.js';
 import PointNewPresenter from './point-new-presenter.js';
 
@@ -49,6 +49,8 @@ export default class BoardPresenter {
         return filteredPoints.sort(sortPointTimeDown);
       case SortType.PRICE:
         return filteredPoints.sort(sortPointPriceDown);
+      case SortType.DAY:
+        return filteredPoints.sort(sortPointDate)
     }
     return filteredPoints;
   }
