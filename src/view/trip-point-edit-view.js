@@ -189,6 +189,7 @@ export default class CreateEditFormView extends AbstractStatefulView {
     this._callback.close = callback;
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#closeHandler);
 
+
   };
 
   setDeleteClickHandler = (callback) => {
@@ -203,6 +204,8 @@ export default class CreateEditFormView extends AbstractStatefulView {
   #closeHandler = (evt) => {
     evt.preventDefault();
     this._callback.close();
+
+
   };
 
   #eventTypeInputHandler = (evt) => {
@@ -221,11 +224,12 @@ export default class CreateEditFormView extends AbstractStatefulView {
 
   #eventOfferSelectHandler = (evt) => {
     evt.preventDefault();
-    let indexSelected = this.#offers.find((item) => item.type === this.#point.type).offers.findIndex((item) => item.id === +evt.target.value) + 1;
+
+    let indexSelected = this.#offers.find((item) => item.type === this._state.type).offers.findIndex((item) => item.id === +evt.target.value) + 1;
     let offersAll = this._state.offers;
     offersAll.includes(indexSelected) ? offersAll.splice(offersAll.findIndex((item) => item === indexSelected), 1) :
       offersAll.push(indexSelected);
-    this.updateElement({offers: offersAll});
+    this._setState({offers: offersAll});
   };
 //добавить поля
   static parsePointToState = (point) => ({...point});
@@ -256,6 +260,7 @@ export default class CreateEditFormView extends AbstractStatefulView {
     this.#setFromDatepicker();
     this.#setToDatepicker();
     this.setDeleteClickHandler(this._callback.deleteClick);
+
   };
 
 
