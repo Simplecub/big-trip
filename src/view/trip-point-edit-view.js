@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import {BLANK_POINT} from '../const';
-import he from 'he'
+import he from 'he';
 
 let isSameOrBefore = require('dayjs/plugin/isSameOrBefore');
 dayjs.extend(isSameOrBefore);
@@ -108,7 +108,7 @@ const createEditForm = (point, offersLi, destinationsLi) => {
                     <label class="event__label  event__type-output" for="event-destination-1">
                       ${type}
                     </label>
-                    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination?.name ? destination?.name : '' }" list="destination-list-1" required>
+                    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination?.name ? destination?.name : ''}" list="destination-list-1" required>
                     <datalist id="destination-list-1" >
                       ${getAllEventDestinationsTemplate(destinationsLi)}
                     </datalist>
@@ -121,7 +121,7 @@ ${getTimeEventTemplate(dateFrom, dateTo)}
                       <span class="visually-hidden">Price</span>
                       &euro;
                     </label>
-                    <input class="event__input  event__input--price" id="event-price-1" type="number" name="event-price" value="${basePrice ? basePrice: ''}" required>
+                    <input class="event__input  event__input--price" id="event-price-1" type="number" name="event-price" value="${basePrice ? basePrice : ''}" required>
                   </div>
 
                   <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
@@ -141,7 +141,7 @@ ${getTimeEventTemplate(dateFrom, dateTo)}
 
                   <section class="event__section  event__section--destination">
                     <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-                    <p class="event__destination-description">${destination?.description ? he.encode(destination?.description): ''}</p>
+                    <p class="event__destination-description">${destination?.description ? he.encode(destination?.description) : ''}</p>
 ${photoDestinationTemplate}
                   </section>
                 </section>

@@ -7,7 +7,7 @@ const SortType = {
   EVENT: ['event', 'disabled'],
   TIME: 'time',
   PRICE: 'price',
-  OFFERS: ['offers' , 'disabled']
+  OFFERS: ['offers', 'disabled']
 };
 
 const UserAction = {
@@ -26,16 +26,16 @@ const FilterType = {
   EVERYTHING: 'EVERYTHING',
   FUTURE: 'FUTURE',
   PAST: 'PAST'
-}
+};
 
 const BLANK_POINT = {
-      basePrice: '',
-      dateFrom: dayjs().toDate(),
-      dateTo: dayjs().toDate(),
-      destination: 0,
-      id: "",
-      isFavorite: 0,
-      offers: [0],
-      type: 'taxi',
-}
+  basePrice: '',
+  dateFrom: dayjs().toDate(),
+  dateTo: dayjs().toDate(),
+  destination: 0,
+  id: '',
+  isFavorite: 0,
+  offers: [0],
+  type: 'taxi',
+};
 export {SortType, UpdateType, UserAction, FilterType, BLANK_POINT};

@@ -41,7 +41,7 @@ export default class PointPresenter {
     this.#pointComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
     this.#editPointComponent.setSubmitHandler(this.#handleFormSubmit);
     this.#editPointComponent.setCloseHandler(this.#replaceEditToPoint);
-    this.#editPointComponent.setDeleteClickHandler(this.#handleDeleteClick)
+    this.#editPointComponent.setDeleteClickHandler(this.#handleDeleteClick);
 
 
 //рендер и проверка на наличие элемента в доме
@@ -79,7 +79,7 @@ export default class PointPresenter {
     this.#mode = Mode.EDITING;
   };
   #replaceEditToPoint = () => {
-   this.#editPointComponent.reset(this.#point)
+    this.#editPointComponent.reset(this.#point);
     replace(this.#pointComponent, this.#editPointComponent);
     document.removeEventListener('keydown', this.#onEscKeyDown);
     this.#mode = Mode.DEFAULT;
@@ -92,12 +92,12 @@ export default class PointPresenter {
   };
 
   #handleFavoriteClick = () => {
-   // this.#changeData({...this.#point, isFavorite: !this.#point.isFavorite}, this.#offers, this.#destinations);
+    // this.#changeData({...this.#point, isFavorite: !this.#point.isFavorite}, this.#offers, this.#destinations);
     this.#changeData(
       UserAction.UPDATE_POINT,
       UpdateType.PATCH,
       {...this.#point, isFavorite: !this.#point.isFavorite}
-    )
+    );
 
   };
   #handleFormSubmit = (point) => {
@@ -108,11 +108,11 @@ export default class PointPresenter {
     this.#replaceEditToPoint();
   };
 
-  #handleDeleteClick =(point) => {
+  #handleDeleteClick = (point) => {
     this.#changeData(
       UserAction.DELETE_POINT,
       UpdateType.MINOR,
-      point)
+      point);
 
-  }
+  };
 }

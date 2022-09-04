@@ -21,36 +21,36 @@ export default class PointNewPresenter {
     }
 
     this.#editPointComponent = new CreateEditFormView(BLANK_POINT, offersItem, destinations);
-    console.log(this.#editPointComponent.element)
-    console.log(this.#pointListContainer)
+    console.log(this.#editPointComponent.element);
+    console.log(this.#pointListContainer);
     this.#editPointComponent.setSubmitHandler(this.#handleFormSubmit);
     this.#editPointComponent.setDeleteClickHandler(this.#handleDeleteClick);
-    this.#editPointComponent.setCloseHandler(this.#handleDeleteClick)
+    this.#editPointComponent.setCloseHandler(this.#handleDeleteClick);
 
     render(this.#editPointComponent, this.#pointListContainer, RenderPosition.AFTERBEGIN);
-    document.addEventListener('keydown', this.#onEscKeyDown)
-    console.log(this.#pointListContainer)
+    document.addEventListener('keydown', this.#onEscKeyDown);
+    console.log(this.#pointListContainer);
   };
 
   destroy = () => {
     if (this.#editPointComponent === null) {
-      return
+      return;
     }
-    this.#destroyCallback?.()
+    this.#destroyCallback?.();
 
     remove(this.#editPointComponent);
-    this.#editPointComponent = null
-    document.removeEventListener('keydown', this.#onEscKeyDown)
-  }
+    this.#editPointComponent = null;
+    document.removeEventListener('keydown', this.#onEscKeyDown);
+  };
 
   #handleFormSubmit = (point) => {
     this.#changeData(
       UserAction.ADD_POINT,
       UpdateType.MINOR,
-    //  {id: nanoid(), ...point}
+      //  {id: nanoid(), ...point}
       {...point, id: nanoid()});
 
-    console.log({ ...point, id: nanoid(),})
+    console.log({...point, id: nanoid(),});
     this.destroy();
   };
 

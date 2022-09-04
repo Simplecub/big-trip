@@ -1,7 +1,7 @@
 import {createElement} from '../render.js';
 import {humanizeTaskDueDate, dateDiff} from '../util.js';
 import AbstractView from '../framework/view/abstract-view.js';
-import he from 'he'
+import he from 'he';
 
 const createPointLi = (point, pointTypeOffers, destinationsLi) => {
   const {basePrice, type, isFavorite, destinationId, dateFrom, dateTo, offers} = point;
@@ -26,7 +26,7 @@ const createPointLi = (point, pointTypeOffers, destinationsLi) => {
     }
   }).join('') : '';
 
-  const destination = destinationsLi.find((item) => item.id === point.destination)
+  const destination = destinationsLi.find((item) => item.id === point.destination);
   return (
     `<li class="trip-events__item">
               <div class="event">
@@ -67,37 +67,39 @@ const createPointLi = (point, pointTypeOffers, destinationsLi) => {
 };
 
 export default class CreatePointLiView extends AbstractView {
-  #point = null
-  #offers = null
-  #destinations = null
+  #point = null;
+  #offers = null;
+  #destinations = null;
+
   constructor(point, offers, destinations) {
     super();
     this.#point = point;
     this.#offers = offers;
     this.#destinations = destinations;
   }
+
   get template() {
     return createPointLi(this.#point, this.#offers, this.#destinations);
   }
 
   setClickHandle = (callback) => {
-    this._callback.click = callback
-    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#clickHandler)
-  }
+    this._callback.click = callback;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#clickHandler);
+  };
   #clickHandler = (evt) => {
     evt.preventDefault();
-    this._callback.click()
-    console.log('ffer')
-  }
+    this._callback.click();
+    console.log('ffer');
+  };
   setFavoriteClickHandler = (callback) => {
-    this._callback.favoriteClick = callback
-    this.element.querySelector('.event__favorite-btn').addEventListener('click', this.#favoriteHandler)
-  }
+    this._callback.favoriteClick = callback;
+    this.element.querySelector('.event__favorite-btn').addEventListener('click', this.#favoriteHandler);
+  };
   #favoriteHandler = (evt) => {
     evt.preventDefault();
-    this._callback.favoriteClick()
-    console.log('ffer2')
-  }
+    this._callback.favoriteClick();
+    console.log('ffer2');
+  };
 
 }
 

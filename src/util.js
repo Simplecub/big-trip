@@ -46,7 +46,7 @@ const toUpperFirst = (str) => {
 };
 // находит  и обновляет элемент
 const updateItem = (items, update) => {
-  console.log(update)
+  console.log(update);
   const index = items.findIndex((item) => item.id === update.id);
   if (index === -1) {
     return items;
@@ -63,30 +63,40 @@ const getWeightForNullDate = (dateA, dateB) => {
   if (dateA === null && dateB === null) {
     return 0;
   }
-  if (dateA === null){
+  if (dateA === null) {
     return 1;
   }
   if (dateB === null) {
-    return  -1
+    return -1;
   }
-  return null
-}
+  return null;
+};
 
 const sortPointTimeDown = (pointA, pointB) => {
   const weight = getWeightForNullDate(pointA.dateFrom, pointB.dateFrom);
   console.log(weight);
-  return weight ?? dayjs(pointB.dateFrom).diff(pointA.dateFrom)
-}
+  return weight ?? dayjs(pointB.dateFrom).diff(pointA.dateFrom);
+};
 
 const sortPointPriceDown = (pointA, pointB) => {
-  const weight =  getWeightForNullDate(pointA.basePrice, pointB.basePrice)
-  console.log(weight)
-  return weight ?? pointB.basePrice - pointA.basePrice
-}
+  const weight = getWeightForNullDate(pointA.basePrice, pointB.basePrice);
+  console.log(weight);
+  return weight ?? pointB.basePrice - pointA.basePrice;
+};
 
 const filter = {
   [FilterType.EVERYTHING]: (points) => points,
   [FilterType.FUTURE]: (points) => points.filter((point) => dayjs(point.dateFrom) > dayjs().toDate()),
   [FilterType.PAST]: (points) => points.filter((point) => dayjs(point.dateFrom) <= dayjs().toDate()),
-}
-export {getRandomPositiveInteger, humanizeTaskDueDate, dateDiff, getShuffleArray, toUpperFirst, updateItem, sortPointTimeDown, sortPointPriceDown, filter}
+};
+export {
+  getRandomPositiveInteger,
+  humanizeTaskDueDate,
+  dateDiff,
+  getShuffleArray,
+  toUpperFirst,
+  updateItem,
+  sortPointTimeDown,
+  sortPointPriceDown,
+  filter
+};

@@ -1,27 +1,26 @@
-import {createElement} from "../render.js";
+import {createElement} from '../render.js';
 import AbstractView from '../framework/view/abstract-view.js';
 
-const createNewTempBtn = () => ('<button class="trip-main__event-add-btn btn btn--big btn--yellow"> kiki</button>')
-
+const createNewTempBtn = () => ('<button class="trip-main__event-add-btn btn btn--big btn--yellow"> kiki</button>');
 
 
 export default class NewButtonView extends AbstractView {
 
   get template() {
-    return createNewTempBtn()
+    return createNewTempBtn();
   }
 
   setClickHandler = (callback) => {
-    this._callback.setClick = callback
-    console.log(this.element)
-    this.element.addEventListener('click', this.#clickHandler)
-  }
+    this._callback.setClick = callback;
+    console.log(this.element);
+    this.element.addEventListener('click', this.#clickHandler);
+  };
 
   #clickHandler = (evt) => {
-    evt.preventDefault()
-    this._callback.setClick()
+    evt.preventDefault();
+    this._callback.setClick();
 
-  }
+  };
 }
 /*
 export default class NewButtonView {

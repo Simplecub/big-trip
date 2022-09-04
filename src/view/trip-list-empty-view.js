@@ -14,11 +14,13 @@ const createEmptyStr = (filterType) => {
 
 
 export default class TripListEmptyView extends AbstractView {
-  #filterType = null
+  #filterType = null;
+
   constructor(filterType) {
     super();
-    this.#filterType =filterType
+    this.#filterType = filterType;
   }
+
   get template() {
     return createEmptyStr(this.#filterType);
   }
