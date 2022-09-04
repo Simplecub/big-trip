@@ -25,6 +25,7 @@ export default class PointNewPresenter {
     console.log(this.#pointListContainer)
     this.#editPointComponent.setSubmitHandler(this.#handleFormSubmit);
     this.#editPointComponent.setDeleteClickHandler(this.#handleDeleteClick);
+    this.#editPointComponent.setCloseHandler(this.#handleDeleteClick)
 
     render(this.#editPointComponent, this.#pointListContainer, RenderPosition.AFTERBEGIN);
     document.addEventListener('keydown', this.#onEscKeyDown)

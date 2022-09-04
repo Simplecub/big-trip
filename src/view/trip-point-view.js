@@ -1,6 +1,7 @@
 import {createElement} from '../render.js';
 import {humanizeTaskDueDate, dateDiff} from '../util.js';
 import AbstractView from '../framework/view/abstract-view.js';
+import he from 'he'
 
 const createPointLi = (point, pointTypeOffers, destinationsLi) => {
   const {basePrice, type, isFavorite, destinationId, dateFrom, dateTo, offers} = point;
