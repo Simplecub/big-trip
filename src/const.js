@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import {nanoid} from 'nanoid';
 
 
 const SortType = {
@@ -28,14 +29,13 @@ const FilterType = {
 }
 
 const BLANK_POINT = {
-  basePrice: '',
-  dateFrom: dayjs().toDate(),
-  dateTo: '',
-  destination: 0,
-  id: '',
-  isFavorite: 0,
-  offers: [0],
-  type: 'taxi'
-};
-
+      basePrice: '',
+      dateFrom: dayjs().toDate(),
+      dateTo: dayjs().toDate(),
+      destination: 0,
+      id: "",
+      isFavorite: 0,
+      offers: [0],
+      type: 'taxi',
+}
 export {SortType, UpdateType, UserAction, FilterType, BLANK_POINT};

@@ -40,7 +40,7 @@ const showAllEventType = (allType, selectedType) => {
       'checked' : '';
     return (`<div class="event__type-item">
     <input id="event-type-${value.type}-${idType}" class="event__type-input  visually-hidden" type="radio" name="event-type"
-           value="${value.type}" ${checkedOffers}>
+           value="${value.type}" ${checkedOffers} required>
       <label class="event__type-label  event__type-label--${value.type}" for="event-type-${value.type}-${idType}">${toUpperFirst(value.type)}</label>
   </div>`);
   }).join('');
@@ -107,8 +107,8 @@ const createEditForm = (point, offersLi, destinationsLi) => {
                     <label class="event__label  event__type-output" for="event-destination-1">
                       ${type}
                     </label>
-                    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination?.name}" list="destination-list-1">
-                    <datalist id="destination-list-1">
+                    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination?.name ? destination?.name : '' }" list="destination-list-1" required>
+                    <datalist id="destination-list-1" >
                       ${getAllEventDestinationsTemplate(destinationsLi)}
                     </datalist>
                   </div>
@@ -120,7 +120,7 @@ ${getTimeEventTemplate(dateFrom, dateTo)}
                       <span class="visually-hidden">Price</span>
                       &euro;
                     </label>
-                    <input class="event__input  event__input--price" id="event-price-1" type="number" name="event-price" value="${basePrice}">
+                    <input class="event__input  event__input--price" id="event-price-1" type="number" name="event-price" value="${basePrice ? basePrice: ''}" required>
                   </div>
 
                   <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>

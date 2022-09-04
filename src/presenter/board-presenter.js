@@ -69,7 +69,7 @@ export default class BoardPresenter {
         this.offersItem = [...this.offersModel.offersAll];
         this.destinationModel.init().then(() => {
           this.destinations = [...this.destinationModel.destinationAll];
-          console.log(this.offersItem);
+       //   console.log(this.offersItem);
           this.#renderBoard()
        //  this.#renderPointsList();
         });
@@ -80,6 +80,7 @@ export default class BoardPresenter {
 
   };
 createPoint = (callback) => {
+  console.log(this.#pointNewPresenter);
   this.#currentSortType = SortType.DAY;
   this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
   this.#pointNewPresenter.init(callback, this.offersItem, this.destinations)
@@ -200,7 +201,7 @@ createPoint = (callback) => {
     this.#pointPresenter.forEach((presenter) => presenter.destroy());
     this.#pointPresenter.clear();
     remove(this.#sortComponent);
-    remove(this.#boardTripListComponent);
+  //  remove(this.#boardTripListComponent);
 
     if (this.#noPointComponent) {remove(this.#noPointComponent)}
     if (resetSortType) {
