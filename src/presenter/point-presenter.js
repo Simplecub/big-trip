@@ -28,7 +28,7 @@ export default class PointPresenter {
 
   init = (point, offersItem, destinations) => {
     this.#point = point;
-    this.#offers = offersItem;
+   // this.#offers = offersItem;
     this.#destinations = destinations;
     const prevPointComponent = this.#pointComponent;
     const predEditPointComponent = this.#editPointComponent;
@@ -68,7 +68,8 @@ export default class PointPresenter {
 
   resetView = () => {
     if (this.#mode !== Mode.DEFAULT) {
-      this.#replaceEditToPoint();
+      this.#editPointComponent.reset(this.#point)
+     this.#replaceEditToPoint();
     }
   };
 
@@ -81,12 +82,16 @@ export default class PointPresenter {
   #replaceEditToPoint = () => {
     this.#editPointComponent.reset(this.#point);
     replace(this.#pointComponent, this.#editPointComponent);
+
+
     document.removeEventListener('keydown', this.#onEscKeyDown);
     this.#mode = Mode.DEFAULT;
+
   };
   #onEscKeyDown = (evt) => {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
+      this.#editPointComponent.reset(this.#point)
       this.#replaceEditToPoint();
     }
   };
@@ -115,4 +120,15 @@ export default class PointPresenter {
       point);
 
   };
+  #handleCloseClick = (point) => {
+/*
+    this.#changeData(
+      UserAction.UPDATE_POINT,
+      UpdateType.MINOR,
+      point);
+
+
+ */
+    this.#replaceEditToPoint();
+  }
 }

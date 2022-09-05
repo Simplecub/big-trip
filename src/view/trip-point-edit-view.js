@@ -69,18 +69,18 @@ const getTimeEventTemplate = (dateFrom, dateTo) => {
 let idEvent = 1;
 const createEditForm = (point, offersLi, destinationsLi) => {
   idEvent++;
-  const {basePrice, type, isFavorite, destinationId, dateFrom, dateTo, offers} = point;
+  const {basePrice, type, isFavorite, destination, dateFrom, dateTo, offers} = point;
   const pointTypeOffer = offersLi.find((offer) => offer.type === point.type);
-//  console.log(offersLi);
+  console.log(offers);
   console.log(destinationsLi);
   // console.log(pointTypeOffer);
-  const destination = destinationsLi.find((item) => item.id === point.destination);
-  console.log(destination);
+  const destinationObject = destinationsLi.find((item) => item.id === destination);
+  console.log(destinationObject);
 
-  const photoDestinationTemplate = destination && destination.pictures.length ? (`
+  const photoDestinationTemplate = destinationObject && destinationObject.pictures.length ? (`
   <div class="event__photos-container">
        <div class="event__photos-tape">
-            ${getAllEventDestinationsPicturesTemplate(destination)}
+            ${getAllEventDestinationsPicturesTemplate(destinationObject)}
         </div>
   </div>
   `) : '';
@@ -108,7 +108,7 @@ const createEditForm = (point, offersLi, destinationsLi) => {
                     <label class="event__label  event__type-output" for="event-destination-1">
                       ${type}
                     </label>
-                    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination?.name ? destination?.name : ''}" list="destination-list-1" required>
+                    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destinationObject?.name ? destinationObject?.name : ''}" list="destination-list-1" required>
                     <datalist id="destination-list-1" >
                       ${getAllEventDestinationsTemplate(destinationsLi)}
                     </datalist>
@@ -141,7 +141,7 @@ ${getTimeEventTemplate(dateFrom, dateTo)}
 
                   <section class="event__section  event__section--destination">
                     <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-                    <p class="event__destination-description">${destination?.description ? he.encode(destination?.description) : ''}</p>
+                    <p class="event__destination-description">${destinationObject?.description ? he.encode(destinationObject?.description) : ''}</p>
 ${photoDestinationTemplate}
                   </section>
                 </section>
@@ -151,20 +151,26 @@ ${photoDestinationTemplate}
 
 export default class CreateEditFormView extends AbstractStatefulView {
   #point = null;
+  #pointOffers = null;
   #offers = null;
   #destinations = null;
   #datepickerFrom = null;
   #datepickerTo = null;
+  #offersAll = null;
 
   constructor(point = BLANK_POINT, offers, destinations) {
     super();
-    this.#point = point;
+    // this.#point = point;
+    // this.#pointOffers = point.offers;
+
+
     this.#offers = offers;
     this.#destinations = destinations;
     this._state = CreateEditFormView.parsePointToState(point);
     this.#setInnerHandlers();
     this.#setFromDatepicker();
     this.#setToDatepicker();
+    this.#offersAll = this._state.offers;
   }
 
   get template() {
@@ -204,14 +210,11 @@ export default class CreateEditFormView extends AbstractStatefulView {
   #closeHandler = (evt) => {
     evt.preventDefault();
     this._callback.close();
-
-
   };
 
   #eventTypeInputHandler = (evt) => {
     evt.preventDefault();
     this.updateElement({type: `${evt.target.value}`, offers: []});
-
   };
   #priceInputHandler = (evt) => {
     evt.preventDefault();
@@ -226,23 +229,30 @@ export default class CreateEditFormView extends AbstractStatefulView {
     evt.preventDefault();
 
     let indexSelected = this.#offers.find((item) => item.type === this._state.type).offers.findIndex((item) => item.id === +evt.target.value) + 1;
-    let offersAll = this._state.offers;
-    offersAll.includes(indexSelected) ? offersAll.splice(offersAll.findIndex((item) => item === indexSelected), 1) :
-      offersAll.push(indexSelected);
-    this._setState({offers: offersAll});
+    let res = this._state.offers.slice();
+    if (res.includes(indexSelected)) {
+      res.splice(res.findIndex((item) => item === indexSelected), 1);
+    } else {
+      res.push(indexSelected);
+    }
+
+    this._setState({offers: res});
   };
-//добавить поля
+
+//добавить доп поля
   static parsePointToState = (point) => ({...point});
 
   static  parseStateToPoint = (state) => {
     const point = {...state};
     console.log(point);
-    // удалить поля
+    // удалить доп поля
     return point;
+
   };
 
   reset = (point) => {
     this.updateElement(CreateEditFormView.parsePointToState(point));
+    console.log(point);
   };
 //внутренние обработчики
   #setInnerHandlers = () => {

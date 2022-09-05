@@ -73,10 +73,8 @@ export default class BoardPresenter {
         this.destinations = [...this.destinationModel.destinationAll];
         //   console.log(this.offersItem);
         this.#renderBoard();
-        //  this.#renderPointsList();
       });
-      //this.#boardPoints.forEach((point) => this.addPoint(point, this.offersItem));
-      //  this.#renderPointsList()
+
     });
 
 
@@ -100,13 +98,7 @@ export default class BoardPresenter {
     this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
     render(this.#sortComponent, this.#boardTripListComponent.element, RenderPosition.AFTERBEGIN);
   };
-  /*
-    #renderBoardTripListComponent = () => {
-      render(this.#boardTripListComponent, this.#boarContainer);
-    };
 
-
-   */
   addPoint = (point, offersItem, destinations) => {
 
     const pointPresenter = new PointPresenter(this.#boardTripListComponent.element, this.#handleViewAction, this.#handleModeChange);
@@ -114,43 +106,12 @@ export default class BoardPresenter {
     this.#pointPresenter.set(point.id, pointPresenter);
     console.log(this.#pointPresenter);
   };
-  /*-
-    #clearPointList = () => {
-      this.#pointPresenter.forEach((presenter) => presenter.destroy());
-      this.#pointPresenter.clear();
-    };
 
-
-   */
-  #handlePointChange = (updatedPoint, offersItem, destination) => {
-    //  console.log(this.#boardTripListComponent);
-    //  console.log(updatedPoint);
-    //  this.#boardTripListComponent = updateItem(this.#boardPoints, updatedPoint);
-    this.#pointPresenter.get(updatedPoint.id).init(updatedPoint, offersItem, destination);
-  };
 
   #handleModeChange = () => {
     this.#pointNewPresenter.destroy();
     this.#pointPresenter.forEach((presenter) => presenter.resetView());
   };
-  /*
-    #sortPoints = (sortType) => {
-      console.log(sortType);
-      switch (sortType) {
-        case SortType.TIME:
-          this.#boardPoints.sort(sortPointTimeDown);
-          break;
-        case SortType.PRICE:
-          this.#boardPoints.sort(sortPointPriceDown);
-          break;
-        default:
-          this.#boardPoints = [...this.#sourceBoardPoints];
-      }
-      this.#currentSortType = sortType;
-    };
-
-   */
-
 
   #handleSortTypeChange = (sortType) => {
     if (this.#currentSortType === sortType) {
