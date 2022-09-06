@@ -3,13 +3,18 @@ import Observable from '../framework/observable.js';
 
 export default class PointsModel extends Observable {
   #points = Array.from({length: 4}, generatePoint);
-#pointsAPIService = null
+  #pointsAPIService = null;
+
   constructor(pointsAPIService) {
     super();
     this.#pointsAPIService = pointsAPIService;
 //обращаемя к геттеру points, он возвращает промис
-    this.#pointsAPIService.points.then((points) => console.log(points))
+    this.#pointsAPIService.points.then((points) => {
+      console.log(points.map(this.#adaptedToClient));
+      console.log(points)
+    });
   }
+
   // getPoints = () => this.#points
   get points() {
     return this.#points;
@@ -50,5 +55,24 @@ export default class PointsModel extends Observable {
     this._notify(updateType);
   };
 
+  #adaptedToClient = (point) => {
+    const adaptedPoint = {
+      ...point,
+      basePrice: point['base_price'],
+      dateFrom: point['date_from'] !== null ? new Date(point['date_from']) : '', //проверяет дату и если она есть то возвражает строку на сервер
+      dateTo: point['date_to'] !== null ? new Date(point['date_from']) : '',
+      destination: point['destination'],
+      id: point['id'],
+      isFavorite: point['is_favorite'],
+      offers: point['offers'],
+      type: point['type'],
+    };
+    delete adaptedPoint['base_price'];
+    delete adaptedPoint['date_from'];
+    delete adaptedPoint['date_to'];
+    delete adaptedPoint['is_favorite'];
+
+    return adaptedPoint;
+  };
 }
 
