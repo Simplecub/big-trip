@@ -3,13 +3,13 @@ import {humanizeTaskDueDate, toUpperFirst} from '../util.js';
 import AbstractView from '../framework/view/abstract-view.js';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import dayjs from 'dayjs';
-
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import {BLANK_POINT} from '../const';
 import he from 'he';
 
-let isSameOrBefore = require('dayjs/plugin/isSameOrBefore');
+//let isSameOrBefore = require('dayjs/plugin/isSameOrBefore');
 dayjs.extend(isSameOrBefore);
 
 let id = 1;
@@ -183,7 +183,6 @@ export default class CreateEditFormView extends AbstractStatefulView {
   setSubmitHandler = (callback) => {
     this._callback.submit = callback;
     this.element.querySelector('form').addEventListener('submit', this.#submitHandler);
-
   };
 
   #submitHandler = (evt) => {
@@ -227,16 +226,29 @@ export default class CreateEditFormView extends AbstractStatefulView {
 
   #eventOfferSelectHandler = (evt) => {
     evt.preventDefault();
+    /*
+        let indexSelected = this.#offers.find((item) => item.type === this._state.type).offers.findIndex((item) => item.id === +evt.target.value) + 1;
+        let res = this._state.offers.slice();
+        if (res.includes(indexSelected)) {
+          res.splice(res.findIndex((item) => item === indexSelected), 1);
+        } else {
+          res.push(indexSelected);
+        }
 
-    let indexSelected = this.#offers.find((item) => item.type === this._state.type).offers.findIndex((item) => item.id === +evt.target.value) + 1;
-    let res = this._state.offers.slice();
-    if (res.includes(indexSelected)) {
-      res.splice(res.findIndex((item) => item === indexSelected), 1);
-    } else {
-      res.push(indexSelected);
+        this._setState({offers: res});
+
+     */
+    const id = parseInt(evt.target.value, 10);
+    const offers = this._state.offers.slice();
+    const currentId = offers.indexOf(id);
+
+    if (evt.target.checked && currentId < 0) {
+      offers.push(id);
+    } else if (currentId > -1) {
+      offers.splice(currentId, 1);
     }
 
-    this._setState({offers: res});
+    this._setState({offers});
   };
 
 //добавить доп поля

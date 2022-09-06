@@ -79,12 +79,14 @@ export default class BoardPresenter {
 
 
   };
+  //создание новой точки
   createPoint = (callback) => {
     console.log(this.#pointNewPresenter);
     this.#currentSortType = SortType.DAY;
     this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
     this.#pointNewPresenter.init(callback, this.offersItem, this.destinations);
   };
+
   #renderPointsList = () => {
     this.points.forEach((point) => this.addPoint(point, this.offersItem, this.destinations));
   };
