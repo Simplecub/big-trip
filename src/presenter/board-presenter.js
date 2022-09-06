@@ -87,8 +87,8 @@ export default class BoardPresenter {
     this.#pointNewPresenter.init(callback, this.offersItem, this.destinations);
   };
 
-  #renderPointsList = () => {
-    this.points.forEach((point) => this.addPoint(point, this.offersItem, this.destinations));
+  #renderPointsList = (points) => {
+    points.forEach((point) => this.addPoint(point, this.offersItem, this.destinations));
   };
   #renderBoardEmpty = () => {
     this.#noPointComponent = new TripListEmptyView(this.#filterType);
@@ -158,6 +158,11 @@ export default class BoardPresenter {
         this.#clearBoard({resetSortType: true});
         this.#renderBoard();
         break;
+      case UpdateType.INIT:
+        //
+       // this.#clearBoard({resetSortType: true});
+        this.#renderBoard();
+        break;
     }
   };
 
@@ -184,7 +189,7 @@ export default class BoardPresenter {
       return;
     }
     this.#renderSort();
-    this.#renderPointsList();
+    this.#renderPointsList(points);
     // render(this.#renderPointsList, this.#boardTripListComponent.element)
   };
 }

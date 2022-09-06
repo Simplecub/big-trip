@@ -51,7 +51,7 @@ render(newPointButtonComponent, sitePageBodyMainEl);
 newPointButtonComponent.setClickHandler(handleNewPointButtonClick);
 
 boardPresenter.init();
-
+pointsModel.init();
 //render(new CreateNewPointView(), sitePageBodyEl)
 //render(new CreatePointNotDestView(), sitePageBodyEl)
 //render(new CreatePointNotOffersView(), sitePageBodyEl)
