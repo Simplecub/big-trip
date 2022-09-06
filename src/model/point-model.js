@@ -7,7 +7,7 @@ export default class PointsModel extends Observable {
   constructor(pointsAPIService) {
     super();
     this.#pointsAPIService = pointsAPIService;
-
+//обращаемя к геттеру points, он возвращает промис
     this.#pointsAPIService.points.then((points) => console.log(points))
   }
   // getPoints = () => this.#points
