@@ -3,7 +3,13 @@ import Observable from '../framework/observable.js';
 
 export default class PointsModel extends Observable {
   #points = Array.from({length: 4}, generatePoint);
+#pointsAPIService = null
+  constructor(pointsAPIService) {
+    super();
+    this.#pointsAPIService = pointsAPIService;
 
+    this.#pointsAPIService.points.then((points) => console.log(points))
+  }
   // getPoints = () => this.#points
   get points() {
     return this.#points;
