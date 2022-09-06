@@ -6,7 +6,7 @@ const Method = {
 }
 
 export default class PointApiService extends ApiService {
-  get points {
+  get points() {
     return this._load({url: 'points'})
       .then(ApiService.parseResponse)
   }
@@ -21,5 +21,5 @@ export default class PointApiService extends ApiService {
 
     const parsedResonse = await ApiService.parseResponse(response)
     return parsedResonse
-  }
+  };
 }
