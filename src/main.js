@@ -17,7 +17,7 @@ import FilterModel from './model/filter-model.js';
 import PointsApiService from './points-api-service.js';
 
 const AUTHORIZATION = 'Basic er883jdzbdw';
-const END_POINT = 'https://18.ecmascript.pages.academy/big-trip'
+const END_POINT = 'https://18.ecmascript.pages.academy/big-trip';
 const siteHeaderEl = document.querySelector('.trip-controls__filters');
 const sitePageBodyEl = document.querySelector('.trip-events');
 const sitePageBodyMainEl = document.querySelector('.trip-main');
@@ -26,7 +26,7 @@ const sitePageBodyMainEl = document.querySelector('.trip-main');
 //render(new CreateFilterView(filters, 'everything'), siteHeaderEl)
 const filterModel = new FilterModel();
 //const pointsModel = new PointsModel();
-const pointsModel = new PointsModel(new PointsApiService(END_POINT, AUTHORIZATION))
+const pointsModel = new PointsModel(new PointsApiService(END_POINT, AUTHORIZATION));
 const offerModel = new OfferModel();
 const destinationModel = new DestinationModel();
 const newPointButtonComponent = new NewButtonView();
@@ -47,11 +47,12 @@ const boardPresenter = new BoardPresenter(sitePageBodyEl, pointsModel, offerMode
 //boardPresenter.init(sitePageBodyEl)
 
 
-render(newPointButtonComponent, sitePageBodyMainEl);
-newPointButtonComponent.setClickHandler(handleNewPointButtonClick);
 filterPresenter.init();
-boardPresenter.init()
-offerModel.init().then(r => destinationModel.init()).then(()=>pointsModel.init())
+boardPresenter.init();
+offerModel.init().then(r => destinationModel.init()).then(() => pointsModel.init().finally(() => {
+  render(newPointButtonComponent, sitePageBodyMainEl);
+  newPointButtonComponent.setClickHandler(handleNewPointButtonClick);
+}));
 
 //render(new CreateNewPointView(), sitePageBodyEl)
 //render(new CreatePointNotDestView(), sitePageBodyEl)
