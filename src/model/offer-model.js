@@ -17,6 +17,7 @@ export default class OfferModel {
     });
 
   get offersAll() {
+
     return this.#offers;
   }
 }

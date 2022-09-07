@@ -52,7 +52,8 @@ boardPresenter.init();
 offerModel.init().then(r => destinationModel.init()).then(() => pointsModel.init().finally(() => {
   render(newPointButtonComponent, sitePageBodyMainEl);
   newPointButtonComponent.setClickHandler(handleNewPointButtonClick);
-}));
+})
+);
 
 //render(new CreateNewPointView(), sitePageBodyEl)
 //render(new CreatePointNotDestView(), sitePageBodyEl)

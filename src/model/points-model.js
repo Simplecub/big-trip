@@ -31,6 +31,27 @@ export default class PointsModel extends Observable {
     this._notify(UpdateType.INIT)
   };
 
+  updatePoint = async (updateType, update) => {
+    //чтобы обновить задачу находим её по Id
+    const index = this.#points.findIndex((point) => point.id === update.id);
+    if (index === -1) {
+      throw new Error('cant update unexisting point');
+    }
+try {
+  const response = await this.#pointsAPIService.updatePoint(update)
+  const updatedPoint = this.#adaptedToClient(response)
+  this.#points = [
+    ...this.#points.slice(0, index),
+    updatedPoint,
+    ...this.#points.slice(index + 1),
+  ];
+  this._notify(updateType, updatedPoint);
+} catch (err) {
+      throw new Error('can\'t update point')
+}
+  };
+
+/*
   updatePoint = (updateType, update) => {
     const index = this.#points.findIndex((point) => point.id === update.id);
     if (index === -1) {
@@ -44,7 +65,7 @@ export default class PointsModel extends Observable {
     ];
     this._notify(updateType, update);
   };
-
+ */
   addPoint = (updateType, update) => {
     this.#points = [
       update,
