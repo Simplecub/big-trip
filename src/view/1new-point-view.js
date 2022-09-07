@@ -162,7 +162,7 @@ const createPoint = ()=> (
                 </section>
               </form>`
 )
-
+/*
 export default class CreatePointView {
   getTemplate() {
     return createPoint()
@@ -179,3 +179,6 @@ export default class CreatePointView {
     this.element = null
   }
 }
+
+
+ */

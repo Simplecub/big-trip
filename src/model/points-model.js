@@ -1,9 +1,9 @@
 import {generatePoint} from '../mock/point.js';
 import Observable from '../framework/observable.js';
-import {UpdateType} from '../const';
+import {UpdateType} from '../const.js';
 
 export default class PointsModel extends Observable {
-  // #points = Array.from({length: 4}, generatePoint);
+ //  #points = Array.from({length: 4}, generatePoint);
   #pointsAPIService = null;
   #points = [];
 

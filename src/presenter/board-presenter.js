@@ -7,9 +7,17 @@ import CreateEditFormView from '../view/trip-point-edit-view.js';
 import CreatePointView from '../view/1new-point-view.js';
 import TripListEmptyView from '../view/trip-list-empty-view.js';
 import {render, replace, remove, RenderPosition} from '../framework/render.js';
-import PointsModel from '../model/point-model.js';
+import PointsModel from '../model/points-model.js';
 import PointPresenter from './point-presenter.js';
-import {sortPointPriceDown, sortPointTimeDown, updateItem, filter, sortPointDate} from '../util.js';
+import LoadingView from '../view/loading-view.js'
+import {
+  sortPointPriceDown,
+  sortPointTimeDown,
+  updateItem,
+  filter,
+  sortPointDate,
+  getRandomPositiveInteger
+} from '../util.js';
 import {FilterType, SortType, UpdateType, UserAction} from '../const.js';
 import PointNewPresenter from './point-new-presenter.js';
 
@@ -19,6 +27,7 @@ export default class BoardPresenter {
   #boardPoints = null;
   #sortComponent = null;
   #boardTripListComponent = new CreateTripListView();
+  #loadingComponent = new LoadingView();
   #noPointComponent = null;
   #pointPresenter = new Map();
   #pointNewPresenter = null;
@@ -26,6 +35,7 @@ export default class BoardPresenter {
   #sourceBoardPoints = [];
   #filterModel = null;
   #filterType = FilterType.EVERYTHING;
+  #isLoading = true
 
   constructor(boardContainer, pointsModel, offerModel, destinationModel, filterModel) {
     this.#boarContainer = boardContainer;
@@ -41,7 +51,7 @@ export default class BoardPresenter {
   }
 
   get points() {
-    this.#filterType = this.#filterModel.filter;
+    this.#filterType = this.#filterModel.filter; //геттер текущего фильтра
     const points = this.#pointsModel.points;
     const filteredPoints = filter[this.#filterType](points);
     switch (this.#currentSortType) {
@@ -50,7 +60,7 @@ export default class BoardPresenter {
       case SortType.PRICE:
         return filteredPoints.sort(sortPointPriceDown);
       case SortType.DAY:
-        return filteredPoints.sort(sortPointDate)
+        return filteredPoints.sort(sortPointDate);
     }
     return filteredPoints;
   }
@@ -66,13 +76,21 @@ export default class BoardPresenter {
 
      */
     //   this.#renderSort();
-
+    this.#renderBoard();
     this.offersModel.init().then(() => {
       this.offersItem = [...this.offersModel.offersAll];
       this.destinationModel.init().then(() => {
         this.destinations = [...this.destinationModel.destinationAll];
+        //временная заглушка пока не робит https://picsum.photos/300/200?r=0.6565559083233912
+        this.destinations = this.destinations.map((item) => ({
+          ...item,
+          pictures: item.pictures.map((pic) => ({
+            ...pic,
+            src: `https://loremflickr.com/320/240?lock=${getRandomPositiveInteger(1, 1000)}`
+          }))
+        }));
         //   console.log(this.offersItem);
-        this.#renderBoard();
+       // this.#renderBoard();
       });
 
     });
@@ -90,6 +108,10 @@ export default class BoardPresenter {
   #renderPoints = (points) => {
     points.forEach((point) => this.renderPoint(point, this.offersItem, this.destinations));
   };
+  #renderLoading = () => {
+    render(this.#loadingComponent, this.#boardTripListComponent.element, RenderPosition.AFTERBEGIN)
+    this.#loadingComponent.shake()
+  }
   #renderBoardEmpty = () => {
     this.#noPointComponent = new TripListEmptyView(this.#filterType);
     render(this.#noPointComponent, this.#boardTripListComponent.element, RenderPosition.AFTERBEGIN);
@@ -158,9 +180,11 @@ export default class BoardPresenter {
         this.#renderBoard();
         break;
       case UpdateType.INIT:
-        //
-       // this.#clearBoard({resetSortType: true});
-       // this.#renderBoard();
+        this.#isLoading = false;
+        remove(this.#loadingComponent)
+      remove(this.#sortComponent)
+        this.#clearBoard({resetSortType: true});
+        this.#renderBoard();
         break;
     }
   };
@@ -170,7 +194,7 @@ export default class BoardPresenter {
     this.#pointPresenter.forEach((presenter) => presenter.destroy());
     this.#pointPresenter.clear();
     remove(this.#sortComponent);
-    //  remove(this.#boardTripListComponent);
+    remove(this.#loadingComponent);
 
     if (this.#noPointComponent) {
       remove(this.#noPointComponent);
@@ -183,6 +207,10 @@ export default class BoardPresenter {
   #renderBoard = () => {
     const points = this.points;
     render(this.#boardTripListComponent, this.#boarContainer);
+    if (this.#isLoading) {
+      this.#renderLoading();
+      return;
+    }
     if (this.points.length === 0) {
       this.#renderBoardEmpty();
       return;

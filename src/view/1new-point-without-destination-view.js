@@ -148,7 +148,7 @@ const createPointNotDest = ()=> (
               </form>
  `
 )
-
+/*
 export default class CreatePointNotDestView {
   getTemplate() {
     return createPointNotDest()
@@ -165,3 +165,6 @@ export default class CreatePointNotDestView {
     this.element = null
   }
 }
+
+
+ */

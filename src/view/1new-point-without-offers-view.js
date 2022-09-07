@@ -113,7 +113,7 @@ const createPointNotOffers = ()=> (
               </form>
  `
 )
-
+/*
 export default class CreatePointNotOffersView {
   getTemplate() {
     return createPointNotOffers()
@@ -130,3 +130,6 @@ export default class CreatePointNotOffersView {
     this.element = null
   }
 }
+
+
+ */

@@ -14,6 +14,7 @@ const generateData = (from, to) => {
 
 let  id = 0
 let i =0
+/*
 export const generatePoint = () => {
 
   return {
@@ -29,3 +30,6 @@ export const generatePoint = () => {
     type: `${getShuffleArray(POINT_TYPE, 1)}`
 }
 }
+
+
+ */
