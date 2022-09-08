@@ -59,9 +59,19 @@ export default class PointNewPresenter {
       );
 
   //  console.log({...point, id: nanoid(),});
-  //  this.destroy(); //8-6 не нужно сразу  удалять форму, пока не будет отправлена на сервер
+  //  this.destroy(); //8-6 отключаем потому что не нужно сразу  удалять форму, пока не будет отправлена на сервер
   };
 
+  setAborting = () => {
+
+    const  resetFormState = () => {
+      this.#editPointComponent.updateElement({
+        isDisabled: false,
+        isSaving: false
+      })
+    }
+    this.#editPointComponent.shake(resetFormState)
+  }
   #handleDeleteClick = () => {
     this.destroy();
   };

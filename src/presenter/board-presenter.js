@@ -9,7 +9,7 @@ import TripListEmptyView from '../view/trip-list-empty-view.js';
 import {render, replace, remove, RenderPosition} from '../framework/render.js';
 import PointsModel from '../model/points-model.js';
 import PointPresenter from './point-presenter.js';
-import LoadingView from '../view/loading-view.js'
+import LoadingView from '../view/loading-view.js';
 import {
   sortPointPriceDown,
   sortPointTimeDown,
@@ -35,7 +35,7 @@ export default class BoardPresenter {
   #sourceBoardPoints = [];
   #filterModel = null;
   #filterType = FilterType.EVERYTHING;
-  #isLoading = true
+  #isLoading = true;
 
   constructor(boardContainer, pointsModel, offerModel, destinationModel, filterModel) {
     this.#boarContainer = boardContainer;
@@ -90,7 +90,7 @@ export default class BoardPresenter {
           }))
         }));
         //   console.log(this.offersItem);
-       // this.#renderBoard();
+        // this.#renderBoard();
       });
 
     });
@@ -109,9 +109,9 @@ export default class BoardPresenter {
     points.forEach((point) => this.renderPoint(point, this.offersItem, this.destinations));
   };
   #renderLoading = () => {
-    render(this.#loadingComponent, this.#boardTripListComponent.element, RenderPosition.AFTERBEGIN)
-    this.#loadingComponent.shake()
-  }
+    render(this.#loadingComponent, this.#boardTripListComponent.element, RenderPosition.AFTERBEGIN);
+    this.#loadingComponent.shake();
+  };
   #renderBoardEmpty = () => {
     this.#noPointComponent = new TripListEmptyView(this.#filterType);
     render(this.#noPointComponent, this.#boardTripListComponent.element, RenderPosition.AFTERBEGIN);
@@ -147,20 +147,34 @@ export default class BoardPresenter {
   };
 
 
-  #handleViewAction = (actionType, updateType, update) => {
+  #handleViewAction = async (actionType, updateType, update) => { //async чтобы если будет ошибка отправки на сервер поймать ошибку и прервать вызваав shake  в setAborting()
     console.log(actionType, updateType, update);
     switch (actionType) {
       case UserAction.UPDATE_POINT:
-        this.#pointPresenter.get(update.id).setSaving() //обращаемся к определеной задаче и вызываем соответствующий метод - saving
-        this.#pointsModel.updatePoint(updateType, update);
+        this.#pointPresenter.get(update.id).setSaving(); //обращаемся к определеной задаче и вызываем соответствующий метод - saving
+        try {
+          await this.#pointsModel.updatePoint(updateType, update);
+        } catch (err) {
+          this.#pointPresenter.get(update.id).setAborting();
+        }
         break;
+
       case UserAction.ADD_POINT:
-        this.#pointNewPresenter.setSaving() //
-        this.#pointsModel.addPoint(updateType, update);
+        this.#pointNewPresenter.setSaving(); //
+        try {
+          await this.#pointsModel.addPoint(updateType, update);
+        } catch (err) {
+          this.#pointNewPresenter.setAborting();
+        }
         break;
+
       case UserAction.DELETE_POINT:
-        this.#pointPresenter.get(update.id).setDeleting()
-        this.#pointsModel.deletePoint(updateType, update);
+        this.#pointPresenter.get(update.id).setDeleting();
+        try {
+          await this.#pointsModel.deletePoint(updateType, update);
+        } catch (err) {
+          this.#pointPresenter.get(update.id).setAborting();
+        }
         break;
     }
   };
@@ -184,8 +198,8 @@ export default class BoardPresenter {
         break;
       case UpdateType.INIT:
         this.#isLoading = false;
-        remove(this.#loadingComponent)
-      remove(this.#sortComponent)
+        remove(this.#loadingComponent);
+        remove(this.#sortComponent);
         this.#clearBoard({resetSortType: true});
         this.#renderBoard();
         break;

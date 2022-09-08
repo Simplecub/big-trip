@@ -90,6 +90,20 @@ export default class PointPresenter {
       this.#replaceEditToPoint();
     }
   };
+//если отправка не удалась, вызывает shake и возвращает полям инпут возможность ввода
+  setAborting = () => {
+    if (this.#mode === Mode.DEFAULT) {
+      this.#pointComponent.shake();
+      return
+    }
+    const  resetFormState = () => {
+      this.#editPointComponent.updateElement({
+        isDisabled: false,
+        isSaving: false
+      })
+    }
+    this.#editPointComponent.shake(resetFormState)
+  }
 
   #replacePointToEdit = () => {
     replace(this.#editPointComponent, this.#pointComponent);
