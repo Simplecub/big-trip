@@ -3,6 +3,8 @@ import ApiService from './framework/api-service.js';
 const Method = {
   GET: 'GET',
   PUT: 'PUT',
+  POST: 'POST',
+  DELETE: 'DELETE'
 };
 
 export default class PointsApiService extends ApiService {
@@ -13,7 +15,7 @@ export default class PointsApiService extends ApiService {
 
   updatePoint = async (point) => {
     const response = await this._load({
-      url: `point/${point.id}`,
+      url: `points/${point.id}`,
       method: Method.PUT,
       body: JSON.stringify(this.#adaptToServer(point)), //прогоняем через this.#adaptToServer(point) чтобы адаптировать под формат сервера
       headers: new Headers({'Content-Type': 'application/json'})
@@ -23,12 +25,29 @@ export default class PointsApiService extends ApiService {
     return parsedResonse;
   };
 
+addPoint = async (point) =>{
+  const response = await this._load({
+    url: 'points',
+    method: Method.POST,
+    body: JSON.stringify(this.#adaptToServer(point)),
+    headers: new Headers({'Content-Type': 'application/json'})
+  })
+  const parsedResponse = await ApiService.parseResponse(response);
+  return parsedResponse
+}
+deletePoint = async (point) => {
+  const response = await this._load({
+    url:`points/${point.id}`,
+    method: Method.DELETE
+  })
+  return response
+}
   #adaptToServer = (point) => {
     const adaptedPoint = {
       ...point,
       'base_price': point.basePrice,
       'date_from': point.dateFrom instanceof Date ? point.dateFrom.toISOString(): null, //проверяет дату и если она есть то возвражает строку на сервер
-      'date_to': point.dateTo,
+      'date_to': point.dateTo instanceof Date ? point.dateFrom.toISOString(): null,
       'destination': point.destination,
       'id': point.id,
       'is_favorite': point.isFavorite,

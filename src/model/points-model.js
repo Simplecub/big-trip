@@ -66,7 +66,8 @@ try {
     this._notify(updateType, update);
   };
  */
-  addPoint = (updateType, update) => {
+  /*
+    addPoint = (updateType, update) => {
     this.#points = [
       update,
       ...this.#points,
@@ -74,6 +75,20 @@ try {
     this._notify(updateType, update);
   };
 
+   */
+  addPoint = async (updateType, update) => {
+    try {
+      const response = await this.#pointsAPIService.addPoint(update);
+      const newPoint = this.#adaptedToClient(response)
+      this.#points = [newPoint, ...this.#points,];
+      this._notify(updateType, newPoint);
+    } catch (err) {
+      throw new Error('can\t add point')
+    }
+
+  };
+
+  /*
   deletePoint = (updateType, update) => {
     const index = this.#points.findIndex((point) => point.id === update.id);
     if (index === -1) {
@@ -86,13 +101,32 @@ try {
     ];
     this._notify(updateType);
   };
+   */
+  deletePoint = async (updateType, update) => {
+    const index = this.#points.findIndex((point) => point.id === update.id);
+    if (index === -1) {
+      throw new Error('cant deleting unexisting point');
+    }
+      try {
+        //ичего не возвращает поскольку нечего возвращать так как удалено
+        await this.#pointsAPIService.deletePoint(update)
+        this.#points = [
+          ...this.#points.slice(0, index),
+          ...this.#points.slice(index + 1),
+        ];
+        this._notify(updateType);
+      } catch (err) {
+      throw new Error('can/t delete')
+      }
+    }
+
 
   #adaptedToClient = (point) => {
     const adaptedPoint = {
       ...point,
       basePrice: point['base_price'],
       dateFrom: point['date_from'] !== null ? new Date(point['date_from']) : '', //проверяет дату и если она есть то возвражает строку на сервер
-      dateTo: point['date_to'] !== null ? new Date(point['date_from']) : '',
+      dateTo: point['date_to'] !== null ? new Date(point['date_to']) : '',
       destination: point['destination'],
       id: point['id'],
       isFavorite: point['is_favorite'],

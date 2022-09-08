@@ -28,7 +28,7 @@ export default class PointPresenter {
 
   init = (point, offersItem, destinations) => {
     this.#point = point;
-   // this.#offers = offersItem;
+    // this.#offers = offersItem;
     this.#destinations = destinations;
     const prevPointComponent = this.#pointComponent;
     const predEditPointComponent = this.#editPointComponent;
@@ -55,12 +55,30 @@ export default class PointPresenter {
     }
     //   if (this.#boardTripListComponent.contains(predEditPointComponent.element)) {
     if (this.#mode === Mode.EDITING) {
-      replace(this.#editPointComponent, predEditPointComponent);
+      replace(this.#pointComponent, predEditPointComponent);
+      this.#mode = Mode.DEFAULT
     }
     remove(prevPointComponent);
     remove(predEditPointComponent);
   };
 
+  setSaving = () => {       //обновляет элементь и блочит у них инпуты
+    if (this.#mode === Mode.EDITING) {
+      this.#editPointComponent.updateElement({
+        isDisabled: true,
+        isSaving: true,
+      });
+    }
+  };
+
+  setDeleting = () => {
+    if (this.#mode === Mode.EDITING) {
+      this.#editPointComponent.updateElement({
+        isDisabled: true,
+        isSaving: true,
+      });
+    }
+  };
   destroy = () => {
     remove(this.#pointComponent);
     remove(this.#editPointComponent);
@@ -68,8 +86,8 @@ export default class PointPresenter {
 
   resetView = () => {
     if (this.#mode !== Mode.DEFAULT) {
-      this.#editPointComponent.reset(this.#point)
-     this.#replaceEditToPoint();
+      this.#editPointComponent.reset(this.#point);
+      this.#replaceEditToPoint();
     }
   };
 
@@ -91,7 +109,7 @@ export default class PointPresenter {
   #onEscKeyDown = (evt) => {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
-      this.#editPointComponent.reset(this.#point)
+      this.#editPointComponent.reset(this.#point);
       this.#replaceEditToPoint();
     }
   };
@@ -105,12 +123,17 @@ export default class PointPresenter {
     );
 
   };
-  #handleFormSubmit = (point) => {
+  #handleFormSubmit = (update) => {
+    //проверяем изменились ли значенияб которые поапдают под фильтрацю, если да UpdateType.MINOR и перерисовывает, если нет, то UpdateType.PATCH патч-обновление
+    const isMinorUpdate =
+      this.#point.basePrice !== update.basePrice
+      // ||this.#point.basePrice !== update.basePrice
+
     this.#changeData(
       UserAction.UPDATE_POINT,
-      UpdateType.MINOR,
-      point);
-    this.#replaceEditToPoint();
+     isMinorUpdate ? UpdateType.MINOR : UpdateType.PATCH,
+      update);
+    // this.#replaceEditToPoint(); //8-6  убираем замену карточки
   };
 
   #handleDeleteClick = (point) => {
@@ -121,14 +144,14 @@ export default class PointPresenter {
 
   };
   #handleCloseClick = (point) => {
-/*
-    this.#changeData(
-      UserAction.UPDATE_POINT,
-      UpdateType.MINOR,
-      point);
+    /*
+        this.#changeData(
+          UserAction.UPDATE_POINT,
+          UpdateType.MINOR,
+          point);
 
 
- */
+     */
     this.#replaceEditToPoint();
-  }
+  };
 }

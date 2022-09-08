@@ -43,15 +43,23 @@ export default class PointNewPresenter {
     document.removeEventListener('keydown', this.#onEscKeyDown);
   };
 
+  setSaving = () => {       //обновляет элемент и блочит у них инпуты
+      this.#editPointComponent.updateElement({
+        isDisabled: true,
+        isSaving: true,
+      });
+  };
   #handleFormSubmit = (point) => {
     this.#changeData(
       UserAction.ADD_POINT,
       UpdateType.MINOR,
       //  {id: nanoid(), ...point}
-      {...point, id: nanoid()});
+      //8.6 - удаляем присваивание id, так как при отправке на сервер server присвоет id //теперь nanoid() не нужен можно удалить из package.json
+   //   {...point, id: nanoid()}
+      );
 
-    console.log({...point, id: nanoid(),});
-    this.destroy();
+  //  console.log({...point, id: nanoid(),});
+  //  this.destroy(); //8-6 не нужно сразу  удалять форму, пока не будет отправлена на сервер
   };
 
   #handleDeleteClick = () => {

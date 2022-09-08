@@ -151,12 +151,15 @@ export default class BoardPresenter {
     console.log(actionType, updateType, update);
     switch (actionType) {
       case UserAction.UPDATE_POINT:
+        this.#pointPresenter.get(update.id).setSaving() //обращаемся к определеной задаче и вызываем соответствующий метод - saving
         this.#pointsModel.updatePoint(updateType, update);
         break;
       case UserAction.ADD_POINT:
+        this.#pointNewPresenter.setSaving() //
         this.#pointsModel.addPoint(updateType, update);
         break;
       case UserAction.DELETE_POINT:
+        this.#pointPresenter.get(update.id).setDeleting()
         this.#pointsModel.deletePoint(updateType, update);
         break;
     }
