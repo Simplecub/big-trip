@@ -23,7 +23,7 @@ const showAllOffers = (allOffers, selectedOffers, type, isDisabled) => {
       'checked' : '';
     const offerId = `event-offer-${type}-${value.id}-${Math.random()}`;
     return (` <div class="event__offer-selector">
-                      <input class="event__offer-checkbox  visually-hidden" id="${offerId}" type="checkbox" name="event-offer-${type}" ${checkedOffers} value="${value.id}" ${isDisabled? 'disabled' : ''}>
+                      <input class="event__offer-checkbox  visually-hidden" id="${offerId}" type="checkbox" name="event-offer-${type}" ${checkedOffers} value="${value.id}" ${isDisabled ? 'disabled' : ''}>
                         <label class="event__offer-label" for="${offerId}">
                           <span class="event__offer-title">${value.title}</span>
                           &plus;&euro;&nbsp;
@@ -34,14 +34,14 @@ const showAllOffers = (allOffers, selectedOffers, type, isDisabled) => {
 };
 
 let idType = 1;
-const showAllEventType = (allType, selectedType,isDisabled) => {
+const showAllEventType = (allType, selectedType, isDisabled) => {
   idType++;
   return allType.map((value, index) => {
     const checkedOffers = (value.type === selectedType) ?
       'checked' : '';
     return (`<div class="event__type-item">
     <input id="event-type-${value.type}-${idType}" class="event__type-input  visually-hidden" type="radio" name="event-type"
-           value="${value.type}" ${checkedOffers} required ${isDisabled? 'disabled' : ''}>
+           value="${value.type}" ${checkedOffers} required ${isDisabled ? 'disabled' : ''}>
       <label class="event__type-label  event__type-label--${value.type}" for="event-type-${value.type}-${idType}">${toUpperFirst(value.type)}</label>
   </div>`);
   }).join('');
@@ -51,23 +51,23 @@ const getAllEventDestinationsTemplate = (destinationsLi) => destinationsLi.map((
 
 const getAllEventDestinationsPicturesTemplate = (destination) => destination.pictures.map((item) => (`<img class="event__photo" src="${item.src}" alt="${item.description}">`)).join('');
 
-const getTimeEventTemplate = (dateFrom, dateTo,isDisabled) => {
+const getTimeEventTemplate = (dateFrom, dateTo, isDisabled) => {
   if (dayjs(dateTo).isSameOrBefore(dateFrom)) {
     dateTo = dateFrom;
   }
   return (`
                     <div class="event__field-group  event__field-group--time">
                     <label class="visually-hidden" for="event-start-time-1">From</label>
-                    <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${humanizeTaskDueDate(dateFrom, 'D/MM/YY HH:mm')}" ${isDisabled? 'disabled' : ''}>
+                    <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${humanizeTaskDueDate(dateFrom, 'D/MM/YY HH:mm')}" ${isDisabled ? 'disabled' : ''}>
                     &mdash;
                     <label class="visually-hidden" for="event-end-time-1">To</label>
-                    <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${humanizeTaskDueDate(dateTo, 'D/MM/YY HH:mm')}" ${isDisabled? 'disabled' : ''}>
+                    <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${humanizeTaskDueDate(dateTo, 'D/MM/YY HH:mm')}" ${isDisabled ? 'disabled' : ''}>
                   </div>
 `);
 };
 
 let idEvent = 1;
-const createEditForm = (point, offersLi, destinationsLi ) => {
+const createEditForm = (point, offersLi, destinationsLi) => {
   idEvent++;
   const {basePrice, type, isFavorite, destination, dateFrom, dateTo, offers, isDisabled} = point;
   const pointTypeOffer = offersLi.find((offer) => offer.type === point.type);
@@ -92,7 +92,7 @@ const createEditForm = (point, offersLi, destinationsLi ) => {
                       <span class="visually-hidden">Choose event type</span>
                       <img class="event__type-icon" width="17" height="17" src="img/icons/${type}.png" alt="Event type icon">
                     </label>
-                    <input class="event__type-toggle  visually-hidden" id="event-type-toggle-${idEvent}" type="checkbox" ${isDisabled? 'disabled' : ''}>
+                    <input class="event__type-toggle  visually-hidden" id="event-type-toggle-${idEvent}" type="checkbox" ${isDisabled ? 'disabled' : ''}>
 
                     <div class="event__type-list">
                       <fieldset class="event__type-group">
@@ -108,7 +108,7 @@ const createEditForm = (point, offersLi, destinationsLi ) => {
                     <label class="event__label  event__type-output" for="event-destination-1">
                       ${type}
                     </label>
-                    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destinationObject?.name ? destinationObject?.name : ''}" list="destination-list-1" required ${isDisabled? 'disabled' : ''}>
+                    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destinationObject?.name ? destinationObject?.name : ''}" list="destination-list-1" required ${isDisabled ? 'disabled' : ''}>
                     <datalist id="destination-list-1" >
                       ${getAllEventDestinationsTemplate(destinationsLi)}
                     </datalist>
@@ -124,9 +124,9 @@ ${getTimeEventTemplate(dateFrom, dateTo, isDisabled)}
                     <input class="event__input  event__input--price" id="event-price-1" type="number" name="event-price" value="${basePrice ? basePrice : ''}" required min="0">
                   </div>
 
-                  <button class="event__save-btn  btn  btn--blue" type="submit" ${isDisabled? 'disabled' : ''} >Save</button>
-                  <button class="event__reset-btn" type="reset" ${isDisabled? 'disabled' : ''}>Delete</button>
-                  <button class="event__rollup-btn" type="button" ${isDisabled? 'disabled' : ''}>
+                  <button class="event__save-btn  btn  btn--blue" type="submit" ${isDisabled ? 'disabled' : ''} >Save</button>
+                  <button class="event__reset-btn" type="reset" ${isDisabled ? 'disabled' : ''}>Delete</button>
+                  <button class="event__rollup-btn" type="button" ${isDisabled ? 'disabled' : ''}>
                     <span class="visually-hidden">Open event</span>
                   </button>
                 </header>
@@ -252,19 +252,20 @@ export default class CreateEditFormView extends AbstractStatefulView {
   };
 
 //добавить доп поля
-  static parsePointToState = (point) => ({...point,
-  isDisabled: false,
-  isSaving: false,
-  isDeleting: false
+  static parsePointToState = (point) => ({
+    ...point,
+    isDisabled: false,
+    isSaving: false,
+    isDeleting: false
   });
 
   static  parseStateToPoint = (state) => {
     const point = {...state};
     console.log(point);
     // удалить доп поля
-    delete  point.isDisabled;
-    delete  point.isSaving;
-    delete  point.isDeleting;
+    delete point.isDisabled;
+    delete point.isSaving;
+    delete point.isDeleting;
 
     return point;
   };

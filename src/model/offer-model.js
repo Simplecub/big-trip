@@ -6,7 +6,9 @@ export default class OfferModel {
 }
 
 
+
  */
+
 export default class OfferModel {
   #offers = [];
   init = () => fetch('https://18.ecmascript.pages.academy/big-trip/offers', {
@@ -21,3 +23,4 @@ export default class OfferModel {
     return this.#offers;
   }
 }
+

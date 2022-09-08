@@ -44,10 +44,10 @@ export default class PointNewPresenter {
   };
 
   setSaving = () => {       //обновляет элемент и блочит у них инпуты
-      this.#editPointComponent.updateElement({
-        isDisabled: true,
-        isSaving: true,
-      });
+    this.#editPointComponent.updateElement({
+      isDisabled: true,
+      isSaving: true,
+    });
   };
   #handleFormSubmit = (point) => {
     this.#changeData(
@@ -55,23 +55,23 @@ export default class PointNewPresenter {
       UpdateType.MINOR,
       //  {id: nanoid(), ...point}
       //8.6 - удаляем присваивание id, так как при отправке на сервер server присвоет id //теперь nanoid() не нужен можно удалить из package.json
-   //   {...point, id: nanoid()}
-      );
+      //   {...point, id: nanoid()}
+    );
 
-  //  console.log({...point, id: nanoid(),});
-  //  this.destroy(); //8-6 отключаем потому что не нужно сразу  удалять форму, пока не будет отправлена на сервер
+    //  console.log({...point, id: nanoid(),});
+    //  this.destroy(); //8-6 отключаем потому что не нужно сразу  удалять форму, пока не будет отправлена на сервер
   };
 
   setAborting = () => {
 
-    const  resetFormState = () => {
+    const resetFormState = () => {
       this.#editPointComponent.updateElement({
         isDisabled: false,
         isSaving: false
-      })
-    }
-    this.#editPointComponent.shake(resetFormState)
-  }
+      });
+    };
+    this.#editPointComponent.shake(resetFormState);
+  };
   #handleDeleteClick = () => {
     this.destroy();
   };

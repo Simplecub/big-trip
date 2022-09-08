@@ -4,7 +4,6 @@ import CreateSortView from '../view/sort-view.js';
 import CreatePointLiView from '../view/trip-point-view.js';
 import CreateTripListView from '../view/trip-list-view.js';
 import CreateEditFormView from '../view/trip-point-edit-view.js';
-import CreatePointView from '../view/1new-point-view.js';
 import TripListEmptyView from '../view/trip-list-empty-view.js';
 import {render, replace, remove, RenderPosition} from '../framework/render.js';
 import PointsModel from '../model/points-model.js';
@@ -20,6 +19,13 @@ import {
 } from '../util.js';
 import {FilterType, SortType, UpdateType, UserAction} from '../const.js';
 import PointNewPresenter from './point-new-presenter.js';
+import UiBlocker from '../framework/ui-blocker/ui-blocker.js';
+
+const TimeLimit = {
+  LOWER_LIMIT: 350,
+  UPPER_LIMIT: 1000,
+};
+
 
 export default class BoardPresenter {
   #pointsModel = null;
@@ -36,6 +42,7 @@ export default class BoardPresenter {
   #filterModel = null;
   #filterType = FilterType.EVERYTHING;
   #isLoading = true;
+  #uiBlocker = new UiBlocker(TimeLimit.LOWER_LIMIT, TimeLimit.UPPER_LIMIT);
 
   constructor(boardContainer, pointsModel, offerModel, destinationModel, filterModel) {
     this.#boarContainer = boardContainer;
@@ -47,6 +54,7 @@ export default class BoardPresenter {
 //чтобы презентер узнал об изменении модели, подписываемся на уведомления об изменениях
     this.#pointsModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
+
 
   }
 
@@ -76,7 +84,10 @@ export default class BoardPresenter {
 
      */
     //   this.#renderSort();
+
+
     this.#renderBoard();
+    /*
     this.offersModel.init().then(() => {
       this.offersItem = [...this.offersModel.offersAll];
       this.destinationModel.init().then(() => {
@@ -95,6 +106,8 @@ export default class BoardPresenter {
 
     });
 
+
+     */
 
   };
   //создание новой точки
@@ -149,6 +162,7 @@ export default class BoardPresenter {
 
   #handleViewAction = async (actionType, updateType, update) => { //async чтобы если будет ошибка отправки на сервер поймать ошибку и прервать вызваав shake  в setAborting()
     console.log(actionType, updateType, update);
+    this.#uiBlocker.block();        //БЛОЧИМ ИНТЕРФЕЙС пока не отработают функции
     switch (actionType) {
       case UserAction.UPDATE_POINT:
         this.#pointPresenter.get(update.id).setSaving(); //обращаемся к определеной задаче и вызываем соответствующий метод - saving
@@ -177,6 +191,7 @@ export default class BoardPresenter {
         }
         break;
     }
+    this.#uiBlocker.unblock();          //РАЗБЛОЧИМ ИНТЕРФЕЙС после того как отработают функции
   };
 
 //вызывается в _notify
@@ -200,6 +215,19 @@ export default class BoardPresenter {
         this.#isLoading = false;
         remove(this.#loadingComponent);
         remove(this.#sortComponent);
+
+        this.offersItem = this.#pointsModel.offers  //получаем офферсы и дестин
+        this.destinations = this.#pointsModel.destinations
+        this.destinations = this.destinations.map((item) => ({
+          ...item,
+          pictures: item.pictures.map((pic) => ({
+            ...pic,
+         //   src: `https://loremflickr.com/320/240?lock=${getRandomPositiveInteger(1, 1000)}`
+            src: `https://placekitten.com/320/240?lock=${getRandomPositiveInteger(1, 1000)}`
+
+          }))
+        }));
+
         this.#clearBoard({resetSortType: true});
         this.#renderBoard();
         break;

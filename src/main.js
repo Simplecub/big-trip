@@ -27,7 +27,7 @@ const sitePageBodyMainEl = document.querySelector('.trip-main');
 const filterModel = new FilterModel();
 //const pointsModel = new PointsModel();
 const pointsModel = new PointsModel(new PointsApiService(END_POINT, AUTHORIZATION));
-const offerModel = new OfferModel();
+const offerModel = [] //new OfferModel();
 const destinationModel = new DestinationModel();
 const newPointButtonComponent = new NewButtonView();
 
@@ -49,12 +49,18 @@ const boardPresenter = new BoardPresenter(sitePageBodyEl, pointsModel, offerMode
 
 filterPresenter.init();
 boardPresenter.init();
+/*
 offerModel.init().then(r => destinationModel.init()).then(() => pointsModel.init().finally(() => {
+    render(newPointButtonComponent, sitePageBodyMainEl);
+    newPointButtonComponent.setClickHandler(handleNewPointButtonClick);
+  })
+);
+
+ */
+pointsModel.init().finally(() => {
   render(newPointButtonComponent, sitePageBodyMainEl);
   newPointButtonComponent.setClickHandler(handleNewPointButtonClick);
 })
-);
-
 //render(new CreateNewPointView(), sitePageBodyEl)
 //render(new CreatePointNotDestView(), sitePageBodyEl)
 //render(new CreatePointNotOffersView(), sitePageBodyEl)
