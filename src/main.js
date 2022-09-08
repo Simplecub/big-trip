@@ -3,9 +3,7 @@ import NewButtonView from './view/new-button-view.js';
 import {render} from './framework/render.js';
 import BoardPresenter from './presenter/board-presenter';
 import CreateFilterView from './view/filter-view.js';
-import CreateNewPointView from './view/1new-point-view.js';
-import CreatePointNotDestView from './view/1new-point-without-destination-view.js';
-import CreatePointNotOffersView from './view/1new-point-without-offers-view.js';
+
 import CreateEditFormView from './view/trip-point-edit-view.js';
 import CreatePointLiView from './view/trip-point-view.js';
 import PointsModel from './model/points-model.js';
@@ -41,8 +39,7 @@ const handleNewPointButtonClick = () => {
 
 
 const filterPresenter = new FilterPresenter(siteHeaderEl, filterModel, pointsModel);
-
-const boardPresenter = new BoardPresenter(sitePageBodyEl, pointsModel, offerModel, destinationModel, filterModel);
+const boardPresenter = new BoardPresenter(sitePageBodyEl, pointsModel, filterModel);
 
 //boardPresenter.init(sitePageBodyEl)
 

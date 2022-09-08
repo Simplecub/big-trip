@@ -44,11 +44,11 @@ export default class BoardPresenter {
   #isLoading = true;
   #uiBlocker = new UiBlocker(TimeLimit.LOWER_LIMIT, TimeLimit.UPPER_LIMIT);
 
-  constructor(boardContainer, pointsModel, offerModel, destinationModel, filterModel) {
+  constructor(boardContainer, pointsModel, filterModel) {
     this.#boarContainer = boardContainer;
     this.#pointsModel = pointsModel;
-    this.offersModel = offerModel;
-    this.destinationModel = destinationModel;
+  //  this.offersModel = offerModel;
+   // this.destinationModel = destinationModel;
     this.#filterModel = filterModel;
     this.#pointNewPresenter = new PointNewPresenter(this.#boardTripListComponent.element, this.#handleViewAction);
 //чтобы презентер узнал об изменении модели, подписываемся на уведомления об изменениях
