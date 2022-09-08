@@ -163,7 +163,6 @@ export default class CreateEditFormView extends AbstractStatefulView {
     // this.#point = point;
     // this.#pointOffers = point.offers;
 
-
     this.#offers = offers;
     this.#destinations = destinations;
     this._state = CreateEditFormView.parsePointToState(point);
@@ -174,9 +173,9 @@ export default class CreateEditFormView extends AbstractStatefulView {
   }
 
   get template() {
-    console.log(this._state);
-    console.log(this.#offers);
-    console.log(this.#destinations);
+   // console.log(this._state);
+  //  console.log(this.#offers);
+  //  console.log(this.#destinations);
     return createEditForm(this._state, this.#offers, this.#destinations);
   }
 
@@ -252,7 +251,7 @@ export default class CreateEditFormView extends AbstractStatefulView {
   };
 
 //добавить доп поля
-  static parsePointToState = (point) => ({
+  static parsePointToState = (point) => ({ //создание метода без экземпляра - статик
     ...point,
     isDisabled: false,
     isSaving: false,

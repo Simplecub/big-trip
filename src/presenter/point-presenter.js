@@ -32,11 +32,11 @@ export default class PointPresenter {
     this.#destinations = destinations;
     const prevPointComponent = this.#pointComponent;
     const predEditPointComponent = this.#editPointComponent;
-    console.log(prevPointComponent);
+  //  console.log(prevPointComponent);
     this.#allOffersOfThisType = offersItem.find((offerList) => offerList.type === point.type)?.offers || [];
     this.#pointComponent = new CreatePointLiView(point, this.#allOffersOfThisType, destinations);
     this.#editPointComponent = new CreateEditFormView(point, offersItem, destinations);
-    console.log(point);
+ //   console.log(point);
     this.#pointComponent.setClickHandle(this.#replacePointToEdit);
     this.#pointComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
     this.#editPointComponent.setSubmitHandler(this.#handleFormSubmit);

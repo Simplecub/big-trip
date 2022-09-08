@@ -1,5 +1,5 @@
 import {getRandomPositiveInteger} from '../util';
-
+/*
 export default class DestinationModel {
   #destination = [];
   init = () => fetch('https://18.ecmascript.pages.academy/big-trip/destinations', {
@@ -14,3 +14,6 @@ export default class DestinationModel {
     return this.#destination;
   }
 }
+
+
+ */

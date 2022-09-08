@@ -7,7 +7,7 @@ export default class OfferModel {
 
 
 
- */
+
 
 export default class OfferModel {
   #offers = [];
@@ -24,3 +24,4 @@ export default class OfferModel {
   }
 }
 
+*/

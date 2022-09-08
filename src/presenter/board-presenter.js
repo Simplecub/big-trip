@@ -74,41 +74,7 @@ export default class BoardPresenter {
   }
 
   init = () => {
-    // this.#boardPoints = [...this.#pointsModel.points];
-    // this.#sourceBoardPoints = [...this.#pointsModel.points];
-    // if (this.#pointsModel.points.length === 0) {
-    /*  if (this.points.length === 0) {
-        this.#renderBoardEmpty();
-      } else {
-
-
-     */
-    //   this.#renderSort();
-
-
     this.#renderBoard();
-    /*
-    this.offersModel.init().then(() => {
-      this.offersItem = [...this.offersModel.offersAll];
-      this.destinationModel.init().then(() => {
-        this.destinations = [...this.destinationModel.destinationAll];
-        //временная заглушка пока не робит https://picsum.photos/300/200?r=0.6565559083233912
-        this.destinations = this.destinations.map((item) => ({
-          ...item,
-          pictures: item.pictures.map((pic) => ({
-            ...pic,
-            src: `https://loremflickr.com/320/240?lock=${getRandomPositiveInteger(1, 1000)}`
-          }))
-        }));
-        //   console.log(this.offersItem);
-        // this.#renderBoard();
-      });
-
-    });
-
-
-     */
-
   };
   //создание новой точки
   createPoint = (callback) => {
@@ -140,7 +106,7 @@ export default class BoardPresenter {
     const pointPresenter = new PointPresenter(this.#boardTripListComponent.element, this.#handleViewAction, this.#handleModeChange);
     pointPresenter.init(point, offersItem, destinations);
     this.#pointPresenter.set(point.id, pointPresenter);
-    console.log(this.#pointPresenter);
+   // console.log(this.#pointPresenter);
   };
 
 
