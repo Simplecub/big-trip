@@ -86,7 +86,7 @@ const sortPointPriceDown = (pointA, pointB) => {
 
 const sortPointDate = (pointA, pointB) => {
   const weight = getWeightForNullDate(pointA.dateFrom, pointB.dateFrom);
- console.log(dayjs(pointB.dateFrom).diff(dayjs(pointA.dateFrom)));
+// console.log(dayjs(pointB.dateFrom).diff(dayjs(pointA.dateFrom)));
  // return weight ?? dayjs(pointB.dateFrom).diff(pointA.dateFrom);
   return weight ?? dayjs(pointB.dateFrom)-(dayjs(pointA.dateFrom));
 };
