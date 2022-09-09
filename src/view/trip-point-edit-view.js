@@ -17,8 +17,8 @@ let id = 1;
 
 const showAllOffers = (allOffers, selectedOffers, type, isDisabled) => {
   return allOffers.offers.map((value) => {
-    console.log(selectedOffers);
-    console.log(type);
+  //  console.log(selectedOffers);
+  //  console.log(type);
     const checkedOffers = (selectedOffers.find((v) => value.id === v)) ?
       'checked' : '';
     const offerId = `event-offer-${type}-${value.id}-${Math.random()}`;
@@ -71,11 +71,11 @@ const createEditForm = (point, offersLi, destinationsLi) => {
   idEvent++;
   const {basePrice, type, isFavorite, destination, dateFrom, dateTo, offers, isDisabled} = point;
   const pointTypeOffer = offersLi.find((offer) => offer.type === point.type);
-  console.log(offers);
-  console.log(destinationsLi);
+ // console.log(offers);
+ // console.log(destinationsLi);
   // console.log(pointTypeOffer);
   const destinationObject = destinationsLi.find((item) => item.id === destination);
-  console.log(destinationObject);
+ // console.log(destinationObject);
 
   const photoDestinationTemplate = destinationObject && destinationObject.pictures.length ? (`
   <div class="event__photos-container">
@@ -260,7 +260,7 @@ export default class CreateEditFormView extends AbstractStatefulView {
 
   static  parseStateToPoint = (state) => {
     const point = {...state};
-    console.log(point);
+  //  console.log(point);
     // удалить доп поля
     delete point.isDisabled;
     delete point.isSaving;
@@ -271,7 +271,7 @@ export default class CreateEditFormView extends AbstractStatefulView {
 
   reset = (point) => {
     this.updateElement(CreateEditFormView.parsePointToState(point));
-    console.log(point);
+ //   console.log(point);
   };
 //внутренние обработчики
   #setInnerHandlers = () => {

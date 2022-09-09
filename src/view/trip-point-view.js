@@ -6,13 +6,13 @@ import he from 'he';
 const createPointLi = (point, pointTypeOffers, destinationsLi) => {
   const {basePrice, type, isFavorite, destinationId, dateFrom, dateTo, offers} = point;
   //if (dateTo < dateFrom) { [dateTo, dateFrom] = [dateFrom, dateTo] }
-  console.log(offers);
+  //console.log(offers);
   const favorite = isFavorite
     ? 'event__favorite-btn event__favorite-btn--active'
     : 'event__favorite-btn';
 //нужно связать - в point достать ключи из offers и по ним найти данные в offersLi
 
-  console.log(point);
+  //console.log(point);
 
   const selectedOffers = (pointTypeOffers) ? offers.map((v) => {
     for (const offerOne of pointTypeOffers) {
@@ -89,7 +89,6 @@ export default class CreatePointLiView extends AbstractView {
   #clickHandler = (evt) => {
     evt.preventDefault();
     this._callback.click();
-    console.log('ffer');
   };
   setFavoriteClickHandler = (callback) => {
     this._callback.favoriteClick = callback;
@@ -98,7 +97,6 @@ export default class CreatePointLiView extends AbstractView {
   #favoriteHandler = (evt) => {
     evt.preventDefault();
     this._callback.favoriteClick();
-    console.log('ffer2');
   };
 
 }

@@ -64,7 +64,7 @@ export default class BoardPresenter {
     const filteredPoints = filter[this.#filterType](points);
     switch (this.#currentSortType) {
       case SortType.TIME:
-        return filteredPoints.sort(sortPointTimeDown);
+       return filteredPoints.sort(sortPointTimeDown);
       case SortType.PRICE:
         return filteredPoints.sort(sortPointPriceDown);
       case SortType.DAY:
