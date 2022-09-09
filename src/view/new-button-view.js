@@ -1,7 +1,7 @@
 import {createElement} from '../render.js';
 import AbstractView from '../framework/view/abstract-view.js';
 
-const createNewTempBtn = () => ('<button class="trip-main__event-add-btn btn btn--big btn--yellow"> kiki</button>');
+const createNewTempBtn = () => ('<button class="trip-main__event-add-btn btn btn--big btn--yellow">New event</button>');
 
 
 export default class NewButtonView extends AbstractView {
