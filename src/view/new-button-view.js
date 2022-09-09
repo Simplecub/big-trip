@@ -19,7 +19,6 @@ export default class NewButtonView extends AbstractView {
   #clickHandler = (evt) => {
     evt.preventDefault();
     this._callback.setClick();
-
   };
 }
 /*

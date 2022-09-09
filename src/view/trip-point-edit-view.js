@@ -69,7 +69,7 @@ const getTimeEventTemplate = (dateFrom, dateTo, isDisabled) => {
 let idEvent = 1;
 const createEditForm = (point, offersLi, destinationsLi) => {
   idEvent++;
-  const {basePrice, type, isFavorite, destination, dateFrom, dateTo, offers, isDisabled} = point;
+  const {basePrice, type, isFavorite, destination, dateFrom, dateTo, offers, isDisabled, isSaving, isDeleting} = point;
   const pointTypeOffer = offersLi.find((offer) => offer.type === point.type);
  // console.log(offers);
  // console.log(destinationsLi);
@@ -124,8 +124,8 @@ ${getTimeEventTemplate(dateFrom, dateTo, isDisabled)}
                     <input class="event__input  event__input--price" id="event-price-1" type="number" name="event-price" value="${basePrice ? basePrice : ''}" required min="0">
                   </div>
 
-                  <button class="event__save-btn  btn  btn--blue" type="submit" ${isDisabled ? 'disabled' : ''} >Save</button>
-                  <button class="event__reset-btn" type="reset" ${isDisabled ? 'disabled' : ''}>Delete</button>
+                  <button class="event__save-btn  btn  btn--blue" type="submit" ${isDisabled ? 'disabled' : ''} >${isSaving ? 'Saving...' : 'Save'}</button>
+                  <button class="event__reset-btn" type="reset" ${isDisabled ? 'disabled' : ''}>${isDeleting ? 'Deleting...' : 'Delete'}</button>
                   <button class="event__rollup-btn" type="button" ${isDisabled ? 'disabled' : ''}>
                     <span class="visually-hidden">Open event</span>
                   </button>
